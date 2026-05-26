@@ -1,0 +1,128 @@
+/* --- Global/Common Styles --- */
+
+/* --- AI Pet Sprite Animation --- */
+#ai-pet-main-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  will-change: transform;
+  display: flex;
+  flex-direction: column-reverse;
+  /* Speech bubble on top */
+  align-items: center;
+  gap: 5px;
+}
+
+#ai-pet {
+  width: 38.4px;
+  /* 256 * 0.15 */
+  height: 51.15px;
+  /* 341 * 0.15 */
+  background-image: url("/images/ai avter.png");
+  background-size: 230.4px 153.6px;
+  /* 1536 * 0.15 and 1024 * 0.15 */
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+  will-change: background-position;
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
+}
+
+#ai-pet-speech {
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+  transform: scale(0);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 3px 8px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#ai-pet-speech.show {
+  transform: scale(1);
+}
+
+#ai-pet.walking {
+  animation: walkSprite 1.6s steps(6) infinite;
+}
+
+@keyframes walkSprite {
+  from { background-position-x: 0px; }
+  to { background-position-x: -230.4px; }
+}
+
+/* --- Global Quote Section --- */
+.global-quote-section {
+  width: 90%;
+  max-width: 600px;
+  margin: 20px auto;
+  position: relative;
+  z-index: 10;
+}
+
+.global-quote-section .bento-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  padding: 20px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.global-quote-section .bento-glass:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.global-quote-section .quote-icon {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 2.5rem;
+  opacity: 0.08;
+  color: #fff;
+}
+
+.global-quote-section #daily-quote-text {
+  font-family: var(--font-display, 'Outfit', sans-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.global-quote-section #daily-quote-author {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .global-quote-section {
+    width: 95%;
+  }
+  .global-quote-section .bento-glass {
+    padding: 15px 20px;
+  }
+  .global-quote-section #daily-quote-text {
+    font-size: 1rem;
+  }
+}

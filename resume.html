@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Resume — Aayush</title>
+    <link rel="icon" type="image/x-icon" href="images/profile pic.jpg" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/resume.css">
+</head>
+
+<body>
+
+    <div id="dynamic-bg-container"></div>
+
+    <div class="page-wrapper">
+        <nav class="glass-navbar">
+            <div class="nav-left">
+                <a href="index.html" class="nav-logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 32 32">
+                            <path d="M16 2L2 28H9.5L16 15.5L22.5 28H30L16 2Z" fill="currentColor" />
+                            <path d="M16 15.5L9.5 28H2L16 2V15.5Z" fill="rgba(0,0,0,0.2)" />
+                        </svg>
+                    </div>
+                    <span class="brand-text">AAYUSH</span>
+                </a>
+            </div>
+            <div class="nav-center">
+                <a href="index.html" class="nav-link"><i class="ph ph-house"></i><span>Home</span></a>
+                <a href="#" class="nav-link"><i class="ph ph-briefcase"></i><span>Work</span></a>
+                <a href="blogs.html" class="nav-link"><i class="ph ph-pen-nib"></i><span>Blog</span></a>
+                <a href="resume.html" class="nav-link active"><i class="ph ph-file-text"></i><span>Resume</span></a>
+            </div>
+            <div class="divider"></div>
+            <div class="nav-right">
+                <div class="theme-switcher" id="themeSwitcher">
+                    <div class="current-theme" id="themeBtn">
+                        <span id="themeIcon"><i class="ph ph-planet"></i></span>
+                        <span id="themeLabel">Theme</span>
+                        <i class="ph ph-caret-down chevron"></i>
+                    </div>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <div class="theme-option" data-theme="space"><i class="ph ph-planet"></i> Night Mode</div>
+                        <div class="theme-option" data-theme="rain"><i class="ph ph-cloud-rain"></i> Rain Mode</div>
+                        <div class="theme-option" data-theme="snow"><i class="ph ph-snowflake"></i> Snow Mode</div>
+                        <div class="theme-option" data-theme="sun"><i class="ph ph-sun"></i> Sunny Mode</div>
+                        <div class="theme-option" data-theme="forest"><i class="ph ph-tree-evergreen"></i> Forest Mode
+                        </div>
+                        <div class="theme-option" data-theme="new"><i class="ph ph-sparkles"></i> Aesthetic Mode</div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="resume-container">
+            <div class="resume-header">
+                <h1 class="section-title">Resume</h1>
+                <p class="resume-subtitle">View and download my professional resume.</p>
+                <div class="resume-actions">
+                    <a href="#" id="downloadResume" class="download-btn" target="_blank">
+                        <i class="ph ph-download-simple"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+
+            <div class="resume-viewer-card">
+                <div class="viewer-glass">
+                    <div class="viewer-header">
+                        <div class="viewer-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <div class="viewer-title">resume.pdf</div>
+                    </div>
+                    <div class="viewer-content">
+                        <!-- REPLACE THIS LINK WITH YOUR GOOGLE DRIVE PREVIEW LINK -->
+                        <iframe id="resumeIframe" src="" width="100%" height="800px" frameBorder="0"
+                            allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="global-quote-section">
+            <div class="bento-glass quote-box">
+                <div class="quote-icon"><i class="ph-fill ph-quotes"></i></div>
+                <p id="daily-quote-text">"I'll take a potato chip… AND EAT IT!"</p>
+                <span id="daily-quote-author">— Light Yagami (Death Note)</span>
+            </div>
+        </section>
+
+        <footer class="clean-footer">
+            <div class="footer-content-simple">
+                <div class="footer-left-simple">
+                    <p>&copy; 2026 Aayush Panche. All Rights Reserved.</p>
+                </div>
+                <div class="footer-right-simple">
+                    <a href="mailto:aayushpancheofficial@gmail.com">Mail</a>
+                    <a href="https://github.com/aayushpancheofficial" target="_blank">GitHub</a>
+                    <a href="https://www.linkedin.com/in/aayushpanche2005" target="_blank">LinkedIn</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div id="ai-pet-main-container">
+        <div id="ai-pet-speech"></div>
+        <div id="ai-pet">
+            <div id="ai-pet-sprite"></div>
+        </div>
+    </div>
+
+    <script src="js/resume.js"></script>
+    <script src="js/pet.js"></script>
+</body>
+
+</html>

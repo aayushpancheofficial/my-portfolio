@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aayush - Blogs</title>
+    <link rel="icon" type="image/x-icon" href="images/profile pic.jpg" />
+    <link rel="stylesheet" href="css/blogs.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:ital,wght@0,800;0,900;1,900&display=swap"
+        rel="stylesheet" />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="css/common.css">
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 32 32">
+                        <path d="M16 2L2 28H9.5L16 15.5L22.5 28H30L16 2Z" fill="#5D9FFF" />
+                        <path d="M16 15.5L9.5 28H2L16 2V15.5Z" fill="rgba(0, 0, 0, 0.4)" />
+                    </svg>
+                </div>
+                <span class="brand-text">AAYUSH</span>
+            </a>
+        </div>
+        <div class="nav-center">
+            <a href="index.html" class="nav-link"><i class="ph ph-house"></i><span>Home</span></a>
+            <a href="#" class="nav-link"><i class="ph ph-briefcase"></i><span>Work</span></a>
+            <a href="blogs.html" class="nav-link active"><i class="ph ph-pen-nib"></i><span>Blog</span></a>
+            <a href="resume.html" class="nav-link"><i class="ph ph-file-text"></i><span>Resume</span></a>
+        </div>
+        <div class="nav-right">
+            <button id="theme-toggle" class="theme-toggle-btn"><i class="ph ph-moon"></i></button>
+        </div>
+    </nav>
+
+    <section class="moco-hero" id="parallax-scene">
+        <div class="parallax-layer" data-depth="0.05"><img src="images/charry w.jpg" alt="Background"></div>
+        <div class="parallax-layer" data-depth="0.10"><img src="images/foreground-back.webp" alt="Foreground Back">
+        </div>
+        <div class="parallax-layer running-text-layer" data-depth="0.18">
+            <div class="running-track">
+                <span>MY JOURNEY</span><span>MY JOURNEY</span><span>MY JOURNEY</span><span>MY JOURNEY</span><span>MY
+                    JOURNEY</span><span>MY JOURNEY</span><span>MY JOURNEY</span><span>MY JOURNEY</span>
+            </div>
+        </div>
+        <div class="parallax-layer layer-manny" data-depth="0.30"><img src="images/manny.webp" alt="Manny"></div>
+        <div class="parallax-layer layer-luna" data-depth="0.40"><img src="images/luna.webp" alt="Luna"></div>
+        <div class="hero-text-layer parallax-layer" data-depth="0.45">
+            <div class="hero-content">
+                <h1 class="main-title">BLOGS</h1>
+            </div>
+        </div>
+        <div class="parallax-layer animated-char" data-depth="0.75"><img src="images/blogs.png" alt="Blogs Character">
+        </div>
+        <div class="parallax-layer layer-fg-front" data-depth="1.0"><img src="images/foreground-front.webp"
+                alt="Foreground Front"></div>
+    </section>
+
+    <main class="blogs-section">
+        <div class="blog-header-container reveal-up">
+            <h2>Blog</h2>
+            <p>Thoughts, tutorials, and insights on engineering, animation, and web development.</p>
+            <div class="categories-wrapper">
+                <button class="category-pill active" data-filter="All">All</button>
+                <button class="category-pill" data-filter="Notes">Notes</button>
+                <button class="category-pill" data-filter="Personal">Personal</button>
+            </div>
+        </div>
+        <div class="blog-grid" id="blogGrid"></div>
+    </main>
+
+    <div id="blogModal" class="blog-modal">
+        <div class="modal-glass">
+            <button class="close-modal" id="closeModal"><i class="ph ph-x"></i></button>
+            <div class="modal-header">
+                <div id="modalDate" class="blog-date"></div>
+                <h2 id="modalTitle"></h2>
+            </div>
+            <div id="modalBody" class="modal-body"></div>
+        </div>
+    </div>
+
+    <section class="global-quote-section">
+        <div class="bento-glass quote-box">
+            <div class="quote-icon"><i class="ph-fill ph-quotes"></i></div>
+            <p id="daily-quote-text">"I'll take a potato chip… AND EAT IT!"</p>
+            <span id="daily-quote-author">— Light Yagami (Death Note)</span>
+        </div>
+    </section>
+
+    <div id="ai-pet-main-container">
+        <div id="ai-pet-speech"></div>
+        <div id="ai-pet">
+            <div id="ai-pet-sprite"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="js/blogs.js?v=1.0.7"></script>
+    <script src="js/pet.js"></script>
+</body>
+
+</html>

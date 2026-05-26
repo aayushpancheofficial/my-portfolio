@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Aayush — Portfolio</title>
+  <link rel="icon" type="image/x-icon" href="images/profile pic.jpg" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/common.css">
+</head>
+
+<body>
+
+
+  <div id="dynamic-bg-container"></div>
+
+  <canvas id="rain-canvas"></canvas>
+  <canvas id="snow-canvas"></canvas>
+
+  <div class="page-wrapper">
+    <nav class="glass-navbar">
+      <div class="nav-left">
+        <a href="#" class="nav-logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 32 32">
+              <path d="M16 2L2 28H9.5L16 15.5L22.5 28H30L16 2Z" fill="currentColor" />
+              <path d="M16 15.5L9.5 28H2L16 2V15.5Z" fill="rgba(0,0,0,0.2)" />
+            </svg>
+          </div>
+          <span class="brand-text">AAYUSH</span>
+        </a>
+      </div>
+      <div class="nav-center">
+        <a href="index.html" class="nav-link active"><i class="ph ph-house"></i><span>Home</span></a>
+        <a href="#" class="nav-link"><i class="ph ph-briefcase"></i><span>Work</span></a>
+        <a href="blogs.html" class="nav-link"><i class="ph ph-pen-nib"></i><span>Blog</span></a>
+        <a href="resume.html" class="nav-link"><i class="ph ph-file-text"></i><span>Resume</span></a>
+      </div>
+      <div class="divider"></div>
+      <div class="nav-right">
+        <div class="theme-switcher" id="themeSwitcher">
+          <div class="current-theme" id="themeBtn">
+            <span id="themeIcon"><i class="ph ph-planet"></i></span>
+            <span id="themeLabel">Theme</span>
+            <i class="ph ph-caret-down chevron"></i>
+          </div>
+          <div class="theme-dropdown" id="themeDropdown">
+            <div class="theme-option" data-theme="space"><i class="ph ph-planet"></i> Night Mode</div>
+            <div class="theme-option" data-theme="rain"><i class="ph ph-cloud-rain"></i> Rain Mode</div>
+            <div class="theme-option" data-theme="snow"><i class="ph ph-snowflake"></i> Snow Mode</div>
+            <div class="theme-option" data-theme="sun"><i class="ph ph-sun"></i> Sunny Mode</div>
+            <div class="theme-option" data-theme="forest"><i class="ph ph-tree-evergreen"></i> Forest Mode</div>
+            <div class="theme-option" data-theme="new"><i class="ph ph-sparkles"></i> Aesthetic Mode</div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="hero-container">
+      <div class="hero-left">
+        <div class="avatar-wrapper">
+          <img src="images/profile pic.jpg" alt="Profile Picture" class="avatar-video">
+        </div>
+      </div>
+      <div class="hero-center">
+        <h1 class="hero-name">Aayush Panche</h1>
+        <h2 class="hero-subtitle"><span class="typewriter-text">Engineer</span><span class="cursor">|</span></h2>
+        <p class="hero-desc">I build creative and user-focused web experiences while continuously learning,
+          experimenting and growing as a developer.</p>
+        <div class="hero-location"><i class="ph ph-map-pin"></i> Raipur, CG</div>
+        <div id="music-card-widget" class="spotify-mini-card">
+          <i class="ph-fill ph-spotify-logo"></i>
+          <div class="spotify-content">
+            <span class="spotify-label">Playing &mdash;</span>
+            <span id="track-name">Connect Spotify</span>
+            <span id="track-artist-container" style="display: none;"></span>
+          </div>
+          <div class="spotify-visuals">
+            <div class="waveform" id="spotify-waveform" style="display: none;">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <i id="spotify-play-btn" class="ph-fill ph-play-circle"></i>
+          </div>
+        </div>
+        <div class="social-row">
+          <a href="https://www.linkedin.com/in/aayushpanche2005" class="social-btn"><i
+              class="ph ph-linkedin-logo"></i></a>
+          <a href="https://github.com/aayushpancheofficial" class="social-btn"><i class="ph ph-github-logo"></i></a>
+          <a href="https://youtube.com/@analyca5?si=iyAcopOR0A4UPEs9" class="social-btn"><i
+              class="ph ph-youtube-logo"></i></a>
+          <a href="https://www.instagram.com/iam_aayush005/" class="social-btn"><i class="ph ph-instagram-logo"></i></a>
+          <a href="mailto:aayushpanche135@gmail.com" class="social-btn"><i class="ph ph-envelope-simple"></i></a>
+          <a href="https://pin.it/324Leur2D" class="social-btn" target="_blank"><i class="ph ph-pinterest-logo"></i></a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="character-wrapper">
+          <img src="images/magic.png" alt="3D Avatar" class="character-img">
+          <div class="hologram-code">
+            <div id="hologram-text"></div>
+          </div>
+          <div class="tech-stack-hologram">
+            <div class="tech-item" style="--i: 1"><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"></div>
+            <div class="tech-item" style="--i: 2"><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"></div>
+            <div class="tech-item" style="--i: 3"><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JS">
+            </div>
+            <div class="tech-item" style="--i: 4"><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React"></div>
+            <div class="tech-item" style="--i: 5"><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js"></div>
+          </div>
+          <div class="floating-text">
+            <span>welcome ji</span>
+            <i class="ph ph-arrow-bend-right-down"></i>
+          </div>
+          <div class="particle p1"></div>
+          <div class="particle p2"></div>
+          <div class="particle p3"></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="work-section hidden-scroll-up" id="experience">
+      <div class="content-wrapper">
+        <h2 class="section-title">Experience</h2>
+        <div class="experience-list-wrapper">
+          <div class="experience-list locked-blur">
+            <div class="exp-item">
+              <div class="exp-left">
+                <div class="exp-company">Techno</div>
+                <div class="exp-role">Vocational Training</div>
+              </div>
+              <div class="exp-right">
+                <div class="exp-date">2026</div>
+                <div class="exp-loc">On-Site</div>
+              </div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-left">
+                <div class="exp-company">Freelance</div>
+                <div class="exp-role">Web Developer & Animator</div>
+              </div>
+              <div class="exp-right">
+                <div class="exp-date">2025</div>
+                <div class="exp-loc">Remote</div>
+              </div>
+            </div>
+          </div>
+          <div class="blur-plate"></div>
+          <div class="coming-soon-overlay">
+            <i class="ph ph-lock-key"></i>
+            <span>Experience Locked</span>
+            <p>Building the foundation for future brilliance.</p>
+          </div>
+        </div>
+        <div class="show-all-container">
+          <button class="show-all-btn" id="show-exp-btn">Show all work experiences <i
+              class="ph ph-arrow-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="blog-section hidden-scroll-up" id="latest-blogs">
+      <div class="content-wrapper">
+        <h2 class="section-title">Blog</h2>
+        <div class="blog-list" id="latest-blog-list">
+          <!-- Dynamically populated from GitHub Obsidian Repo -->
+          <div class="loading-blogs"
+            style="grid-column: 1 / -1; text-align: center; color: rgba(255,255,255,0.6); padding: 20px;">
+            <i class="ph ph-circle-notch spinner"
+              style="font-size: 1.8rem; display: block; margin: 0 auto 10px auto; animation: spin 1s linear infinite;"></i>
+            Loading latest notes...
+          </div>
+        </div>
+        <div class="show-all-container">
+          <a href="blogs.html" class="show-all-btn">Show all blogs <i class="ph ph-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="skills-section hidden-scroll-up" id="skills">
+      <div class="content-wrapper">
+        <div class="skills-header">
+          <h2 class="section-title">Skills</h2>
+          <p class="skills-subtitle">My arsenal of execution.</p>
+        </div>
+        <div class="skills-visual-container">
+          <div class="glow-beam"></div>
+          <div class="skills-cloud">
+            <div class="skill-pill" style="--i:1;"><span>C</span></div>
+            <div class="skill-pill" style="--i:2;"><span>C++</span></div>
+            <div class="skill-pill" style="--i:3;"><span>Java</span></div>
+            <div class="skill-pill" style="--i:4;"><span>Python</span></div>
+            <div class="skill-pill" style="--i:5;"><span>HTML</span></div>
+            <div class="skill-pill" style="--i:6;"><span>CSS</span></div>
+            <div class="skill-pill" style="--i:7;"><span>JavaScript</span></div>
+            <div class="skill-pill" style="--i:8;"><span>React</span></div>
+            <div class="skill-pill" style="--i:10;"><span>Git</span></div>
+            <div class="skill-pill" style="--i:11;"><span>GitHub</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section-container hidden-scroll-up" id="about">
+      <div class="section-hero">
+        <div class="section-overlay"></div>
+        <div class="section-image-wrapper">
+          <img src="images/abot-pic.png" id="about-main-img" alt="About Me Image">
+        </div>
+        <div class="section-content" id="about-content-box">
+          <h2 id="about-title">Hi, I'm Aayush</h2>
+          <h3 id="about-subtitle" class="accent-text">from Rampur, Chhattisgarh.</h3>
+          <div id="about-desc">
+            <p>Hi, I'm Aayush, born in the small village of Rampur, Khairagarh-Chhuikhadan-Gandai, Chhattisgarh.
+              Currently, I’m pursuing my B.Tech degree from SSIPMT College, Raipur. I’m a hardworking and passionate
+              learner interested in AI, technology, problem-solving and web development. I enjoy creating cool animated
+              websites while continuously learning and improving my skills to create meaningful digital experiences.</p>
+          </div>
+        </div>
+      </div>
+      <div class="section-thumbnails">
+        <div class="thumb-card active" onclick="changeAboutContent('about', this)">
+          <img src="images/abot-pic.png" alt="About Me">
+          <div class="thumb-label">01 About Me</div>
+          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
+        </div>
+        <div class="thumb-card" onclick="changeAboutContent('school', this)">
+          <img src="images/school.png" alt="Schooling">
+          <div class="thumb-label">02 Schooling</div>
+          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
+        </div>
+        <div class="thumb-card" onclick="changeAboutContent('college', this)">
+          <img src="images/college.png" alt="College">
+          <div class="thumb-label">03 College</div>
+          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
+        </div>
+        <div class="thumb-card" onclick="changeAboutContent('current', this)">
+          <img src="images/goals.png" alt="Current">
+          <div class="thumb-label">04 Current Goal</div>
+          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bento-container hidden-scroll-up">
+      <div class="bento-grid">
+        <div class="bento-item bento-spotify">
+          <div class="bento-glass">
+            <iframe data-testid="embed-iframe" style="border-radius:24px"
+              src="https://open.spotify.com/embed/playlist/7llZDWkmz7JsHn5nIWiPP7?utm_source=generator" width="100%"
+              height="100%" frameBorder="0" allowfullscreen=""
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="bento-item bento-tasks">
+          <div class="bento-glass task-card">
+            <div class="task-header">
+              <div class="task-title-group"><i class="ph-fill ph-check-circle"></i>
+                <h3>Daily Task</h3>
+              </div>
+              <span class="task-timer">Resets in 24h</span>
+            </div>
+            <div class="task-input-group">
+              <input type="text" id="taskInput" placeholder="Add a task for today..." maxlength="40">
+              <button id="addTaskBtn"><i class="ph ph-plus"></i></button>
+            </div>
+            <ul class="task-list" id="taskList"></ul>
+            <div class="task-footer">
+              <span id="task-stats">0 tasks remaining</span>
+              <button id="clearTasksBtn">Clear All</button>
+            </div>
+          </div>
+        </div>
+        <div class="bento-item bento-quotes">
+          <div class="bento-glass quote-box">
+            <div class="quote-icon"><i class="ph-fill ph-quotes"></i></div>
+            <p id="daily-quote-text">"I'll take a potato chip… AND EAT IT!"</p>
+            <span id="daily-quote-author">— Light Yagami (Death Note)</span>
+          </div>
+        </div>
+        <div class="bento-item bento-clock">
+          <div class="bento-glass clock-box">
+            <div class="analog-clock">
+              <div class="clock-face">
+                <div class="hand hour-hand" id="hour-hand"></div>
+                <div class="hand min-hand" id="min-hand"></div>
+                <div class="hand sec-hand" id="sec-hand"></div>
+                <div class="center-pivot"></div>
+                <div class="num" style="--i:1;"><span>1</span></div>
+                <div class="num" style="--i:2;"><span>2</span></div>
+                <div class="num" style="--i:3;"><span>3</span></div>
+                <div class="num" style="--i:4;"><span>4</span></div>
+                <div class="num" style="--i:5;"><span>5</span></div>
+                <div class="num" style="--i:6;"><span>6</span></div>
+                <div class="num" style="--i:7;"><span>7</span></div>
+                <div class="num" style="--i:8;"><span>8</span></div>
+                <div class="num" style="--i:9;"><span>9</span></div>
+                <div class="num" style="--i:10;"><span>10</span></div>
+                <div class="num" style="--i:11;"><span>11</span></div>
+                <div class="num" style="--i:12;"><span>12</span></div>
+              </div>
+            </div>
+            <div class="bento-label">Live Time</div>
+          </div>
+        </div>
+        <div class="bento-item bento-cal">
+          <div class="bento-glass calendar-box">
+            <div class="cal-header">
+              <button id="prevMonth" class="cal-nav-btn"><i class="ph ph-caret-left"></i></button>
+              <span id="cal-month-year">May 2026</span>
+              <button id="nextMonth" class="cal-nav-btn"><i class="ph ph-caret-right"></i></button>
+            </div>
+            <div class="cal-days-header">
+              <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+            </div>
+            <div class="cal-grid" id="cal-grid"></div>
+            <div class="bento-label">Calendar</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="clean-footer">
+      <div class="footer-content-simple">
+        <div class="footer-left-simple">
+          <p>&copy; 2026 Aayush Panche. All Rights Reserved.</p>
+          <div class="visitor-counter">
+            Total Visitors: <span id="visitor-count">...</span>
+          </div>
+        </div>
+        <div class="footer-right-simple">
+          <a href="mailto:aayushpancheofficial@gmail.com">Mail</a>
+          <a href="https://github.com/aayushpancheofficial" target="_blank">GitHub</a>
+          <a href="https://www.linkedin.com/in/aayushpanche2005" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div id="ai-pet-main-container">
+    <div id="ai-pet-speech"></div>
+    <div id="ai-pet">
+      <div id="ai-pet-sprite"></div>
+    </div>
+  </div>
+
+  <script src="js/home.js?v=1.0.1"></script>
+  <script src="js/pet.js"></script>
+</body>
+
+</html>
