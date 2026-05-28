@@ -1025,7 +1025,7 @@ function changeAboutContent(key, element) {
   try {
     const treeUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/git/trees/main?recursive=1&t=${Date.now()}`;
     let response = await fetch(treeUrl, { headers: getAuthHeader(), cache: 'no-store' });
-    
+
     // If unauthorized, retry unauthenticated (for public repos fallback)
     if (response.status === 401 && GITHUB_TOKEN) {
       response = await fetch(treeUrl, { cache: 'no-store' });
@@ -1060,7 +1060,7 @@ function changeAboutContent(key, element) {
     const fetchPromises = files.slice(0, 5).map(async (file) => {
       try {
         const encodedPath = encodeURI(file.path);
-        
+
         // 1. Fetch updated date from commits API
         const commitUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/commits?path=${encodedPath}&page=1&per_page=1`;
         let commitRes = await fetch(commitUrl, { headers: getAuthHeader() });
@@ -1085,7 +1085,7 @@ function changeAboutContent(key, element) {
           'Accept': 'application/vnd.github.v3.raw'
         };
         let contentRes = await fetch(apiUrl, { headers: requestHeaders, cache: 'no-store' });
-        
+
         if (contentRes.status === 401 && GITHUB_TOKEN) {
           contentRes = await fetch(apiUrl, { headers: { 'Accept': 'application/vnd.github.v3.raw' }, cache: 'no-store' });
         }
@@ -1182,7 +1182,7 @@ function changeAboutContent(key, element) {
   const scroller = document.createElement('div');
   scroller.className = 'code-scroll-content';
   scroller.innerHTML = codeSnippet.repeat(15);
-  
+
   container.innerHTML = '';
   container.appendChild(scroller);
 })();
@@ -1195,18 +1195,18 @@ function changeAboutContent(key, element) {
   const GITHUB_USERNAME = 'aayushpancheofficial';
   const REPO_NAME = 'obsidian';
   const FILE_PATH = 'board.md'; // User should create this file
-  
+
   async function fetchStickyNote() {
     try {
       const url = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${FILE_PATH}?t=${Date.now()}`;
       const res = await fetch(url);
-      
+
       if (!res.ok) {
         throw new Error("File not found");
       }
-      
+
       const text = await res.text();
-      
+
       // Basic markdown parsing
       let html = text
         .replace(/^### (.*$)/gim, '<h3>$1</h3>')
@@ -1222,14 +1222,14 @@ function changeAboutContent(key, element) {
       // Simple list parsing
       html = html.replace(/^\s*-\s(.*)/gim, '<ul><li>$1</li></ul>');
       html = html.replace(/<\/ul>\n<ul>/gim, '');
-      
+
       // Use marked.js if available
       if (typeof marked !== 'undefined') {
         html = marked.parse(text);
       }
-      
+
       stickyContent.innerHTML = html;
-      
+
     } catch (err) {
       stickyContent.innerHTML = `
         <div style="opacity: 0.6; text-align: center; padding-top: 20px;">
@@ -1239,6 +1239,96 @@ function changeAboutContent(key, element) {
       `;
     }
   }
-  
+
   fetchStickyNote();
 })();
+
+// Contact Modal Logic
+document.addEventListener('DOMContentLoaded', () => {
+  const openContactBtn = document.getElementById('open-contact-btn');
+  const closeContactBtn = document.getElementById('close-contact-modal');
+  const contactModal = document.getElementById('contact-modal');
+  const contactForm = document.getElementById('contact-form');
+
+  if (!contactModal || !openContactBtn) return;
+
+  function closeModal() {
+    contactModal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  openContactBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    contactModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  });
+
+  closeContactBtn.addEventListener('click', closeModal);
+
+  contactModal.addEventListener('click', (e) => {
+    if (e.target.classList.contains('contact-modal-overlay')) {
+      closeModal();
+    }
+  });
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const btn = contactForm.querySelector('.submit-msg-btn');
+      const originalText = btn.innerHTML;
+
+      const name = document.getElementById('contact-name').value;
+      const email = document.getElementById('contact-email').value;
+      const subject = document.getElementById('contact-subject').value;
+      const message = document.getElementById('contact-message').value;
+
+      btn.innerHTML = '<i class="ph ph-spinner ph-spin"></i> Sending...';
+
+      try {
+        const response = await fetch("https://formsubmit.co/ajax/aayushpanche135@gmail.com", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            _subject: subject || `New Contact from ${name}`,
+            Name: name,
+            Email: email,
+            Message: message
+          })
+        });
+
+        if (response.ok) {
+          btn.innerHTML = '<i class="ph ph-check-circle"></i> Sent Successfully';
+          btn.style.background = '#22c55e';
+          btn.style.color = '#fff';
+
+          setTimeout(() => {
+            closeModal();
+            contactForm.reset();
+            setTimeout(() => {
+              btn.innerHTML = originalText;
+              btn.style.background = '';
+              btn.style.color = '';
+            }, 500);
+          }, 2000);
+        } else {
+          throw new Error('Failed to send');
+        }
+      } catch (error) {
+        btn.innerHTML = '<i class="ph ph-warning"></i> Error. Try again.';
+        btn.style.background = '#ef4444';
+        btn.style.color = '#fff';
+
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 3000);
+      }
+    });
+  }
+});
+

@@ -508,7 +508,17 @@ document.addEventListener("DOMContentLoaded", () => {
       modalDate.innerText = updatedDate;
 
       if (typeof marked !== 'undefined') {
-        marked.setOptions({ breaks: true, gfm: true });
+        marked.setOptions({
+        breaks: true,
+        gfm: true,
+        highlight: function(code, lang) {
+          if (typeof hljs !== 'undefined') {
+            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+            return hljs.highlight(code, { language }).value;
+          }
+          return code;
+        }
+      });
         modalBody.innerHTML = marked.parse(cleanText);
         makeHeadingsCollapsible(modalBody);
       } else {
@@ -538,7 +548,17 @@ document.addEventListener("DOMContentLoaded", () => {
     modalTitle.innerText = title;
     modalDate.innerText = date;
     if (typeof marked !== 'undefined') {
-      marked.setOptions({ breaks: true, gfm: true });
+      marked.setOptions({
+        breaks: true,
+        gfm: true,
+        highlight: function(code, lang) {
+          if (typeof hljs !== 'undefined') {
+            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+            return hljs.highlight(code, { language }).value;
+          }
+          return code;
+        }
+      });
       modalBody.innerHTML = marked.parse(content);
       makeHeadingsCollapsible(modalBody);
     } else {
@@ -654,7 +674,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let previewHtml = '';
     if (typeof marked !== 'undefined') {
-      marked.setOptions({ breaks: true, gfm: true });
+      marked.setOptions({
+        breaks: true,
+        gfm: true,
+        highlight: function(code, lang) {
+          if (typeof hljs !== 'undefined') {
+            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+            return hljs.highlight(code, { language }).value;
+          }
+          return code;
+        }
+      });
       previewHtml = marked.parse(cleanText);
     } else {
       previewHtml = cleanText;
