@@ -975,7 +975,7 @@ function changeAboutContent(key, element) {
         if (!hasVisited) localStorage.setItem('aayush_has_visited', 'true');
 
         const count = data.count + 10;
-        visitorCountEl.textContent = count.toLocaleString();
+        visitorCountEl.innerHTML = `You are the <strong style="color: #bf55ff;">${count.toLocaleString()}${getOrdinalSuffix(count)}</strong> visitor`;
       }
     } catch (error) {
       console.error("Visitor Counter Error:", error);
@@ -988,7 +988,7 @@ function changeAboutContent(key, element) {
         localStorage.setItem('aayush_has_visited', 'true');
       }
 
-      visitorCountEl.textContent = localCount.toLocaleString();
+      visitorCountEl.innerHTML = `You are the <strong style="color: #bf55ff;">${localCount.toLocaleString()}${getOrdinalSuffix(localCount)}</strong> visitor`;
     }
   }
 

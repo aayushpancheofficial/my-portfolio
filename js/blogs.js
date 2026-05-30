@@ -116,8 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getAuthHeader() {
     if (!GITHUB_TOKEN) return {};
-    return GITHUB_TOKEN.startsWith('github_pat_') 
-      ? { 'Authorization': `Bearer ${GITHUB_TOKEN}` } 
+    return GITHUB_TOKEN.startsWith('github_pat_')
+      ? { 'Authorization': `Bearer ${GITHUB_TOKEN}` }
       : { 'Authorization': `token ${GITHUB_TOKEN}` };
   }
 
@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         const treeUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/git/trees/main?recursive=1&t=${now}`;
         let response = await fetch(treeUrl, { headers: getAuthHeader(), cache: 'no-store' });
-        
+
         // If the token is invalid (401), retry unauthenticated (for public repos)
         if (response.status === 401 && GITHUB_TOKEN) {
           console.warn("GitHub Token returned 401 Unauthorized. Retrying unauthenticated...");
@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     cleanText = cleanText.replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, assetName, alt) => {
       const path = assetMap[assetName] || assetName;
-      const url = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${path}?t=${Date.now()}`;
+      const url = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${encodeURI(path)}?t=${Date.now()}`;
       return `![${alt || assetName}](${url})`;
     });
     cleanText = cleanText.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, linkName, alias) => {
@@ -371,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
     headings.forEach(heading => {
       heading.style.cursor = 'pointer';
       heading.classList.add('collapsible-heading');
-      
+
       let chevron = heading.querySelector('.heading-chevron');
       if (!chevron) {
         chevron = document.createElement('span');
@@ -382,12 +382,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let wrapper = heading.nextElementSibling;
       const alreadyWrapped = wrapper && wrapper.classList.contains('collapsible-content');
-      
+
       if (!alreadyWrapped) {
         const headingLevel = parseInt(heading.tagName.substring(1));
         const contentNodes = [];
         let nextSibling = heading.nextElementSibling;
-        
+
         while (nextSibling) {
           if (nextSibling.tagName.match(/^H[1-6]$/i)) {
             const nextLevel = parseInt(nextSibling.tagName.substring(1));
@@ -415,7 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Strip duplicate listeners by cloning and replacing heading
         const newHeading = heading.cloneNode(true);
         heading.parentNode.replaceChild(newHeading, heading);
-        
+
         newHeading.addEventListener('click', (e) => {
           if (e.target.closest('a')) return;
           const isExpanded = wrapper.classList.contains('expanded');
@@ -474,7 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       cleanText = cleanText.replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, assetName, alt) => {
         const path = assetMap[assetName] || assetName;
-        const url = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${path}?t=${Date.now()}`;
+        const url = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${encodeURI(path)}?t=${Date.now()}`;
         return `![${alt || assetName}](${url})`;
       });
 
@@ -509,16 +509,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (typeof marked !== 'undefined') {
         marked.setOptions({
-        breaks: true,
-        gfm: true,
-        highlight: function(code, lang) {
-          if (typeof hljs !== 'undefined') {
-            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-            return hljs.highlight(code, { language }).value;
+          breaks: true,
+          gfm: true,
+          highlight: function (code, lang) {
+            if (typeof hljs !== 'undefined') {
+              const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+              return hljs.highlight(code, { language }).value;
+            }
+            return code;
           }
-          return code;
-        }
-      });
+        });
         modalBody.innerHTML = marked.parse(cleanText);
         makeHeadingsCollapsible(modalBody);
       } else {
@@ -551,7 +551,7 @@ document.addEventListener("DOMContentLoaded", () => {
       marked.setOptions({
         breaks: true,
         gfm: true,
-        highlight: function(code, lang) {
+        highlight: function (code, lang) {
           if (typeof hljs !== 'undefined') {
             const language = hljs.getLanguage(lang) ? lang : 'plaintext';
             return hljs.highlight(code, { language }).value;
@@ -600,27 +600,49 @@ document.addEventListener("DOMContentLoaded", () => {
   closeModal.addEventListener('click', closeBlogModal);
   blogModal.addEventListener('click', (e) => { if (e.target === blogModal) closeBlogModal(); });
 
-  // Intercept clicks on internal Obsidian wiki links
+  // Intercept clicks on links within the blog modal
   modalBody.addEventListener('click', (e) => {
-    const internalLink = e.target.closest('.obsidian-internal-link');
-    if (internalLink) {
+    const link = e.target.closest('a');
+    if (!link) return;
+
+    // 1. Handle Obsidian internal wiki links (e.g. [[DBMS TOPIC WISE.pdf]])
+    if (link.classList.contains('obsidian-internal-link')) {
       e.preventDefault();
-      const noteName = internalLink.getAttribute('data-note');
+      const noteName = link.getAttribute('data-note');
+      
+      if (noteName && noteName.toLowerCase().endsWith('.pdf')) {
+        const path = assetMap[noteName] || noteName;
+        const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${encodeURI(path)}`;
+        window.open(`https://docs.google.com/viewer?url=${encodeURIComponent(rawUrl)}`, '_blank');
+        return;
+      }
+
       openInternalNote(noteName);
       hidePopover();
+      return;
+    }
+
+    // 2. Handle normal Markdown PDF links (e.g. [PDF](DBMS TOPIC.pdf) or absolute URLs)
+    const originalHref = link.getAttribute('href');
+    if (originalHref && originalHref.toLowerCase().includes('.pdf')) {
+      e.preventDefault(); // Stop the browser from attempting a local download
+
+      if (originalHref.includes('raw.githubusercontent.com') || originalHref.includes('raw.github.com')) {
+        window.open(`https://docs.google.com/viewer?url=${encodeURIComponent(originalHref)}`, '_blank');
+      } else if (originalHref.startsWith('http')) {
+        // External non-raw URL (e.g. github blob), just open it normally
+        window.open(originalHref, '_blank');
+      } else {
+        // It's a relative URL, so we construct the raw GitHub URL using the asset map
+        const decodedName = decodeURIComponent(originalHref).split('/').pop();
+        const path = assetMap[decodedName] || decodedName;
+        const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${encodeURI(path)}`;
+        window.open(`https://docs.google.com/viewer?url=${encodeURIComponent(rawUrl)}`, '_blank');
+      }
     }
   });
 
-  // --- Dynamic In-Modal Theme Toggle Button Injection & Sync ---
-  const modalThemeToggle = document.createElement('button');
-  modalThemeToggle.className = 'modal-theme-toggle';
-  modalThemeToggle.id = 'modalThemeToggle';
-  modalThemeToggle.title = 'Toggle Theme';
-  modalThemeToggle.innerHTML = `<i class="ph ${document.body.classList.contains('light-mode') ? 'ph-sun' : 'ph-moon'}"></i>`;
-  if (modalGlass) {
-    modalGlass.appendChild(modalThemeToggle);
-  }
-  makeElementMagnetic(modalThemeToggle, 0.35); // Apply magnetic effect
+  // (In-Modal Theme Toggle Button Injection Removed)
 
   // --- Obsidian Interactive Hover Preview Popover ---
   const noteCache = {};
@@ -677,7 +699,7 @@ document.addEventListener("DOMContentLoaded", () => {
       marked.setOptions({
         breaks: true,
         gfm: true,
-        highlight: function(code, lang) {
+        highlight: function (code, lang) {
           if (typeof hljs !== 'undefined') {
             const language = hljs.getLanguage(lang) ? lang : 'plaintext';
             return hljs.highlight(code, { language }).value;
@@ -772,10 +794,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById('theme-toggle');
   const themeIcon = themeToggle.querySelector('i');
 
+  const themeLabel = document.getElementById('themeLabel');
+
   if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-mode');
     themeIcon.classList.replace('ph-moon', 'ph-sun');
-    modalThemeToggle.querySelector('i').classList.replace('ph-moon', 'ph-sun');
+    if (themeLabel) themeLabel.innerText = 'Day Mode';
   }
 
   // Apply magnetic effect to theme toggles & close buttons
@@ -787,27 +811,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.toggle('light-mode');
     const isLight = document.body.classList.contains('light-mode');
     themeIcon.classList.replace(isLight ? 'ph-moon' : 'ph-sun', isLight ? 'ph-sun' : 'ph-moon');
-
-    const modalIcon = modalThemeToggle.querySelector('i');
-    if (modalIcon) {
-      modalIcon.classList.replace(isLight ? 'ph-moon' : 'ph-sun', isLight ? 'ph-sun' : 'ph-moon');
-    }
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-  });
-
-  // Modal Theme Toggle Sync
-  modalThemeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('light-mode');
-    const isLight = document.body.classList.contains('light-mode');
-
-    const modalIcon = modalThemeToggle.querySelector('i');
-    if (modalIcon) {
-      modalIcon.classList.replace(isLight ? 'ph-moon' : 'ph-sun', isLight ? 'ph-sun' : 'ph-moon');
-    }
-
-    if (themeIcon) {
-      themeIcon.classList.replace(isLight ? 'ph-moon' : 'ph-sun', isLight ? 'ph-sun' : 'ph-moon');
-    }
+    if (themeLabel) themeLabel.innerText = isLight ? 'Day Mode' : 'Night Mode';
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
   });
 });

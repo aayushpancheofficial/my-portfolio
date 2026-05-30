@@ -19,7 +19,7 @@
             <a href="index.html" class="nav-logo">
                 <div class="logo-icon">
                     <svg viewBox="0 0 32 32">
-                        <path d="M16 2L2 28H9.5L16 15.5L22.5 28H30L16 2Z" fill="#5D9FFF" />
+                        <path d="M16 2L2 28H9.5L16 15.5L22.5 28H30L16 2Z" fill="#ffffff" />
                         <path d="M16 15.5L9.5 28H2L16 2V15.5Z" fill="rgba(0, 0, 0, 0.4)" />
                     </svg>
                 </div>
@@ -32,8 +32,15 @@
             <a href="blogs.html" class="nav-link active"><i class="ph ph-pen-nib"></i><span>Blog</span></a>
             <a href="resume.html" class="nav-link"><i class="ph ph-file-text"></i><span>Resume</span></a>
         </div>
+        <div class="divider"></div>
         <div class="nav-right">
-            <button id="theme-toggle" class="theme-toggle-btn"><i class="ph ph-moon"></i></button>
+            <div class="theme-switcher">
+                <div class="current-theme" id="theme-toggle">
+                    <span id="themeIcon"><i class="ph ph-moon"></i></span>
+                    <span id="themeLabel">Night Mode</span>
+                    <i class="ph ph-caret-down chevron"></i>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -100,7 +107,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="js/blogs.js?v=1.0.7"></script>
+    <script src="js/blogs.js?v=1.0.9"></script>
     <script src="js/pet.js"></script>
 </body>
 
