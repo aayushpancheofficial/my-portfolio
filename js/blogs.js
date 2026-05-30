@@ -129,9 +129,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const assetMap = {};
 
-  const CACHE_KEY = 'github_blog_tree';
-  const CACHE_TIME_KEY = 'github_blog_tree_time';
-  const CACHE_DURATION = 15 * 60 * 1000; // 15-minute high performance cache
+  const CACHE_KEY = 'github_blog_tree_v2';
+  const CACHE_TIME_KEY = 'github_blog_tree_time_v2';
+  const CACHE_DURATION = 5 * 60 * 1000; // 5-minute high performance cache
 
   async function fetchGitHubBlogs() {
     try {
