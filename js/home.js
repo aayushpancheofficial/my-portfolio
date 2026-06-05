@@ -957,8 +957,8 @@ function changeAboutContent(key, element) {
   // Using counterapi.dev for a real global visitor count
   const namespace = "aayushpanche-portfolio-v2";
   const key = "visits";
-  const upUrl = `https://corsproxy.io/?https://api.counterapi.dev/v1/${namespace}/${key}/up`;
-  const getUrl = `https://corsproxy.io/?https://api.counterapi.dev/v1/${namespace}/${key}`;
+  const upUrl = `https://api.counterapi.dev/v1/${namespace}/${key}/up`;
+  const getUrl = `https://api.counterapi.dev/v1/${namespace}/${key}/`;
 
   async function updateVisitorCount() {
     try {
