@@ -756,7 +756,17 @@ function changeAboutContent(key, element) {
   const clearTasksBtn = document.getElementById('clearTasksBtn');
   if (!taskInput || !addTaskBtn || !taskList) return;
 
-  let tasks = JSON.parse(localStorage.getItem('aayush_daily_tasks')) || [];
+  let tasks = [];
+  try {
+    const saved = localStorage.getItem('aayush_daily_tasks');
+    if (saved) {
+      tasks = JSON.parse(saved);
+      if (!Array.isArray(tasks)) tasks = [];
+    }
+  } catch (e) {
+    console.error("Failed to parse daily tasks", e);
+    tasks = [];
+  }
   const now = Date.now();
   tasks = tasks.filter(task => now - task.timestamp < 86400000);
 
