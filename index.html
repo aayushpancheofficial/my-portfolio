@@ -211,6 +211,52 @@
       </div>
     </section>
 
+    <section class="github-contribution-section hidden-scroll-up" id="github-graph">
+      <div class="content-wrapper">
+        <div class="skills-header" style="margin-top: 30px;">
+          <h2 class="section-title">GitHub Contributions</h2>
+          <p class="skills-subtitle">My open source journey and code pushes.</p>
+        </div>
+        <div class="github-stats-board bento-glass" style="position: relative; padding: 3px; border-radius: 24px; overflow: hidden; margin-top: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
+          <!-- Rotating Snake Border (Glow) -->
+          <div style="position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent 60%, rgba(64, 196, 99, 0.2) 80%, #40c463 100%); animation: snakeBorderRotate 4s linear infinite; z-index: 0; filter: blur(6px);"></div>
+          <!-- Rotating Snake Border (Core) -->
+          <div style="position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent 75%, rgba(64, 196, 99, 0.5) 95%, #40c463 100%); animation: snakeBorderRotate 4s linear infinite; z-index: 0;"></div>
+          
+          <div class="github-inner" style="position: relative; background: rgba(13, 17, 23, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 21px; padding: 25px; z-index: 1;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+              <h3 style="color: #ffffff; font-size: 1.2rem; font-weight: 600; margin: 0; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">Contributions in the last year</h3>
+              <a href="https://github.com/aayushpancheofficial" target="_blank" style="color: rgba(255, 255, 255, 0.6); text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 500; transition: color 0.3s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='rgba(255, 255, 255, 0.6)'">
+                <i class="ph ph-github-logo" style="font-size: 1.3rem;"></i> View GitHub
+              </a>
+            </div>
+            
+            <div class="graph-container" id="github-graph-container" style="overflow-x: auto; padding-bottom: 5px; display: flex; justify-content: center; align-items: center;">
+              <img src="https://ghchart.rshah.org/40c463/aayushpancheofficial" alt="Aayush's GitHub Contributions" style="min-width: 700px; width: 100%; display: block; filter: invert(1) hue-rotate(180deg) brightness(1.4) contrast(1.2); opacity: 0.9;" />
+            </div>
+
+            <!-- Less / More Legend -->
+            <div style="display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-top: 15px; font-size: 0.8rem; color: #8b949e; padding-right: 15px;">
+              <span>Less</span>
+              <span style="width: 13px; height: 13px; border-radius: 3px; background: rgba(255,255,255,0.05);"></span>
+              <span style="width: 13px; height: 13px; border-radius: 3px; background: #0e4429;"></span>
+              <span style="width: 13px; height: 13px; border-radius: 3px; background: #006d32;"></span>
+              <span style="width: 13px; height: 13px; border-radius: 3px; background: #26a641;"></span>
+              <span style="width: 13px; height: 13px; border-radius: 3px; background: #39d353;"></span>
+              <span>More</span>
+            </div>
+          </div>
+          
+          <style>
+            @keyframes snakeBorderRotate {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          </style>
+        </div>
+      </div>
+    </section>
+
     <section class="about-section-container hidden-scroll-up" id="about">
       <div class="section-hero">
         <div class="section-overlay"></div>
