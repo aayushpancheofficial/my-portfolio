@@ -12,6 +12,12 @@ html, body {
   color: white;
 }
 
+.page-wrapper {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
+
 .bg-layer {
   position: absolute;
   top: 0;
@@ -948,10 +954,13 @@ body.light-mode .popover-content p {
 
 @media (max-width: 768px) {
   .top-nav {
-    padding: 10px 10px;
-
+    padding: 10px 8px;
     justify-content: space-between;
-    gap: 5px;
+    gap: 2px;
+    width: calc(100vw - 20px);
+    max-width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .nav-left .logo-icon {

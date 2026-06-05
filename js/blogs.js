@@ -27,6 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function animate() {
+    if (window.innerWidth <= 768) return requestAnimationFrame(animate); // Disable parallax on mobile
+
     const ease = 0.08;
     currentX += (targetX - currentX) * ease;
     currentY += (targetY - currentY) * ease;
