@@ -189,6 +189,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return isFile && isNotHidden && (isMarkdown || hasNoExtension);
       });
 
+      // Pin "About Aayush" to the top
+      const pinnedFileIndex = files.findIndex(f => f.path.toLowerCase().includes('about aayush'));
+      if (pinnedFileIndex !== -1) {
+        const pinnedFile = files.splice(pinnedFileIndex, 1)[0];
+        files.unshift(pinnedFile);
+      }
+
       let loadedCardsCount = 0;
 
       // Fetch markdown content
@@ -308,11 +315,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function createBlogCard(title, date, excerpt, fullContent, category, fileName) {
+    const isPinned = fileName.toLowerCase().includes('about aayush') || title.toLowerCase().includes('about aayush');
     const card = document.createElement('article');
     card.className = 'blog-card reveal-up active';
     card.setAttribute('data-category', category);
+    if (isPinned) {
+      card.style.border = '1px solid rgba(192, 132, 252, 0.4)';
+      card.style.position = 'relative';
+    }
     card.innerHTML = `
-      <div class="blog-date">${date} • ${category}</div>
+      ${isPinned ? '<i class="ph-fill ph-push-pin" style="position: absolute; top: 15px; right: 15px; color: #c084fc; font-size: 1.2rem; transform: rotate(45deg);"></i>' : ''}
+      <div class="blog-date">${isPinned ? 'Pinned' : date} • ${category}</div>
       <h3>${title}</h3>
       <p>${excerpt}</p>
       <a href="#" class="read-more">Read Full Note</a>

@@ -1056,8 +1056,16 @@ function changeAboutContent(key, element) {
 
     const processedBlogs = [];
 
-    // Fetch details for the first 5 notes to determine which 2 are the most recent
-    const fetchPromises = files.slice(0, 5).map(async (file) => {
+    // Prioritize "About Aayush" blog
+    let filesToFetch = [];
+    const pinnedFileIndex = files.findIndex(f => f.path.toLowerCase().includes('about aayush'));
+    if (pinnedFileIndex !== -1) {
+      filesToFetch.push(files.splice(pinnedFileIndex, 1)[0]);
+    }
+    filesToFetch = filesToFetch.concat(files.slice(0, 5));
+
+    // Fetch details for the selected notes
+    const fetchPromises = filesToFetch.map(async (file) => {
       try {
         const encodedPath = encodeURI(file.path);
 
@@ -1126,14 +1134,30 @@ function changeAboutContent(key, element) {
     // Sort by commit date descending
     processedBlogs.sort((a, b) => b.dateVal - a.dateVal);
 
-    // Take the 2 most recent blogs
-    const latestTwo = processedBlogs.slice(0, 2);
+    // Take the 2 most recent blogs (exclude About Aayush if fetched dynamically)
+    const dynamicBlogs = processedBlogs.filter(b => !b.fileName.toLowerCase().includes('about aayush')).slice(0, 1);
+
+    const finalBlogs = [
+      {
+        title: "About Aayush",
+        excerpt: "Hi, I'm Aayush, a passionate learner and full-stack web developer. Read more about my journey, skills, and goals.",
+        dateString: "Pinned",
+        fileName: "About Aayush.md",
+        isPinned: true
+      },
+      ...dynamicBlogs
+    ];
 
     blogListContainer.innerHTML = '';
-    latestTwo.forEach(blog => {
+    finalBlogs.forEach(blog => {
       const blogItem = document.createElement('div');
       blogItem.className = 'blog-item';
+      if (blog.isPinned) {
+        blogItem.style.border = '1px solid rgba(192, 132, 252, 0.3)';
+        blogItem.style.position = 'relative';
+      }
       blogItem.innerHTML = `
+        ${blog.isPinned ? '<i class="ph-fill ph-push-pin" style="position: absolute; top: 15px; right: 15px; color: #c084fc; font-size: 1.2rem; transform: rotate(45deg);"></i>' : ''}
         <div class="blog-info">
           <h3 class="blog-post-title">${blog.title}</h3>
           <p class="blog-post-desc">${blog.excerpt}</p>
@@ -1147,7 +1171,16 @@ function changeAboutContent(key, element) {
   } catch (err) {
     console.error("Failed to load dynamic latest blogs:", err);
     blogListContainer.innerHTML = `
-      <p style="color: rgba(255,255,255,0.4); text-align: center; grid-column: 1/-1;">
+      <div class="blog-item" style="border: 1px solid rgba(192, 132, 252, 0.3); position: relative;">
+        <i class="ph-fill ph-push-pin" style="position: absolute; top: 15px; right: 15px; color: #c084fc; font-size: 1.2rem; transform: rotate(45deg);"></i>
+        <div class="blog-info">
+          <h3 class="blog-post-title">About Aayush</h3>
+          <p class="blog-post-desc">Hi, I'm Aayush, a passionate learner and full-stack web developer. Read more about my journey, skills, and goals.</p>
+          <div class="blog-post-date"><i class="ph ph-calendar"></i> Pinned</div>
+        </div>
+        <a href="blogs.html?post=About%20Aayush.md" class="read-more">Read more <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <p style="color: rgba(255,255,255,0.4); text-align: center; grid-column: 1/-1; margin-top: 10px;">
         Unable to load recent blogs.
       </p>
     `;
