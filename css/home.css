@@ -696,6 +696,7 @@ body {
   background: #0a0c12;
   color: var(--theme-text);
   overflow-x: hidden;
+  max-width: 100vw;
 }
 
 .page-wrapper {

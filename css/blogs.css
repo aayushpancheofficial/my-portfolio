@@ -4,10 +4,11 @@
   box-sizing: border-box;
 }
 
-body {
+html, body {
   font-family: 'Outfit', sans-serif;
   background-color: #060913;
   overflow-x: hidden;
+  max-width: 100vw;
   color: white;
 }
 
@@ -560,9 +561,9 @@ body.light-mode .popover-content p {
 
 .moco-hero {
   position: relative;
-  width: 100vw;
-  max-width: 100%;
+  width: 100%;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background: #060913;
   z-index: 0;
