@@ -7,9 +7,7 @@
 body {
   font-family: 'Outfit', sans-serif;
   background-color: #060913;
-
   overflow-x: hidden;
-
   color: white;
 }
 
@@ -562,12 +560,11 @@ body.light-mode .popover-content p {
 
 .moco-hero {
   position: relative;
-
   width: 100vw;
+  max-width: 100%;
   height: 100vh;
   overflow: hidden;
   background: #060913;
-
   z-index: 0;
 }
 
@@ -1088,6 +1085,8 @@ body.light-mode .popover-content p {
   pointer-events: none;
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 }
 
 .blog-modal.active {

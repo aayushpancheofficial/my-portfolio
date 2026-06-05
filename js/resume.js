@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- GOOGLE DRIVE RESUME LINK CONFIGURATION ---
     // 1. Get your Google Drive Sharable Link (Make sure it's set to "Anyone with the link")
     // 2. It usually looks like: https://drive.google.com/file/d/1XyZ.../view?usp=sharing
-    const DRIVE_FILE_URL = 'https://drive.google.com/file/d/1GskSQsf2emS5Bm6lJgQ0An9KqIbzRcgK/view?usp=sharing'; // <-- PASTE YOUR LINK HERE
+    const DRIVE_FILE_URL = 'https://drive.google.com/file/d/1LWtQMiyUa1rDi7r6keHKNtRaJwIatEAP/view?usp=sharing'; // <-- PASTE YOUR LINK HERE
 
     const resumeIframe = document.getElementById('resumeIframe');
     const downloadBtn = document.getElementById('downloadResume');

@@ -631,11 +631,9 @@ body.new {
   width: 100vw;
   height: 100vh;
   height: 100lvh;
-
   z-index: 1;
   transition: opacity 0.5s ease;
   pointer-events: none;
-
 }
 
 .code-bg-canvas {
@@ -696,7 +694,6 @@ body {
   min-height: 100%;
   font-family: var(--font-body);
   background: #0a0c12;
-
   color: var(--theme-text);
   overflow-x: hidden;
 }
@@ -2996,17 +2993,18 @@ body.focus-mode-active .bento-focus-stats {
 
 .contact-modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   z-index: 9999;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   opacity: 1;
   visibility: visible;
   transition: all 0.4s ease;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  padding: 20px 10px;
 }
 
 .contact-modal.hidden {
@@ -3030,8 +3028,9 @@ body.focus-mode-active .bento-focus-stats {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 28px;
   padding: 45px;
-  width: 90%;
+  width: 100%;
   max-width: 600px;
+  margin: auto; /* Ensures centering while allowing scroll if taller than viewport */
   z-index: 10000;
   transform: translateY(0) scale(1);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -3172,6 +3171,35 @@ body.focus-mode-active .bento-focus-stats {
   #contact-form .form-row {
     flex-direction: column;
     gap: 0;
+  }
+  
+  .contact-modal-content {
+    padding: 30px 20px;
+    border-radius: 20px;
+    margin: auto 0;
+  }
+
+  .contact-modal h2 {
+    font-size: 2.2rem;
+  }
+
+  .close-modal-btn {
+    top: 15px;
+    right: 15px;
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  #contact-form input,
+  #contact-form textarea {
+    padding: 12px 15px;
+    font-size: 0.95rem;
+  }
+
+  .submit-msg-btn {
+    padding: 14px;
+    font-size: 1rem;
   }
 }
 

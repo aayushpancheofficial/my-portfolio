@@ -577,12 +577,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Update the URL to make the link shareable
     if (fileName) {
       const newUrl = new URL(window.location);
-      newUrl.searchParams.set('post', fileName);
-      window.history.pushState({ post: fileName }, '', newUrl);
+      if (newUrl.searchParams.get('post') !== fileName) {
+        newUrl.searchParams.set('post', fileName);
+        window.history.pushState({ post: fileName }, '', newUrl);
+      }
     }
   }
 
-  function closeBlogModal() {
+  function closeBlogModal(isPopState = false) {
     blogModal.classList.remove('active');
     document.body.style.overflow = '';
     hidePopover();
@@ -591,14 +593,24 @@ document.addEventListener("DOMContentLoaded", () => {
     modalHistory = [];
     modalBackButton.classList.remove('visible');
 
-    // Remove the 'post' query parameter from URL
-    const newUrl = new URL(window.location);
-    newUrl.searchParams.delete('post');
-    window.history.pushState({}, '', newUrl);
+    if (isPopState !== true) {
+      // Remove the 'post' query parameter from URL
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.delete('post');
+      window.history.pushState({}, '', newUrl);
+    }
   }
 
-  closeModal.addEventListener('click', closeBlogModal);
-  blogModal.addEventListener('click', (e) => { if (e.target === blogModal) closeBlogModal(); });
+  closeModal.addEventListener('click', () => closeBlogModal(false));
+  blogModal.addEventListener('click', (e) => { if (e.target === blogModal) closeBlogModal(false); });
+
+  window.addEventListener('popstate', (e) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const post = urlParams.get('post');
+    if (!post && blogModal.classList.contains('active')) {
+      closeBlogModal(true);
+    }
+  });
 
   // Intercept clicks on links within the blog modal
   modalBody.addEventListener('click', (e) => {
