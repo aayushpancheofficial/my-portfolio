@@ -49,20 +49,6 @@
 
 
 
-  // Change offset every few seconds to "wander" around cursor
-  setInterval(() => {
-    if (!isSleeping && !isEating) {
-      targetOffsetX = (Math.random() - 0.5) * 80; // -40 to 40
-      targetOffsetY = (Math.random() - 0.5) * 60; // -30 to 30
-
-      // On mobile screens, simulate random cursor movements to wander automatically
-      if (window.innerWidth <= 768 && !isAnchored) {
-        mouseX = window.innerWidth / 2 + (Math.random() - 0.5) * (window.innerWidth - 100);
-        mouseY = window.innerHeight / 2 + (Math.random() - 0.5) * (window.innerHeight - 100);
-        lastMoveTime = Date.now(); // Keep awake while wandering
-      }
-    }
-  }, 3000);
 
   function handleMove(clientX, clientY) {
     if (!isDragging && !isAnchored) {
