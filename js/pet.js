@@ -9,6 +9,17 @@
   // Ensure the speech bubble never blocks click/drag events on the pet avatar
   speech.style.pointerEvents = 'none';
 
+  // Add mobile CSS to prevent the pet from blocking scrolling on touch devices
+  const mobileStyles = document.createElement('style');
+  mobileStyles.innerHTML = `
+    @media (max-width: 768px) {
+      #ai-pet-main-container, #ai-pet {
+        pointer-events: none !important;
+      }
+    }
+  `;
+  document.head.appendChild(mobileStyles);
+
   let mouseX = window.innerWidth / 2;
   let mouseY = window.innerHeight / 2;
   let currentX = mouseX;
@@ -43,13 +54,20 @@
     if (!isSleeping && !isEating) {
       targetOffsetX = (Math.random() - 0.5) * 80; // -40 to 40
       targetOffsetY = (Math.random() - 0.5) * 60; // -30 to 30
+
+      // On mobile screens, simulate random cursor movements to wander automatically
+      if (window.innerWidth <= 768 && !isAnchored) {
+        mouseX = window.innerWidth / 2 + (Math.random() - 0.5) * (window.innerWidth - 100);
+        mouseY = window.innerHeight / 2 + (Math.random() - 0.5) * (window.innerHeight - 100);
+        lastMoveTime = Date.now(); // Keep awake while wandering
+      }
     }
   }, 3000);
 
-  document.addEventListener('mousemove', (e) => {
+  function handleMove(clientX, clientY) {
     if (!isDragging && !isAnchored) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
+      mouseX = clientX;
+      mouseY = clientY;
     }
     lastMoveTime = Date.now();
     if (isSleeping) {
@@ -57,8 +75,8 @@
     }
 
     if (isDragging) {
-      const dx = e.clientX - dragStartX;
-      const dy = e.clientY - dragStartY;
+      const dx = clientX - dragStartX;
+      const dy = clientY - dragStartY;
       dragMoveDistance = Math.sqrt(dx * dx + dy * dy);
 
       currentX = containerStartX + dx;
@@ -71,7 +89,14 @@
         faceX = 1;
       }
     }
-  });
+  }
+
+  document.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
+  document.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0) {
+      handleMove(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
 
   const speed = 1.2;
   let speechTimeout;
@@ -111,39 +136,49 @@
     }
   }, 5000);
 
-  document.addEventListener('mousedown', () => {
+  function handleDown(isPetClick, clientX, clientY, e) {
     if (isSleeping) {
       isSleeping = false;
       showMessage("Whoa! You woke me up!");
     }
-    // Simple jump effect on generic click (only if not clicking specifically on the pet)
-    if (!isDragging) {
-      sprite.style.transition = "margin-top 0.2s ease";
-      sprite.style.marginTop = "-20px";
-      setTimeout(() => sprite.style.marginTop = "0px", 200);
-    }
-  });
+    if (isPetClick) {
+      if (e && e.stopPropagation) e.stopPropagation();
+      isDragging = true;
+      isSleeping = false;
+      dragMoveDistance = 0;
+      sprite.classList.add('walking');
 
-  // Sprite Grab & Carry (Mousedown Handler)
+      dragStartX = clientX;
+      dragStartY = clientY;
+      containerStartX = currentX;
+      containerStartY = currentY;
+
+      showMessage("Wheee! Carrying me! 🎈", 1500);
+    } else {
+      if (!isDragging) {
+        sprite.style.transition = "margin-top 0.2s ease";
+        sprite.style.marginTop = "-20px";
+        setTimeout(() => sprite.style.marginTop = "0px", 200);
+      }
+    }
+  }
+
+  document.addEventListener('mousedown', (e) => handleDown(false, e.clientX, e.clientY, e));
+  document.addEventListener('touchstart', (e) => {
+    if (e.touches.length > 0) handleDown(false, e.touches[0].clientX, e.touches[0].clientY, e);
+  }, { passive: true });
+
+  // Sprite Grab & Carry
   sprite.addEventListener('mousedown', (e) => {
     if (e.button !== 0) return; // Only left click drags
-    e.stopPropagation(); // Prevent document mousedown jump
-
-    isDragging = true;
-    isSleeping = false;
-    dragMoveDistance = 0;
-    sprite.classList.add('walking');
-
-    dragStartX = e.clientX;
-    dragStartY = e.clientY;
-    containerStartX = currentX;
-    containerStartY = currentY;
-
-    showMessage("Wheee! Carrying me! 🎈", 1500);
+    handleDown(true, e.clientX, e.clientY, e);
   });
+  sprite.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) handleDown(true, e.touches[0].clientX, e.touches[0].clientY, e);
+  }, { passive: true });
 
   // Sprite Release & Logic Anchor/Resume
-  document.addEventListener('mouseup', () => {
+  function handleUp() {
     if (isDragging) {
       isDragging = false;
       sprite.classList.remove('walking');
@@ -167,7 +202,10 @@
         showMessage("Dropped here! 📍 (Click me to walk)", 3000);
       }
     }
-  });
+  }
+
+  document.addEventListener('mouseup', handleUp);
+  document.addEventListener('touchend', handleUp);
 
 
 

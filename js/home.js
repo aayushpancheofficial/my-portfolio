@@ -1375,3 +1375,94 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// --- Study Timer Logic ---
+(function initStudyTimer() {
+  const timeDisplay = document.getElementById('timer-time');
+  const playPauseBtn = document.getElementById('timer-play-pause');
+  const resetBtn = document.getElementById('timer-reset');
+  const iconPlay = document.getElementById('timer-icon-play');
+  const progressBorder = document.getElementById('timer-progress-border');
+  const centerTouch = document.getElementById('timer-center-touch');
+  const endTimeDisplay = document.getElementById('timer-end-time');
+
+  if (!timeDisplay || !playPauseBtn || !resetBtn) return;
+
+  let timerInterval = null;
+  let defaultMinutes = 25;
+  let totalSeconds = defaultMinutes * 60;
+  let remainingSeconds = totalSeconds;
+  let isRunning = false;
+
+  function updateDisplay() {
+    const m = Math.floor(remainingSeconds / 60);
+    const s = remainingSeconds % 60;
+    timeDisplay.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    
+    // Update progress border
+    const progress = 100 - ((remainingSeconds / totalSeconds) * 100);
+    progressBorder.style.setProperty('--progress', `${progress}%`);
+    
+    if (remainingSeconds === 0) {
+      clearInterval(timerInterval);
+      isRunning = false;
+      iconPlay.className = 'ph-fill ph-play';
+      endTimeDisplay.textContent = '--:--';
+      // Basic completion alert
+      setTimeout(() => alert("Time's up! Great study session! 🎯"), 100);
+    }
+  }
+
+  function toggleTimer() {
+    if (isRunning) {
+      clearInterval(timerInterval);
+      isRunning = false;
+      iconPlay.className = 'ph-fill ph-play';
+      endTimeDisplay.textContent = '--:--';
+    } else {
+      if (remainingSeconds === 0) {
+        remainingSeconds = totalSeconds; // auto reset if started at 0
+      }
+      timerInterval = setInterval(() => {
+        remainingSeconds--;
+        updateDisplay();
+      }, 1000);
+      isRunning = true;
+      iconPlay.className = 'ph-fill ph-pause';
+      
+      // Calculate end time
+      const endTime = new Date(Date.now() + remainingSeconds * 1000);
+      const h = endTime.getHours().toString().padStart(2, '0');
+      const m = endTime.getMinutes().toString().padStart(2, '0');
+      endTimeDisplay.textContent = `${h}:${m}`;
+    }
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    isRunning = false;
+    iconPlay.className = 'ph-fill ph-play';
+    remainingSeconds = totalSeconds;
+    endTimeDisplay.textContent = '--:--';
+    updateDisplay();
+  }
+
+  playPauseBtn.addEventListener('click', toggleTimer);
+  resetBtn.addEventListener('click', resetTimer);
+
+  centerTouch.addEventListener('click', () => {
+    if (isRunning) return; // Don't change while running
+    const minStr = prompt("Set study timer in minutes (1-120):", (totalSeconds / 60).toString());
+    if (minStr !== null) {
+      const mins = parseInt(minStr);
+      if (!isNaN(mins) && mins > 0 && mins <= 120) {
+        defaultMinutes = mins;
+        totalSeconds = defaultMinutes * 60;
+        resetTimer();
+      } else {
+        alert("Please enter a valid number between 1 and 120.");
+      }
+    }
+  });
+
+  updateDisplay();
+})();

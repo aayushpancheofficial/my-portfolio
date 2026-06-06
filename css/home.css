@@ -2096,6 +2096,67 @@ body {
   outline: none;
 }
 
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  transition: all 0.2s;
+}
+
+.task-item.completed {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: 0.2s;
+}
+
+.task-item.completed .task-checkbox {
+  background: var(--theme-accent);
+  border-color: var(--theme-accent);
+  color: #000;
+}
+
+.task-item span {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.delete-task {
+  cursor: pointer;
+  color: #ff453a;
+  opacity: 0.7;
+  transition: 0.2s;
+}
+
+.delete-task:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+
 .bento-tasks #addTaskBtn {
   background: var(--theme-accent);
   border: none;
@@ -2598,6 +2659,66 @@ body {
 
   .bento-tasks {
     min-height: 140px;
+  }
+
+  .task-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+
+  .task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: all 0.2s;
+  }
+
+  .task-item.completed {
+    opacity: 0.5;
+    text-decoration: line-through;
+  }
+
+  .task-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: 0.2s;
+  }
+
+  .task-item.completed .task-checkbox {
+    background: var(--theme-accent);
+    border-color: var(--theme-accent);
+    color: #000;
+  }
+
+  .task-item span {
+    flex: 1;
+    font-size: 0.9rem;
+  }
+
+  .delete-task {
+    cursor: pointer;
+    color: #ff453a;
+    opacity: 0.7;
+    transition: 0.2s;
+  }
+
+  .delete-task:hover {
+    opacity: 1;
+    transform: scale(1.1);
   }
 
   .bento-quotes {
@@ -3207,3 +3328,146 @@ body.focus-mode-active .bento-focus-stats {
   }
 }
 
+/* --- Study Timer Styles --- */
+.bento-timer {
+  grid-column: span 2;
+}
+
+.timer-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #09090b;
+  border-radius: 40px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  min-height: 140px;
+  transition: box-shadow 0.3s ease;
+}
+
+@keyframes pulse-timer {
+  0% { box-shadow: 0 0 15px rgba(255, 159, 10, 0.2); }
+  50% { box-shadow: 0 0 35px rgba(255, 159, 10, 0.8); }
+  100% { box-shadow: 0 0 15px rgba(255, 159, 10, 0.2); }
+}
+
+.timer-box.running {
+  animation: pulse-timer 2s infinite;
+}
+
+.timer-progress-border {
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  padding: 4px; /* Border width */
+  background: conic-gradient(#ff9f0a var(--progress, 0%), #222 var(--progress, 0%));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.timer-ui {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 300px;
+  z-index: 2;
+}
+
+.timer-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  outline: none;
+}
+
+.timer-btn:active {
+  transform: scale(0.9);
+}
+
+.play-btn {
+  background: rgba(255, 159, 10, 0.2);
+  color: #ff9f0a;
+}
+
+.play-btn:hover {
+  background: rgba(255, 159, 10, 0.3);
+}
+
+.reset-btn {
+  background: rgba(255, 69, 58, 0.2);
+  color: #ff453a;
+}
+
+.reset-btn:hover {
+  background: rgba(255, 69, 58, 0.3);
+}
+
+.timer-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.timer-center:active {
+  transform: scale(0.95);
+}
+
+.timer-header {
+  font-size: 0.8rem;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timer-main {
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin: 4px 0;
+  color: #fff;
+  letter-spacing: -1px;
+}
+
+.timer-label {
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .bento-timer {
+    grid-column: span 2;
+  }
+  .timer-box {
+    border-radius: 30px;
+    padding: 15px;
+    min-height: 110px;
+  }
+  .timer-progress-border {
+    border-radius: 30px;
+  }
+  .timer-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+  .timer-main {
+    font-size: 2.2rem;
+  }
+}
