@@ -607,22 +607,23 @@ body.aurora {
 }
 
 body.new {
-  --theme-accent: #38bdf8;
-  /* Cyan */
-  --theme-accent-2: #c084fc;
-  /* Lavender */
-  --theme-glow: rgba(56, 189, 248, 0.45);
-  --theme-border: rgba(192, 132, 252, 0.3);
-  --theme-bg-glass: rgba(10, 8, 22, 0.68);
-  --theme-text: #faf5ff;
-  --theme-text-muted: #d8b4fe;
+  --theme-accent: #e0f2fe;
+  --theme-accent-2: #7dd3fc;
+  --theme-glow: rgba(186, 230, 253, 0.4);
+  --theme-border: rgba(186, 230, 253, 0.2);
+  --theme-bg-glass: rgba(5, 10, 20, 0.95);
+  --theme-text: #f8fafc;
+  --theme-text-muted: #cbd5e1;
 }
 
 #bg-new {
-  background: radial-gradient(circle at 15% 25%, rgba(139, 92, 246, 0.22) 0%, transparent 45%),
-    radial-gradient(circle at 85% 75%, rgba(14, 165, 233, 0.25) 0%, transparent 50%),
-    #03020a;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #020617 0%, #000000 100%);
+  background-color: #000000;
 }
+
+
 
 .bg-layer {
   position: fixed;
@@ -2109,7 +2110,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 8px 10px;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   margin-bottom: 8px;
   transition: all 0.2s;
@@ -2124,7 +2125,7 @@ body {
   width: 20px;
   height: 20px;
   border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.4);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2674,7 +2675,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 8px 10px;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     margin-bottom: 8px;
     transition: all 0.2s;
@@ -2689,7 +2690,7 @@ body {
     width: 20px;
     height: 20px;
     border-radius: 4px;
-    border: 1px solid rgba(255,255,255,0.4);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -3155,13 +3156,14 @@ body.focus-mode-active .bento-focus-stats {
   padding: 45px;
   width: 100%;
   max-width: 600px;
-  margin: auto; /* Ensures centering while allowing scroll if taller than viewport */
+  margin: auto;
+  /* Ensures centering while allowing scroll if taller than viewport */
   z-index: 10000;
   transform: translateY(0) scale(1);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
-              0 0 0 1px rgba(255, 255, 255, 0.05) inset, 
-              0 0 40px rgba(191, 85, 255, 0.05) inset;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 0 40px rgba(191, 85, 255, 0.05) inset;
 }
 
 .contact-modal.hidden .contact-modal-content {
@@ -3297,7 +3299,7 @@ body.focus-mode-active .bento-focus-stats {
     flex-direction: column;
     gap: 0;
   }
-  
+
   .contact-modal-content {
     padding: 30px 20px;
     border-radius: 20px;
@@ -3342,15 +3344,23 @@ body.focus-mode-active .bento-focus-stats {
   border-radius: 40px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   min-height: 140px;
   transition: box-shadow 0.3s ease;
 }
 
 @keyframes pulse-timer {
-  0% { box-shadow: 0 0 15px rgba(255, 159, 10, 0.2); }
-  50% { box-shadow: 0 0 35px rgba(255, 159, 10, 0.8); }
-  100% { box-shadow: 0 0 15px rgba(255, 159, 10, 0.2); }
+  0% {
+    box-shadow: 0 0 15px rgba(255, 159, 10, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 35px rgba(255, 159, 10, 0.8);
+  }
+
+  100% {
+    box-shadow: 0 0 15px rgba(255, 159, 10, 0.2);
+  }
 }
 
 .timer-box.running {
@@ -3361,7 +3371,8 @@ body.focus-mode-active .bento-focus-stats {
   position: absolute;
   inset: 0;
   border-radius: 40px;
-  padding: 4px; /* Border width */
+  padding: 4px;
+  /* Border width */
   background: conic-gradient(#ff9f0a var(--progress, 0%), #222 var(--progress, 0%));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -3454,19 +3465,23 @@ body.focus-mode-active .bento-focus-stats {
   .bento-timer {
     grid-column: span 2;
   }
+
   .timer-box {
     border-radius: 30px;
     padding: 15px;
     min-height: 110px;
   }
+
   .timer-progress-border {
     border-radius: 30px;
   }
+
   .timer-btn {
     width: 44px;
     height: 44px;
     font-size: 20px;
   }
+
   .timer-main {
     font-size: 2.2rem;
   }

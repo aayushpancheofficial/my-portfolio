@@ -22,12 +22,13 @@ function initSparklesCanvas(canvas) {
   let particles = [];
   let sparkles = [];
   let meteors = [];
+  let geometricShapes = [];
 
-  // Procedural nebulae clouds swirling around the canvas center (Rotating Colors!)
+  // Procedural nebulae clouds swirling around the canvas center
   let nebulae = [
-    { orbitRadius: 280, angle: 0, speed: 0.0006, radius: 420, color: 'rgba(167, 139, 250, 0.15)' }, // Brighter Purple
-    { orbitRadius: 360, angle: Math.PI * 0.7, speed: -0.0004, radius: 480, color: 'rgba(56, 189, 248, 0.15)' }, // Brighter Cyan
-    { orbitRadius: 180, angle: Math.PI * 1.4, speed: 0.0008, radius: 360, color: 'rgba(251, 113, 133, 0.12)' } // Brighter Rose
+    { orbitRadius: 280, angle: 0, speed: 0.0006, radius: 420, color: 'rgba(150, 200, 255, 0.05)' }, 
+    { orbitRadius: 360, angle: Math.PI * 0.7, speed: -0.0004, radius: 480, color: 'rgba(200, 230, 255, 0.05)' }, 
+    { orbitRadius: 180, angle: Math.PI * 1.4, speed: 0.0008, radius: 360, color: 'rgba(100, 150, 255, 0.05)' } 
   ];
 
   function resize() {
@@ -60,11 +61,9 @@ function initSparklesCanvas(canvas) {
       this.fadeSpeed = isMouseSpark ? Math.random() * 0.015 + 0.008 : Math.random() * 0.002 + 0.001;
 
       const colors = [
-        'rgba(192, 132, 252, ', // Purple
-        'rgba(56, 189, 248, ',  // Cyan
-        'rgba(244, 63, 94, ',   // Rose Pink
-        'rgba(253, 186, 116, ', // Star Gold
-        'rgba(255, 255, 255, '  // Pure White
+        'rgba(255, 255, 255, ',  // Pure White
+        'rgba(200, 230, 255, ',  // Light Blue
+        'rgba(150, 200, 255, '   // Medium Blue
       ];
       this.colorBase = colors[Math.floor(Math.random() * colors.length)];
       this.angle = Math.random() * Math.PI * 2;
@@ -130,8 +129,8 @@ function initSparklesCanvas(canvas) {
         this.x - this.speedX * 2, this.y - this.speedY * 2
       );
       gradient.addColorStop(0, 'rgba(255, 255, 255, ' + this.opacity + ')');
-      gradient.addColorStop(0.5, 'rgba(56, 189, 248, ' + (this.opacity * 0.5) + ')');
-      gradient.addColorStop(1, 'rgba(192, 132, 252, 0)');
+      gradient.addColorStop(0.5, 'rgba(150, 200, 255, ' + (this.opacity * 0.5) + ')');
+      gradient.addColorStop(1, 'rgba(150, 200, 255, 0)');
 
       ctx.strokeStyle = gradient;
       ctx.lineWidth = Math.random() * 1.5 + 1;
@@ -142,14 +141,112 @@ function initSparklesCanvas(canvas) {
     }
   }
 
+  class GeometricShape {
+    constructor() {
+      this.reset();
+      this.y = Math.random() * canvas.height;
+    }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = canvas.height + 100;
+      this.size = Math.random() * 40 + 20; // 3D shapes slightly larger
+      this.speedY = -(Math.random() * 0.3 + 0.05); // Magical slow upward drift (zero-gravity)
+      this.speedX = (Math.random() - 0.5) * 0.15;
+      this.rotation = Math.random() * Math.PI * 2;
+      this.rotSpeed = (Math.random() - 0.5) * 0.005;
+      this.type = 'math';
+      if (this.type === 'math') {
+        const symbols = ['∑', 'π', '∫', '∞', '√', 'Δ', 'Ω', 'μ', 'λ', 'θ', 'E=mc²', 'f(x)'];
+        this.symbol = symbols[Math.floor(Math.random() * symbols.length)];
+      }
+      
+      const colors = ['rgba(224, 242, 254, ', 'rgba(186, 230, 253, ']; // Very pale icy blue
+      this.colorBase = colors[Math.floor(Math.random() * colors.length)];
+      this.opacity = Math.random() * 0.3 + 0.1;
+    }
+    update() {
+      this.y += this.speedY;
+      this.x += this.speedX;
+      this.rotation += this.rotSpeed;
+      if (this.y < -150) this.reset();
+    }
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rotation);
+
+      // Glowing edges
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = this.colorBase + (this.opacity * 2) + ')';
+      ctx.strokeStyle = this.colorBase + this.opacity + ')';
+      ctx.lineWidth = 1.5;
+
+      if (this.type === 'math') {
+        ctx.fillStyle = this.colorBase + this.opacity + ')';
+        ctx.font = `${this.size}px monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(this.symbol, 0, 0);
+      } else if (this.type === 'cube') {
+        const h = this.size * 0.5;
+        const w = this.size * 0.866;
+
+        ctx.beginPath(); ctx.moveTo(0, -this.size); ctx.lineTo(w, -h); ctx.lineTo(0, 0); ctx.lineTo(-w, -h); ctx.closePath();
+        ctx.fillStyle = this.colorBase + (this.opacity * 0.4) + ')'; ctx.fill(); ctx.stroke();
+
+        ctx.beginPath(); ctx.moveTo(-w, -h); ctx.lineTo(0, 0); ctx.lineTo(0, this.size); ctx.lineTo(-w, h); ctx.closePath();
+        ctx.fillStyle = this.colorBase + (this.opacity * 0.2) + ')'; ctx.fill(); ctx.stroke();
+
+        ctx.beginPath(); ctx.moveTo(w, -h); ctx.lineTo(0, 0); ctx.lineTo(0, this.size); ctx.lineTo(w, h); ctx.closePath();
+        ctx.fillStyle = this.colorBase + (this.opacity * 0.1) + ')'; ctx.fill(); ctx.stroke();
+
+      } else if (this.type === 'tetrahedron') {
+        const h = this.size * 0.8;
+        const w = this.size * 0.6;
+        ctx.beginPath(); ctx.moveTo(0, -this.size); ctx.lineTo(-w, h); ctx.lineTo(0, h * 1.3); ctx.closePath();
+        ctx.fillStyle = this.colorBase + (this.opacity * 0.3) + ')'; ctx.fill(); ctx.stroke();
+
+        ctx.beginPath(); ctx.moveTo(0, -this.size); ctx.lineTo(w, h); ctx.lineTo(0, h * 1.3); ctx.closePath();
+        ctx.fillStyle = this.colorBase + (this.opacity * 0.1) + ')'; ctx.fill(); ctx.stroke();
+
+      } else if (this.type === 'sphere') {
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+
+        const grad = ctx.createRadialGradient(-this.size / 6, -this.size / 6, 0, 0, 0, this.size / 2);
+        grad.addColorStop(0, this.colorBase + (this.opacity * 0.8) + ')');
+        grad.addColorStop(0.6, this.colorBase + (this.opacity * 0.2) + ')');
+        grad.addColorStop(1, 'rgba(0,0,0,0.8)'); // Dark back side
+
+        ctx.fillStyle = grad;
+        ctx.fill();
+        ctx.stroke();
+
+        // Add a subtle wireframe latitude/longitude for a sci-fi look
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.size / 2, this.size / 6, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.size / 6, this.size / 2, 0, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+    }
+  }
+
   const starCount = Math.min(Math.floor((canvas.width * canvas.height) / 12000), 120);
   for (let i = 0; i < starCount; i++) {
     particles.push(new CosmicDust());
+  }
+  for (let i = 0; i < 15; i++) {
+    geometricShapes.push(new GeometricShape());
   }
 
   // Parallax offsets
   let offsetX = 0;
   let offsetY = 0;
+  let vortexTime = 0;
 
   function animate() {
     if (!canvas.isConnected || !document.body.classList.contains('new')) {
@@ -160,6 +257,62 @@ function initSparklesCanvas(canvas) {
     }
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // --- Horizontal Moving Perspective Grid ---
+    vortexTime += 1.5; 
+    ctx.save();
+    ctx.translate(canvas.width / 2 + offsetX, canvas.height / 2 + offsetY);
+    
+    ctx.beginPath();
+    const gridGrad = ctx.createLinearGradient(0, -canvas.height, 0, canvas.height);
+    gridGrad.addColorStop(0, 'rgba(186, 230, 253, 0.8)'); // Pale blue ceiling
+    gridGrad.addColorStop(0.4, 'rgba(186, 230, 253, 0.1)');
+    gridGrad.addColorStop(0.6, 'rgba(186, 230, 253, 0.1)');
+    gridGrad.addColorStop(1, 'rgba(186, 230, 253, 0.8)'); // Pale blue floor
+    ctx.strokeStyle = gridGrad;
+    ctx.lineWidth = 2.0;
+
+    const fov = 400;
+    const yLimit = canvas.height * 2;
+    
+    // Vertical perspective lines
+    for(let x = -4000; x <= 4000; x += 150) {
+       ctx.moveTo(x * 0.08, 0); // horizon
+       ctx.lineTo(x, yLimit);   // floor
+       ctx.moveTo(x * 0.08, 0); // horizon
+       ctx.lineTo(x, -yLimit);  // ceiling
+    }
+    
+    // Horizontal lines moving towards camera
+    const gridSpacing = 150;
+    const offsetZ = vortexTime % gridSpacing;
+    
+    for(let z = 10; z < 4000; z += gridSpacing) {
+       let actualZ = z - offsetZ;
+       if(actualZ < 10) continue;
+       
+       let scale = fov / actualZ;
+       let y = 300 * scale; 
+       
+       if (y < yLimit) {
+         ctx.moveTo(-4000 * scale, y);
+         ctx.lineTo(4000 * scale, y);
+         ctx.moveTo(-4000 * scale, -y); // ceiling horizontal
+         ctx.lineTo(4000 * scale, -y);
+       }
+    }
+    ctx.stroke();
+    
+    // Dark horizon fade
+    const fadeGrad = ctx.createLinearGradient(0, -40, 0, 40);
+    fadeGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+    fadeGrad.addColorStop(0.4, 'rgba(0, 0, 0, 1)');
+    fadeGrad.addColorStop(0.6, 'rgba(0, 0, 0, 1)');
+    fadeGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = fadeGrad;
+    ctx.fillRect(-canvas.width, -50, canvas.width * 2, 100);
+
+    ctx.restore();
 
     // 1. Mouse Gravity Lerp Parallax
     const targetOffsetX = (mouse.x ? (mouse.x - canvas.width / 2) * 0.08 : 0);
@@ -207,6 +360,11 @@ function initSparklesCanvas(canvas) {
         meteors.splice(i, 1);
       }
     }
+
+    geometricShapes.forEach(shape => {
+      shape.update();
+      shape.draw();
+    });
 
     // Cursor Trails
     for (let i = sparkles.length - 1; i >= 0; i--) {
@@ -293,9 +451,12 @@ function applyTheme(themeName) {
       mediaElement = document.createElement('canvas');
       mediaElement.className = 'code-bg-canvas';
       newLayer.appendChild(mediaElement);
-      initSparklesCanvas(mediaElement);
     }
     bgContainer.appendChild(newLayer);
+
+    if (config.type === 'code') {
+      initSparklesCanvas(mediaElement);
+    }
   }
 }
 
@@ -321,7 +482,7 @@ themeOptions.forEach(opt => {
 document.addEventListener('click', () => toggleDropdown(false));
 
 // Initial Load
-const savedTheme = localStorage.getItem('aayush_theme') || 'space';
+const savedTheme = localStorage.getItem('aayush_theme') || 'new';
 setTimeout(() => applyTheme(savedTheme), 10);
 
 
@@ -1397,11 +1558,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const m = Math.floor(remainingSeconds / 60);
     const s = remainingSeconds % 60;
     timeDisplay.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-    
+
     // Update progress border
     const progress = 100 - ((remainingSeconds / totalSeconds) * 100);
     progressBorder.style.setProperty('--progress', `${progress}%`);
-    
+
     if (remainingSeconds === 0) {
       clearInterval(timerInterval);
       isRunning = false;
@@ -1428,7 +1589,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 1000);
       isRunning = true;
       iconPlay.className = 'ph-fill ph-pause';
-      
+
       // Calculate end time
       const endTime = new Date(Date.now() + remainingSeconds * 1000);
       const h = endTime.getHours().toString().padStart(2, '0');
