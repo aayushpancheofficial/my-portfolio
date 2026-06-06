@@ -187,6 +187,47 @@
       </div>
     </section>
 
+    <section class="about-section-container hidden-scroll-up" id="about">
+      <div class="section-hero">
+        <div class="section-overlay"></div>
+        <div class="section-image-wrapper">
+          <img src="images/abot-pic.png" id="about-main-img" alt="About Me Image">
+        </div>
+        <div class="section-content" id="about-content-box">
+          <h2 id="about-title">Hi, I'm Aayush</h2>
+          <h3 id="about-subtitle" class="accent-text">from Rampur, Chhattisgarh.</h3>
+          <div id="about-desc">
+            <p>Hi, I'm Aayush, born in the small village of Rampur, Khairagarh-Chhuikhadan-Gandai, Chhattisgarh.
+              Currently, I’m pursuing my B.Tech degree from SSIPMT College, Raipur. I’m a hardworking and passionate
+              learner interested in AI, technology, problem-solving and web development. I enjoy creating cool animated
+              websites while continuously learning and improving my skills to create meaningful digital experiences.</p>
+          </div>
+        </div>
+      </div>
+      <div class="section-thumbnails">
+        <div class="thumb-card active" onclick="changeAboutContent('about', this)">
+          <img src="images/abot-pic.png" alt="About Me">
+          <div class="thumb-label">01 About Me</div>
+          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
+        </div>
+        <div class="thumb-card" onclick="changeAboutContent('school', this)">
+          <img src="images/school.png" alt="Schooling">
+          <div class="thumb-label">02 Schooling</div>
+          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
+        </div>
+        <div class="thumb-card" onclick="changeAboutContent('college', this)">
+          <img src="images/college.png" alt="College">
+          <div class="thumb-label">03 College</div>
+          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
+        </div>
+        <div class="thumb-card" onclick="changeAboutContent('current', this)">
+          <img src="images/goals.png" alt="Current">
+          <div class="thumb-label">04 Current Goal</div>
+          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
+        </div>
+      </div>
+    </section>
+
     <section class="skills-section hidden-scroll-up" id="skills">
       <div class="content-wrapper">
         <div class="skills-header">
@@ -257,46 +298,6 @@
       </div>
     </section>
 
-    <section class="about-section-container hidden-scroll-up" id="about">
-      <div class="section-hero">
-        <div class="section-overlay"></div>
-        <div class="section-image-wrapper">
-          <img src="images/abot-pic.png" id="about-main-img" alt="About Me Image">
-        </div>
-        <div class="section-content" id="about-content-box">
-          <h2 id="about-title">Hi, I'm Aayush</h2>
-          <h3 id="about-subtitle" class="accent-text">from Rampur, Chhattisgarh.</h3>
-          <div id="about-desc">
-            <p>Hi, I'm Aayush, born in the small village of Rampur, Khairagarh-Chhuikhadan-Gandai, Chhattisgarh.
-              Currently, I’m pursuing my B.Tech degree from SSIPMT College, Raipur. I’m a hardworking and passionate
-              learner interested in AI, technology, problem-solving and web development. I enjoy creating cool animated
-              websites while continuously learning and improving my skills to create meaningful digital experiences.</p>
-          </div>
-        </div>
-      </div>
-      <div class="section-thumbnails">
-        <div class="thumb-card active" onclick="changeAboutContent('about', this)">
-          <img src="images/abot-pic.png" alt="About Me">
-          <div class="thumb-label">01 About Me</div>
-          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
-        </div>
-        <div class="thumb-card" onclick="changeAboutContent('school', this)">
-          <img src="images/school.png" alt="Schooling">
-          <div class="thumb-label">02 Schooling</div>
-          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
-        </div>
-        <div class="thumb-card" onclick="changeAboutContent('college', this)">
-          <img src="images/college.png" alt="College">
-          <div class="thumb-label">03 College</div>
-          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
-        </div>
-        <div class="thumb-card" onclick="changeAboutContent('current', this)">
-          <img src="images/goals.png" alt="Current">
-          <div class="thumb-label">04 Current Goal</div>
-          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
-        </div>
-      </div>
-    </section>
 
     <section class="bento-container hidden-scroll-up">
       <div class="bento-grid">
@@ -328,11 +329,18 @@
             </div>
           </div>
         </div>
-        <div class="bento-item bento-quotes">
-          <div class="bento-glass quote-box">
-            <div class="quote-icon"><i class="ph-fill ph-quotes"></i></div>
-            <p id="daily-quote-text">"I'll take a potato chip… AND EAT IT!"</p>
-            <span id="daily-quote-author">— Light Yagami (Death Note)</span>
+        <div class="bento-item bento-timer">
+          <div class="bento-glass timer-box">
+            <div class="timer-ui">
+              <button id="timer-play-pause" class="timer-btn play-btn"><i class="ph-fill ph-play" id="timer-icon-play"></i></button>
+              <div class="timer-center" id="timer-center-touch" title="Click to set custom minutes (default 25)">
+                <div class="timer-header"><i class="ph-fill ph-bell"></i> <span id="timer-end-time">--:--</span></div>
+                <div class="timer-main" id="timer-time">25:00</div>
+                <div class="timer-label">Study Timer</div>
+              </div>
+              <button id="timer-reset" class="timer-btn reset-btn"><i class="ph-fill ph-x"></i></button>
+            </div>
+            <div class="timer-progress-border" id="timer-progress-border"></div>
           </div>
         </div>
         <div class="bento-item bento-clock">
@@ -374,18 +382,11 @@
             <div class="bento-label">Calendar</div>
           </div>
         </div>
-        <div class="bento-item bento-timer">
-          <div class="bento-glass timer-box">
-            <div class="timer-ui">
-              <button id="timer-play-pause" class="timer-btn play-btn"><i class="ph-fill ph-play" id="timer-icon-play"></i></button>
-              <div class="timer-center" id="timer-center-touch" title="Click to set custom minutes (default 25)">
-                <div class="timer-header"><i class="ph-fill ph-bell"></i> <span id="timer-end-time">--:--</span></div>
-                <div class="timer-main" id="timer-time">25:00</div>
-                <div class="timer-label">Study Timer</div>
-              </div>
-              <button id="timer-reset" class="timer-btn reset-btn"><i class="ph-fill ph-x"></i></button>
-            </div>
-            <div class="timer-progress-border" id="timer-progress-border"></div>
+        <div class="bento-item bento-quotes">
+          <div class="bento-glass quote-box">
+            <div class="quote-icon"><i class="ph-fill ph-quotes"></i></div>
+            <p id="daily-quote-text">"I'll take a potato chip… AND EAT IT!"</p>
+            <span id="daily-quote-author">— Light Yagami (Death Note)</span>
           </div>
         </div>
       </div>

@@ -48,15 +48,7 @@ body {
 }
 
 body.new {
-  /* Creates a seamless repeating sequence of red and purple */
-  background: linear-gradient(90deg,
-      #ff0000 0%,
-      #800080 25%,
-      #cc0033 50%,
-      #4b0082 75%,
-      #ff0000 100%);
-  background-size: 200% 100%;
-  animation: flowGradient 8s linear infinite;
+  background: #000;
 }
 
 @keyframes flowGradient {
@@ -1471,9 +1463,10 @@ body {
   text-transform: uppercase;
 }
 
-.bento-tasks, .task-card, #taskInput, #addTaskBtn, .task-list li, .task-checkbox, .delete-task, #clearTasksBtn {
+.bento-tasks, .task-card, .task-input-group, #taskInput, #addTaskBtn, .task-list, .task-list li, .task-checkbox, .delete-task, #clearTasksBtn {
   pointer-events: auto !important;
   z-index: 10;
+  position: relative;
 }
 
 .about-section-container {
@@ -1960,7 +1953,7 @@ body {
   display: grid;
   grid-template-columns: 320px 1fr 1fr;
   grid-template-areas:
-    "spotify tasks tasks"
+    "spotify tasks timer"
     "spotify clock cal"
     "spotify quotes quotes";
   gap: 24px;
@@ -2089,12 +2082,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 
 .bento-tasks h3 {
   font-family: var(--font-display);
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #fff;
 }
@@ -2102,24 +2095,31 @@ body {
 .bento-tasks .task-input-group {
   display: flex;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 }
 
 .bento-tasks input {
   flex: 1;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 10px 15px;
-  border-radius: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
   color: #fff;
   outline: none;
+  height: 32px;
+  font-size: 0.8rem;
+}
+
+.bento-tasks .task-card {
+  padding: 15px !important;
+  justify-content: flex-start !important;
 }
 
 .task-list {
   list-style: none;
   padding: 0;
-  margin: 15px 0;
-  max-height: 150px;
+  margin: 8px 0;
+  max-height: 110px;
   overflow-y: auto;
 }
 
@@ -2127,28 +2127,39 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 10px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  margin-bottom: 8px;
-  transition: all 0.2s;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: #ffffff !important;
 }
 
 .task-item.completed {
   opacity: 0.5;
+}
+
+.task-item span {
+  flex: 1;
+  font-size: 0.85rem;
+  color: #ffffff !important;
+  text-align: left;
+}
+
+.task-item.completed span {
   text-decoration: line-through;
 }
 
 .task-checkbox {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  margin-right: 10px;
+  margin-right: 8px;
   transition: 0.2s;
 }
 
@@ -2158,9 +2169,14 @@ body {
   color: #000;
 }
 
-.task-item span {
-  flex: 1;
-  font-size: 0.9rem;
+.task-checkbox i {
+  display: none;
+  font-size: 0.65rem;
+}
+
+.task-item.completed .task-checkbox i {
+  display: block;
+  color: #000;
 }
 
 .delete-task {
@@ -2168,6 +2184,7 @@ body {
   color: #ff453a;
   opacity: 0.7;
   transition: 0.2s;
+  font-size: 0.85rem;
 }
 
 .delete-task:hover {
@@ -2179,67 +2196,16 @@ body {
 .bento-tasks #addTaskBtn {
   background: var(--theme-accent);
   border: none;
-  width: 40px;
-  border-radius: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.task-list {
-  list-style: none;
-  max-height: 120px;
-  overflow-y: auto;
-}
 
-.task-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.task-checkbox {
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.task-item.completed span {
-  text-decoration: line-through;
-  opacity: 0.5;
-}
-
-.task-item.completed .task-checkbox {
-  background: var(--theme-accent);
-  border-color: var(--theme-accent);
-}
-
-.task-item.completed .task-checkbox i {
-  display: block;
-  color: #000;
-  font-size: 0.7rem;
-}
-
-.task-checkbox i {
-  display: none;
-}
-
-.task-footer {
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.8rem;
-  color: var(--theme-text-muted);
-}
 
 #clearTasksBtn {
   background: rgba(255, 100, 100, 0.05);
@@ -2530,7 +2496,7 @@ body {
   .bento-grid {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      "tasks tasks"
+      "tasks timer"
       "clock cal"
       "spotify spotify"
       "quotes quotes";
@@ -2550,7 +2516,7 @@ body {
   .bento-grid {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      "tasks tasks"
+      "tasks timer"
       "clock cal"
       "spotify spotify"
       "quotes quotes";
@@ -2570,7 +2536,7 @@ body {
   }
 
   .bento-tasks {
-    min-height: 160px;
+    min-height: 200px;
   }
 
   .bento-quotes {
@@ -2677,14 +2643,14 @@ body {
   }
 
   .bento-tasks {
-    min-height: 140px;
+    min-height: 200px;
   }
 
   .task-list {
     list-style: none;
     padding: 0;
-    margin: 15px 0;
-    max-height: 150px;
+    margin: 8px 0;
+    max-height: 95px;
     overflow-y: auto;
   }
 
@@ -2692,28 +2658,39 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 10px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    margin-bottom: 8px;
-    transition: all 0.2s;
+    padding: 6px 8px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-size: 0.8rem;
+    color: #ffffff !important;
   }
 
   .task-item.completed {
     opacity: 0.5;
+  }
+
+  .task-item span {
+    flex: 1;
+    font-size: 0.8rem;
+    color: #ffffff !important;
+    text-align: left;
+  }
+
+  .task-item.completed span {
     text-decoration: line-through;
   }
 
   .task-checkbox {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 4px;
     border: 1px solid rgba(255, 255, 255, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 8px;
     transition: 0.2s;
   }
 
@@ -2723,9 +2700,14 @@ body {
     color: #000;
   }
 
-  .task-item span {
-    flex: 1;
-    font-size: 0.9rem;
+  .task-checkbox i {
+    display: none;
+    font-size: 0.65rem;
+  }
+
+  .task-item.completed .task-checkbox i {
+    display: block;
+    color: #000;
   }
 
   .delete-task {
@@ -2733,6 +2715,7 @@ body {
     color: #ff453a;
     opacity: 0.7;
     transition: 0.2s;
+    font-size: 0.8rem;
   }
 
   .delete-task:hover {
@@ -3144,7 +3127,7 @@ body.focus-mode-active .bento-focus-stats {
   justify-content: center;
   opacity: 1;
   visibility: visible;
-  transition: all 0.4s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
@@ -3166,10 +3149,10 @@ body.focus-mode-active .bento-focus-stats {
 
 .contact-modal-content {
   position: relative;
-  background: linear-gradient(145deg, rgba(20, 20, 25, 0.95), rgba(10, 10, 15, 0.95));
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 28px;
   padding: 45px;
   width: 100%;
@@ -3178,10 +3161,9 @@ body.focus-mode-active .bento-focus-stats {
   /* Ensures centering while allowing scroll if taller than viewport */
   z-index: 10000;
   transform: translateY(0) scale(1);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-    0 0 40px rgba(191, 85, 255, 0.05) inset;
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
 .contact-modal.hidden .contact-modal-content {
@@ -3350,7 +3332,8 @@ body.focus-mode-active .bento-focus-stats {
 
 /* --- Study Timer Styles --- */
 .bento-timer {
-  grid-column: span 2;
+  grid-area: timer;
+  height: 220px;
 }
 
 .timer-box {
@@ -3485,7 +3468,7 @@ body.focus-mode-active .bento-focus-stats {
 
 @media (max-width: 768px) {
   .bento-timer {
-    grid-column: span 2;
+    min-height: 200px;
   }
 
   .timer-box {

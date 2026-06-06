@@ -969,8 +969,13 @@ function changeAboutContent(key, element) {
       saveTasks();
     }
   }
-  addTaskBtn.addEventListener('click', addTask);
-  taskInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addTask(); });
+  addTaskBtn.addEventListener('click', (e) => { e.preventDefault(); addTask(); });
+  taskInput.addEventListener('keypress', (e) => { 
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      addTask();
+    }
+  });
   if (clearTasksBtn) {
     clearTasksBtn.addEventListener('click', () => {
       if (confirm('Clear all tasks?')) {
@@ -1568,6 +1573,11 @@ document.addEventListener('DOMContentLoaded', () => {
       isRunning = false;
       iconPlay.className = 'ph-fill ph-play';
       endTimeDisplay.textContent = '--:--';
+      
+      // Play alarm sound
+      const alarmSound = new Audio("https://www.soundjay.com/clock/sounds/alarm-clock-elapsed-01.mp3");
+      alarmSound.play().catch(e => console.log("Audio play failed:", e));
+      
       // Basic completion alert
       setTimeout(() => alert("Time's up! Great study session! 🎯"), 100);
     }
