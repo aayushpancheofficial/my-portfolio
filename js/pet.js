@@ -26,7 +26,16 @@
   let currentY = mouseY;
 
   // Set initial pet image
+  let currentClass = 'idle';
   sprite.classList.add('idle');
+
+  function setSpriteClass(newClass) {
+    if (currentClass !== newClass) {
+      sprite.classList.remove(currentClass);
+      sprite.classList.add(newClass);
+      currentClass = newClass;
+    }
+  }
 
   let targetOffsetX = 0;
   let targetOffsetY = 0;
@@ -132,7 +141,7 @@
       isDragging = true;
       isSleeping = false;
       dragMoveDistance = 0;
-      sprite.classList.add('walking');
+      setSpriteClass('walking');
 
       dragStartX = clientX;
       dragStartY = clientY;
@@ -167,7 +176,7 @@
   function handleUp() {
     if (isDragging) {
       isDragging = false;
-      sprite.classList.remove('walking');
+      setSpriteClass('idle');
 
       // If it was just a quick static click (moved less than 6 pixels), toggle Follow/Stay!
       if (dragMoveDistance < 6) {
@@ -202,10 +211,8 @@
       sprite.style.transform = `scaleX(${faceX})`;
 
       // Ensure sprite animation displays walking frames while carrying
-      sprite.classList.add('walking');
-      sprite.classList.remove('idle');
-      sprite.classList.remove('behavior');
-      spriteInner.style.backgroundPositionY = '-51.2px';
+      setSpriteClass('walking');
+      sprite.style.backgroundPositionY = '-51.2px';
 
       requestAnimationFrame(animatePet);
       return;
@@ -231,22 +238,20 @@
     if (isTrackingMouse) {
       idleTimer = 0;
       isBehaviorMode = false;
-      sprite.classList.add('walking');
-      sprite.classList.remove('idle');
-      sprite.classList.remove('behavior');
+      setSpriteClass('walking');
       if (Math.abs(dx) > Math.abs(dy) * 0.5) {
         if (dx > 0) {
-          spriteInner.style.backgroundPositionY = '-51.2px';
+          sprite.style.backgroundPositionY = '-51.2px';
           faceX = -1;
         } else {
-          spriteInner.style.backgroundPositionY = '-51.2px';
+          sprite.style.backgroundPositionY = '-51.2px';
           faceX = 1;
         }
       } else if (dy < 0) {
-        spriteInner.style.backgroundPositionY = '-102.4px';
+        sprite.style.backgroundPositionY = '-102.4px';
         faceX = 1;
       } else {
-        spriteInner.style.backgroundPositionY = '0px';
+        sprite.style.backgroundPositionY = '0px';
         faceX = 1;
       }
       const vx = (dx / distance) * speed;
@@ -254,18 +259,16 @@
       currentX += vx;
       currentY += vy;
     } else {
-      sprite.classList.remove('walking');
       if (!isBehaviorMode) {
         if (idleTimer === 0) {
           idleTimer = Date.now();
-          sprite.classList.add('idle');
-          spriteInner.style.backgroundPosition = '0px 0px';
+          setSpriteClass('idle');
+          sprite.style.backgroundPosition = '0px 0px';
         } else if (Date.now() - idleTimer >= 6000) {
           isBehaviorMode = true;
-          sprite.classList.remove('idle');
-          sprite.classList.add('behavior');
+          setSpriteClass('behavior');
           // Always use the first image (typing on laptop)
-          spriteInner.style.backgroundPosition = `0px 0px`;
+          sprite.style.backgroundPosition = `0px 0px`;
         }
       }
     }
