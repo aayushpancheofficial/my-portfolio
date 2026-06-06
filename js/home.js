@@ -780,7 +780,7 @@ function typeWriter() {
 
   let speed = isDeleting ? 40 : 80;
   if (!isDeleting && charIndex === currentRole.length) {
-    speed = 1500;
+    speed = 3000;
     isDeleting = true;
   } else if (isDeleting && charIndex === 0) {
     isDeleting = false;

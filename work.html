@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Work — Aayush Portfolio</title>
+  <link rel="icon" type="image/x-icon" href="images/profile pic.jpg" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Great+Vibes&display=swap"
+    rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/common.css">
+  <style>
+    .construction-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80vh;
+      width: 100%;
+      padding: 20px;
+    }
+    
+    .construction-card {
+      background: var(--theme-bg-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--theme-border);
+      border-radius: 24px;
+      padding: 50px 40px;
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .construction-card i {
+      font-size: 4rem;
+      color: var(--theme-accent);
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .construction-card h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+      color: var(--theme-text);
+    }
+
+    .construction-card p {
+      font-size: 1.1rem;
+      color: var(--theme-text-muted);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body class="new">
+
+
+  <div id="dynamic-bg-container">
+    <div id="bg-new">
+      <canvas id="sparkles-canvas"></canvas>
+    </div>
+  </div>
+
+  <canvas id="rain-canvas"></canvas>
+  <canvas id="snow-canvas"></canvas>
+
+  <div class="page-wrapper">
+    <nav class="glass-navbar">
+      <div class="nav-left">
+        <a href="index.html" class="nav-link nav-logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 32 32">
+              <path d="M16 2L2 28H9.5L16 15.5L22.5 28H30L16 2Z" fill="currentColor" />
+              <path d="M16 15.5L9.5 28H2L16 2V15.5Z" fill="rgba(0,0,0,0.2)" />
+            </svg>
+          </div>
+          <span class="brand-text">AAYUSH</span>
+        </a>
+      </div>
+      <div class="nav-center">
+        <a href="index.html" class="nav-link"><i class="ph ph-house"></i><span>Home</span></a>
+        <a href="work.html" class="nav-link active"><i class="ph ph-briefcase"></i><span>Work</span></a>
+        <a href="blogs.html" class="nav-link"><i class="ph ph-pen-nib"></i><span>Blog</span></a>
+        <a href="resume.html" class="nav-link"><i class="ph ph-file-text"></i><span>Resume</span></a>
+      </div>
+      <div class="divider"></div>
+      <div class="nav-right">
+        <div class="theme-switcher" id="themeSwitcher">
+          <div class="theme-btn" id="themeBtn">
+            <span class="theme-icon" id="themeIcon"><i class="ph ph-sparkles"></i></span>
+            <span class="theme-label" id="themeLabel">Aesthetic Mode</span>
+            <i class="ph ph-caret-down chevron"></i>
+          </div>
+          <div class="theme-dropdown" id="themeDropdown">
+            <div class="theme-option" data-theme="new"><i class="ph ph-sparkles"></i> Aesthetic Mode</div>
+            <div class="theme-option" data-theme="space"><i class="ph ph-planet"></i> Night Mode</div>
+            <div class="theme-option" data-theme="rain"><i class="ph ph-cloud-rain"></i> Rain Mode</div>
+            <div class="theme-option" data-theme="snow"><i class="ph ph-snowflake"></i> Snow Mode</div>
+            <div class="theme-option" data-theme="sun"><i class="ph ph-sun"></i> Sunny Mode</div>
+            <div class="theme-option" data-theme="forest"><i class="ph ph-tree-evergreen"></i> Forest Mode</div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="construction-container">
+      <div class="construction-card">
+        <i class="ph-fill ph-hammer"></i>
+        <h1>Work in Progress</h1>
+        <p>This section is currently under construction. I'm actively working on adding my latest projects and experiences. Please check back later!</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="ai-pet-main-container">
+    <div id="ai-pet-speech"></div>
+    <div id="ai-pet">
+      <div id="ai-pet-sprite"></div>
+    </div>
+  </div>
+
+
+  <script src="js/home.js"></script>
+  <script src="js/pet.js"></script>
+</body>
+
+</html>
