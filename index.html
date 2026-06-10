@@ -11,7 +11,7 @@
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Permanent+Marker&display=swap"
     rel="stylesheet" />
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/home.css?v=1.1">
   <link rel="stylesheet" href="css/common.css">
 </head>
 
@@ -51,12 +51,12 @@
             <i class="ph ph-caret-down chevron"></i>
           </div>
           <div class="theme-dropdown" id="themeDropdown">
-            <div class="theme-option" data-theme="new"><i class="ph ph-sparkles"></i> Aesthetic Mode</div>
             <div class="theme-option" data-theme="space"><i class="ph ph-planet"></i> Night Mode</div>
             <div class="theme-option" data-theme="rain"><i class="ph ph-cloud-rain"></i> Rain Mode</div>
             <div class="theme-option" data-theme="snow"><i class="ph ph-snowflake"></i> Snow Mode</div>
             <div class="theme-option" data-theme="sun"><i class="ph ph-sun"></i> Sunny Mode</div>
             <div class="theme-option" data-theme="forest"><i class="ph ph-tree-evergreen"></i> Forest Mode</div>
+            <div class="theme-option" data-theme="new"><i class="ph ph-sparkles"></i> Aesthetic Mode</div>
           </div>
         </div>
       </div>
@@ -74,6 +74,19 @@
         <p class="hero-desc">I build creative and user-focused web experiences while continuously learning,
           experimenting and growing as a developer.</p>
         <div class="hero-location"><i class="ph ph-map-pin"></i> Raipur, CG</div>
+
+        <!-- Available for Work Status Badge -->
+        <div class="status-badge">
+          <span class="pulse-dot"></span>
+          <span class="status-text">Available for Work</span>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="hero-actions">
+          <a href="work.html" class="hero-btn-action work-btn">My Work</a>
+          <a href="#" id="hero-contact-btn" class="hero-btn-action contact-btn">Contact Me</a>
+        </div>
+
         <div id="music-card-widget" class="spotify-mini-card">
           <i class="ph-fill ph-spotify-logo"></i>
           <div class="spotify-content">
@@ -131,45 +144,6 @@
       </div>
     </div>
 
-    <section class="work-section hidden-scroll-up" id="experience">
-      <div class="content-wrapper">
-        <h2 class="section-title">Experience</h2>
-        <div class="experience-list-wrapper">
-          <div class="experience-list locked-blur">
-            <div class="exp-item">
-              <div class="exp-left">
-                <div class="exp-company">Techno</div>
-                <div class="exp-role">Vocational Training</div>
-              </div>
-              <div class="exp-right">
-                <div class="exp-date">2026</div>
-                <div class="exp-loc">On-Site</div>
-              </div>
-            </div>
-            <div class="exp-item">
-              <div class="exp-left">
-                <div class="exp-company">Freelance</div>
-                <div class="exp-role">Web Developer & Animator</div>
-              </div>
-              <div class="exp-right">
-                <div class="exp-date">2025</div>
-                <div class="exp-loc">Remote</div>
-              </div>
-            </div>
-          </div>
-          <div class="blur-plate"></div>
-          <div class="coming-soon-overlay">
-            <i class="ph ph-lock-key"></i>
-            <span>Experience Locked</span>
-            <p>Building the foundation for future brilliance.</p>
-          </div>
-        </div>
-        <div class="show-all-container">
-          <button class="show-all-btn" id="show-exp-btn">Show all work experiences <i
-              class="ph ph-arrow-right"></i></button>
-        </div>
-      </div>
-    </section>
 
     <section class="blog-section hidden-scroll-up" id="latest-blogs">
       <div class="content-wrapper">
@@ -189,43 +163,50 @@
       </div>
     </section>
 
-    <section class="about-section-container hidden-scroll-up" id="about">
-      <div class="section-hero">
-        <div class="section-overlay"></div>
-        <div class="section-image-wrapper">
-          <img src="images/abot-pic.png" id="about-main-img" alt="About Me Image">
-        </div>
-        <div class="section-content" id="about-content-box">
-          <h2 id="about-title">Hi, I'm Aayush</h2>
-          <h3 id="about-subtitle" class="accent-text">from Rampur, Chhattisgarh.</h3>
-          <div id="about-desc">
-            <p>Hi, I'm Aayush, born in the small village of Rampur, Khairagarh-Chhuikhadan-Gandai, Chhattisgarh.
-              Currently, I’m pursuing my B.Tech degree from SSIPMT College, Raipur. I’m a hardworking and passionate
-              learner interested in AI, technology, problem-solving and web development. I enjoy creating cool animated
-              websites while continuously learning and improving my skills to create meaningful digital experiences.</p>
+    <section class="about-section hidden-scroll-up" id="about">
+      <div class="content-wrapper">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-section-container">
+          <div class="section-hero">
+            <div class="section-overlay"></div>
+            <div class="section-image-wrapper">
+              <img src="images/abot-pic.png" id="about-main-img" alt="About Me Image">
+            </div>
+            <div class="section-content" id="about-content-box">
+              <h2 id="about-title">Hi, I'm Aayush</h2>
+              <h3 id="about-subtitle" class="accent-text">from Rampur, Chhattisgarh.</h3>
+              <div id="about-desc">
+                <p>Hi, I'm Aayush, born in the small village of Rampur, Khairagarh-Chhuikhadan-Gandai, Chhattisgarh.
+                  Currently, I’m pursuing my B.Tech degree from SSIPMT College, Raipur. I’m a hardworking and passionate
+                  learner interested in AI, technology, problem-solving and web development. I enjoy creating cool
+                  animated
+                  websites while continuously learning and improving my skills to create meaningful digital experiences.
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="section-thumbnails">
-        <div class="thumb-card active" onclick="changeAboutContent('about', this)">
-          <img src="images/abot-pic.png" alt="About Me">
-          <div class="thumb-label">01 About Me</div>
-          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
-        </div>
-        <div class="thumb-card" onclick="changeAboutContent('school', this)">
-          <img src="images/school.png" alt="Schooling">
-          <div class="thumb-label">02 Schooling</div>
-          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
-        </div>
-        <div class="thumb-card" onclick="changeAboutContent('college', this)">
-          <img src="images/college.png" alt="College">
-          <div class="thumb-label">03 College</div>
-          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
-        </div>
-        <div class="thumb-card" onclick="changeAboutContent('current', this)">
-          <img src="images/goals.png" alt="Current">
-          <div class="thumb-label">04 Current Goal</div>
-          <div class="play-icon"><i class="ph ph-play-circle"></i></div>
+          <div class="section-thumbnails">
+            <div class="thumb-card active" onclick="changeAboutContent('about', this)">
+              <img src="images/abot-pic.png" alt="About Me">
+              <div class="thumb-label">01 About Me</div>
+              <div class="play-icon"><i class="ph ph-play-circle"></i></div>
+            </div>
+            <div class="thumb-card" onclick="changeAboutContent('school', this)">
+              <img src="images/school.png" alt="Schooling">
+              <div class="thumb-label">02 Schooling</div>
+              <div class="play-icon"><i class="ph ph-play-circle"></i></div>
+            </div>
+            <div class="thumb-card" onclick="changeAboutContent('college', this)">
+              <img src="images/college.png" alt="College">
+              <div class="thumb-label">03 College</div>
+              <div class="play-icon"><i class="ph ph-play-circle"></i></div>
+            </div>
+            <div class="thumb-card" onclick="changeAboutContent('current', this)">
+              <img src="images/goals.png" alt="Current">
+              <div class="thumb-label">04 Current Goal</div>
+              <div class="play-icon"><i class="ph ph-play-circle"></i></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

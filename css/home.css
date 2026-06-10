@@ -599,20 +599,19 @@ body.aurora {
 }
 
 body.new {
-  --theme-accent: #e0f2fe;
-  --theme-accent-2: #7dd3fc;
-  --theme-glow: rgba(186, 230, 253, 0.4);
-  --theme-border: rgba(186, 230, 253, 0.2);
-  --theme-bg-glass: rgba(5, 10, 20, 0.95);
-  --theme-text: #f8fafc;
-  --theme-text-muted: #cbd5e1;
+  --theme-accent: #38bdf8;
+  --theme-accent-2: #c084fc;
+  --theme-glow: rgba(56, 189, 248, 0.45);
+  --theme-border: rgba(192, 132, 252, 0.3);
+  --theme-bg-glass: rgba(10, 8, 22, 0.68);
+  --theme-text: #faf5ff;
+  --theme-text-muted: #d8b4fe;
 }
 
 #bg-new {
-  background: 
-    radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.08) 0%, transparent 60%),
-    linear-gradient(180deg, #020617 0%, #000000 100%);
-  background-color: #000000;
+  background: radial-gradient(circle at 15% 25%, rgba(139, 92, 246, 0.22) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(14, 165, 233, 0.25) 0%, transparent 50%),
+    #03020a;
 }
 
 
@@ -1464,15 +1463,24 @@ body {
   text-transform: uppercase;
 }
 
-.bento-tasks, .task-card, .task-input-group, #taskInput, #addTaskBtn, .task-list, .task-list li, .task-checkbox, .delete-task, #clearTasksBtn {
+.bento-tasks,
+.task-card,
+.task-input-group,
+#taskInput,
+#addTaskBtn,
+.task-list,
+.task-list li,
+.task-checkbox,
+.delete-task,
+#clearTasksBtn {
   pointer-events: auto !important;
   z-index: 10;
   position: relative;
 }
 
 .about-section-container {
-  margin-top: 250px;
-  margin-bottom: 150px;
+  margin-top: 10px;
+  margin-bottom: 20px;
   position: relative;
   width: 100%;
   border-radius: 24px;
@@ -2815,14 +2823,17 @@ body {
   .bento-tasks h3 {
     font-size: 0.95rem !important;
   }
+
   #task-stats {
     font-size: 0.7rem !important;
     margin-bottom: 8px !important;
   }
+
   .bento-tasks form {
     gap: 4px !important;
     margin-bottom: 8px !important;
   }
+
   #taskInput {
     padding: 6px 6px !important;
     font-size: 0.75rem !important;
@@ -2831,32 +2842,39 @@ body {
     width: 0 !important;
     flex-grow: 1 !important;
   }
+
   #addTaskBtn {
     padding: 6px 8px !important;
     font-size: 0.75rem !important;
     border-radius: 6px !important;
     flex-shrink: 0 !important;
   }
+
   .task-list {
     margin: 4px 0 !important;
     max-height: 85px !important;
   }
+
   .task-item {
     padding: 4px 6px !important;
     font-size: 0.75rem !important;
     margin-bottom: 4px !important;
   }
+
   .task-checkbox {
     width: 14px !important;
     height: 14px !important;
     margin-right: 6px !important;
   }
+
   .task-checkbox i {
     font-size: 0.55rem !important;
   }
+
   .delete-task {
     font-size: 0.75rem !important;
   }
+
   #clearTasksBtn {
     font-size: 0.7rem !important;
   }
@@ -2866,35 +2884,43 @@ body {
     min-height: 130px !important;
     height: 160px !important;
   }
+
   .timer-box {
     padding: 10px !important;
     border-radius: 24px !important;
     min-height: 90px !important;
   }
+
   .timer-progress-border {
     border-radius: 24px !important;
     padding: 4px !important;
   }
+
   .timer-ui {
     max-width: 100% !important;
   }
+
   .timer-btn {
     width: 32px !important;
     height: 32px !important;
     font-size: 14px !important;
   }
+
   .timer-center {
     gap: 2px !important;
   }
+
   .timer-header {
     font-size: 0.65rem !important;
     gap: 4px !important;
   }
+
   .timer-main {
     font-size: 1.6rem !important;
     margin: 2px 0 !important;
     text-shadow: 0 0 8px var(--theme-glow) !important;
   }
+
   .timer-label {
     font-size: 0.65rem !important;
   }
@@ -3578,5 +3604,112 @@ body.focus-mode-active .bento-focus-stats {
 
   .timer-main {
     font-size: 2.2rem;
+  }
+}
+
+/* Increased spacing between main sections on the homepage */
+.bento-container,
+.blog-section,
+.about-section,
+.skills-section,
+.github-contribution-section {
+  margin-top: 140px !important;
+  margin-bottom: 140px !important;
+}
+
+/* Hero Availability Badge and Action Buttons */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  padding: 6px 14px;
+  border-radius: 50px;
+  color: #34d399;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  width: fit-content;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #10b981;
+  border-radius: 50%;
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.hero-btn-action {
+  padding: 8px 20px;
+  border-radius: 40px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-btn-action.work-btn {
+  background: var(--theme-accent);
+  color: #000;
+  border: 1px solid var(--theme-accent);
+  box-shadow: 0 4px 15px var(--theme-glow);
+}
+
+.hero-btn-action.work-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--theme-glow);
+}
+
+.hero-btn-action.contact-btn {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--theme-text);
+  border: 1px solid var(--theme-border);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.hero-btn-action.contact-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  border-color: var(--theme-accent);
+}
+
+@media (max-width: 480px) {
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .status-badge {
+    margin: 0 auto 12px auto;
   }
 }
