@@ -704,10 +704,13 @@ body {
 }
 
 .glass-navbar {
-  position: sticky;
+  position: fixed;
   top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 48px);
+  max-width: 1232px;
   z-index: 1000;
-  width: 100%;
   background: var(--theme-bg-glass);
   backdrop-filter: blur(12px) saturate(150%);
 
@@ -723,6 +726,11 @@ body {
   transition: all var(--transition);
   box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.3);
   margin-bottom: 15px;
+}
+
+/* Push the immediate sibling of the fixed navbar down to prevent overlapping */
+.glass-navbar + * {
+  margin-top: 90px !important;
 }
 
 .nav-left {
