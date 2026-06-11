@@ -130,6 +130,23 @@ function applyTheme(themeName) {
 
   const bgContainer = document.getElementById('dynamic-bg-container');
   if (bgContainer) {
+    // Check if we already have a matching background layer to prevent redundant re-renders and lag
+    const existingLayer = bgContainer.querySelector('.bg-layer, #bg-new');
+    const existingId = existingLayer ? existingLayer.id : null;
+    const targetId = themeName === 'new' ? 'bg-new' : `bg-${themeName}`;
+
+    if (existingLayer && existingId === targetId) {
+      if (themeName === 'new') {
+        const canvas = existingLayer.querySelector('canvas') || document.getElementById('sparkles-canvas');
+        if (canvas && !canvas.dataset.initialized) {
+          canvas.className = 'code-bg-canvas';
+          canvas.dataset.initialized = 'true';
+          initSparklesCanvas(canvas);
+        }
+      }
+      return;
+    }
+
     bgContainer.innerHTML = '';
     const newLayer = document.createElement('div');
     newLayer.className = 'bg-layer';
@@ -158,6 +175,7 @@ function applyTheme(themeName) {
     bgContainer.appendChild(newLayer);
 
     if (config.type === 'code') {
+      mediaElement.dataset.initialized = 'true';
       initSparklesCanvas(mediaElement);
     }
   }
@@ -186,7 +204,7 @@ document.addEventListener('click', () => toggleDropdown(false));
 
 // Initial Load
 const savedTheme = localStorage.getItem('aayush_theme') || 'new';
-setTimeout(() => applyTheme(savedTheme), 10);
+applyTheme(savedTheme);
 
 
 const navLinks = document.querySelectorAll('.nav-link');

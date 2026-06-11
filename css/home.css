@@ -704,7 +704,8 @@ body {
 }
 
 .glass-navbar {
-  position: relative;
+  position: sticky;
+  top: 15px;
   z-index: 1000;
   width: 100%;
   background: var(--theme-bg-glass);
@@ -3122,7 +3123,7 @@ body.focus-mode-active .bento-focus-stats {
 
 .contact-modal-content {
   position: relative;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(10, 12, 18, 0.95);
   backdrop-filter: none !important;
   -webkit--webkit-backdrop-filter: none !important;
   border: 1px solid rgba(255, 255, 255, 0.15);
