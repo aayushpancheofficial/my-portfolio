@@ -395,6 +395,7 @@ navLinks.forEach(link => {
 let currentAudio = null;
 let lastTrackName = "";
 let lastIsNowPlaying = false;
+let currentPreviewUrl = null;
 
 
 
@@ -455,45 +456,19 @@ async function fetchSpotifyTracks(isPolling = false) {
       if (itunesData.results?.length > 0) previewUrl = itunesData.results[0].previewUrl;
     } catch (e) { }
 
+    currentPreviewUrl = previewUrl;
+
     trackNameEl.textContent = songName;
     trackArtistEl.innerHTML = ` &bull; ${artistName}`;
     trackArtistEl.style.display = 'inline';
 
     const playBtn = document.getElementById('spotify-play-btn');
     if (playBtn) {
-      playBtn.style.display = previewUrl ? 'inline-block' : 'none';
-      playBtn.className = "ph-fill ph-play-circle";
-      playBtn.title = previewUrl ? "Listen to preview" : "No preview available";
-
-      playBtn.onclick = function (e) {
-        e.stopPropagation();
-        if (!previewUrl) return;
-
-        if (currentAudio && !currentAudio.paused && currentAudio.src === previewUrl) {
-          currentAudio.pause();
-          playBtn.className = "ph-fill ph-play-circle";
-        } else {
-          try {
-            if (currentAudio) currentAudio.pause();
-            currentAudio = new Audio(previewUrl);
-            const playPromise = currentAudio.play();
-
-            if (playPromise !== undefined) {
-              playPromise.then(() => {
-                playBtn.className = "ph-fill ph-pause-circle";
-              }).catch(error => {
-                console.error("Playback failed:", error);
-                playBtn.className = "ph-fill ph-play-circle";
-              });
-            }
-
-            currentAudio.onended = () => playBtn.className = "ph-fill ph-play-circle";
-          } catch (err) {
-            console.error("Audio error:", err);
-            playBtn.className = "ph-fill ph-play-circle";
-          }
-        }
-      };
+      playBtn.style.display = 'inline-block';
+      playBtn.title = previewUrl ? "Listen to preview" : "Play Lofi Fallback";
+      if (!currentAudio || currentAudio.paused) {
+        playBtn.className = "ph-fill ph-play-circle";
+      }
     }
 
     cardWidget.onclick = () => window.open(spotifyUrl, '_blank');
@@ -520,10 +495,72 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
   }
 
-  // Prevent play button clicks from triggering the card's login redirect
+  // Prevent play button clicks from triggering the card's login redirect, and handle play/pause functionality
   const globalPlayBtn = document.getElementById('spotify-play-btn');
   if (globalPlayBtn) {
-    globalPlayBtn.addEventListener('click', (e) => e.stopPropagation());
+    globalPlayBtn.style.display = 'inline-block';
+    globalPlayBtn.style.cursor = 'pointer';
+    globalPlayBtn.title = "Play music";
+
+    globalPlayBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+
+      const trackNameEl = document.getElementById('track-name');
+      const trackArtistEl = document.getElementById('track-artist-container');
+      const waveform = document.getElementById('spotify-waveform');
+
+      const playUrl = currentPreviewUrl || "https://archive.org/download/moonwalk-sweet-memory-lofi-trip-hop/Moonwalk%20-%20Sweet%20Memory%20%28Lofi%20Trip-hop%29.mp3";
+
+      if (currentAudio && !currentAudio.paused && currentAudio.src === playUrl) {
+        currentAudio.pause();
+        globalPlayBtn.className = "ph-fill ph-play-circle";
+        if (waveform) waveform.style.display = 'none';
+
+        if (!currentPreviewUrl) {
+          trackNameEl.textContent = lastTrackName || "Connect Spotify";
+          if (trackArtistEl) {
+            trackArtistEl.style.display = lastTrackName ? 'inline' : 'none';
+          }
+        }
+      } else {
+        try {
+          if (currentAudio) currentAudio.pause();
+          currentAudio = new Audio(playUrl);
+
+          currentAudio.play().then(() => {
+            globalPlayBtn.className = "ph-fill ph-pause-circle";
+            if (waveform) waveform.style.display = 'flex';
+
+            if (!currentPreviewUrl) {
+              trackNameEl.textContent = "Sweet Memory (Lofi)";
+              if (trackArtistEl) {
+                trackArtistEl.innerHTML = " &bull; Moonwalk";
+                trackArtistEl.style.display = 'inline';
+              }
+            }
+          }).catch(error => {
+            console.error("Playback failed:", error);
+            globalPlayBtn.className = "ph-fill ph-play-circle";
+            if (waveform) waveform.style.display = 'none';
+          });
+
+          currentAudio.onended = () => {
+            globalPlayBtn.className = "ph-fill ph-play-circle";
+            if (waveform) waveform.style.display = 'none';
+            if (!currentPreviewUrl) {
+              trackNameEl.textContent = lastTrackName || "Connect Spotify";
+              if (trackArtistEl) {
+                trackArtistEl.style.display = lastTrackName ? 'inline' : 'none';
+              }
+            }
+          };
+        } catch (err) {
+          console.error("Audio error:", err);
+          globalPlayBtn.className = "ph-fill ph-play-circle";
+          if (waveform) waveform.style.display = 'none';
+        }
+      }
+    });
   }
 
   if (spotifyIcon) {
