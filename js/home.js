@@ -471,8 +471,9 @@ async function fetchSpotifyTracks(isPolling = false) {
       }
     }
 
-    cardWidget.onclick = () => window.open(spotifyUrl, '_blank');
-    lastTrackUrl = spotifyUrl;
+    const searchUrl = `https://open.spotify.com/search/${encodeURIComponent(songName + " " + artistName)}`;
+    cardWidget.onclick = () => window.open(searchUrl, '_blank');
+    lastTrackUrl = searchUrl;
 
   } catch (error) {
     console.error("Last.fm Fetch Error:", error);
