@@ -220,8 +220,8 @@ navLinks.forEach(link => {
   function getParticleCounts() {
     const isMobile = window.innerWidth < 768;
     return {
-      rain: isMobile ? 40 : 120, 
-      snow: isMobile ? 35 : 100  
+      rain: isMobile ? 40 : 80, 
+      snow: isMobile ? 30 : 60  
     };
   }
 

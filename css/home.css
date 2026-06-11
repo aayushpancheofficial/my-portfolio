@@ -113,8 +113,8 @@ body.new {
   width: 100%;
   height: 100%;
   z-index: 5;
-  backdrop-filter: blur(40px) saturate(150%);
-  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  backdrop-filter: none !important;
+  -webkit--webkit-backdrop-filter: none !important;
   background: rgba(255, 255, 255, 0.03);
   pointer-events: none;
 }
@@ -126,7 +126,7 @@ body.new {
   transform: translate(-50%, -50%);
   z-index: 10;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  backdrop-filter: none !important;
   padding: 15px 30px;
   border-radius: 30px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -223,8 +223,8 @@ body.new {
 
 .skill-pill {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: none !important;
+  -webkit--webkit-backdrop-filter: none !important;
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 10px 24px;
   border-radius: 30px;
@@ -297,7 +297,7 @@ body.new {
   align-items: flex-start;
   padding: 12px 15px;
   background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
+  backdrop-filter: none !important;
   border-radius: 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   transition: all 0.3s ease;
@@ -708,7 +708,7 @@ body {
   z-index: 1000;
   width: 100%;
   background: var(--theme-bg-glass);
-  backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(12px) saturate(150%);
 
   border-radius: 32px;
   border: 1px solid var(--theme-border);
@@ -826,7 +826,7 @@ body {
   top: 48px;
   right: 0;
   background: var(--theme-bg-glass);
-  backdrop-filter: blur(24px);
+  backdrop-filter: none !important;
   border-radius: 20px;
   padding: 8px;
   width: 180px;
@@ -865,8 +865,8 @@ body {
   justify-content: space-between;
   gap: 40px;
   background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit--webkit-backdrop-filter: blur(12px) saturate(150%);
   border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 45px 65px;
   border-radius: 40px;
@@ -1046,7 +1046,7 @@ body {
   cursor: pointer;
   width: fit-content;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  backdrop-filter: none !important;
 }
 
 .spotify-mini-card:hover {
@@ -1232,7 +1232,7 @@ body {
   top: 20px;
   left: -30px;
   background: rgba(0, 157, 94, 0.1);
-  backdrop-filter: blur(10px);
+  backdrop-filter: none !important;
   border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 8px 16px;
   border-radius: 20px;
@@ -1288,7 +1288,7 @@ body {
 .tech-item {
   position: absolute;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
+  backdrop-filter: none !important;
   border: 1px solid rgba(255, 255, 255, 0.2);
   width: 45px;
   height: 45px;
@@ -1564,11 +1564,6 @@ body {
   from {
     opacity: 0;
     transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -1989,8 +1984,8 @@ body {
 
 .bento-glass {
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  backdrop-filter: none !important;
+  -webkit--webkit-backdrop-filter: none !important;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 30px;
   height: 100%;
@@ -2073,7 +2068,7 @@ body {
 .bento-spotify .bento-glass {
   padding: 0;
   background: rgba(255, 255, 255, 0.01);
-  backdrop-filter: blur(10px);
+  backdrop-filter: none !important;
   border: 1px solid rgba(255, 255, 255, 0.05);
   overflow: hidden;
   border-radius: 32px;
@@ -2646,15 +2641,6 @@ body {
     padding: 8px;
   }
 
-  .bento-spotify {
-    height: 380px;
-
-  }
-
-  .bento-tasks {
-    min-height: 200px;
-  }
-
   .task-list {
     list-style: none;
     padding: 0;
@@ -2675,48 +2661,11 @@ body {
     color: #ffffff !important;
   }
 
-  .task-item.completed {
-    opacity: 0.5;
-  }
-
   .task-item span {
     flex: 1;
     font-size: 0.8rem;
     color: #ffffff !important;
     text-align: left;
-  }
-
-  .task-item.completed span {
-    text-decoration: line-through;
-  }
-
-  .task-checkbox {
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    margin-right: 8px;
-    transition: 0.2s;
-  }
-
-  .task-item.completed .task-checkbox {
-    background: var(--theme-accent);
-    border-color: var(--theme-accent);
-    color: #000;
-  }
-
-  .task-checkbox i {
-    display: none;
-    font-size: 0.65rem;
-  }
-
-  .task-item.completed .task-checkbox i {
-    display: block;
-    color: #000;
   }
 
   .delete-task {
@@ -2727,21 +2676,9 @@ body {
     font-size: 0.8rem;
   }
 
-  .delete-task:hover {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-
   .bento-quotes {
     min-height: 60px;
     padding: 8px 12px;
-  }
-
-  .bento-clock,
-  .bento-cal {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    height: auto;
   }
 
   .analog-clock {
@@ -2773,16 +2710,6 @@ body {
   .cal-grid span {
     height: 16px;
     font-size: 0.65rem;
-  }
-
-  .cal-days-header {
-    font-size: 0.55rem;
-    margin-bottom: 5px;
-  }
-
-  #cal-month-year {
-    font-size: 0.85rem;
-    margin-bottom: 5px;
   }
 
   .spotify-mini-card {
@@ -3005,35 +2932,6 @@ body {
   /* Added bottom margin */
 }
 
-.social-row {
-  margin-top: 10px;
-  justify-content: center;
-  gap: 10px;
-}
-
-.spotify-content {
-  gap: 8px;
-  overflow: hidden;
-}
-
-.spotify-label {
-  font-size: 0.65rem;
-}
-
-#track-name {
-  font-size: 0.8rem;
-  max-width: 100px;
-}
-
-.spotify-visuals {
-  margin-left: 5px;
-  gap: 8px;
-}
-
-.clean-footer {
-  padding: 15px 0;
-}
-
 
 /* --- AI Pet Sprite Animation --- */
 /* --- AI Pet Sprite Animation --- */
@@ -3051,49 +2949,9 @@ body {
   gap: 5px;
 }
 
-#ai-pet {
-  width: 38.4px;
-  /* 256 * 0.15 */
-  height: 51.15px;
-  /* 341 * 0.15 */
-  background-image: url("../images/ai avter.png");
-  background-size: 230.4px 153.6px;
-  /* 1536 * 0.15 and 1024 * 0.15 */
-  background-position: 0px 0px;
-  background-repeat: no-repeat;
-  will-change: background-position;
-  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
-}
-
-#ai-pet-speech {
-  color: white;
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-  white-space: nowrap;
-  transform: scale(0);
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  background: rgba(0, 0, 0, 0.6);
-  padding: 3px 8px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-#ai-pet-speech.show {
-  transform: scale(1);
-}
-
-#ai-pet.walking {
-  animation: walkSprite 1.6s steps(6) infinite;
-}
-
 @keyframes walkSprite {
   from {
     background-position-x: 0px;
-  }
-
-  to {
-    background-position-x: -230px;
   }
 
   /* 1536 * 0.15 */
@@ -3258,15 +3116,15 @@ body.focus-mode-active .bento-focus-stats {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: none !important;
+  -webkit--webkit-backdrop-filter: none !important;
 }
 
 .contact-modal-content {
   position: relative;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(30px) saturate(180%);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  backdrop-filter: none !important;
+  -webkit--webkit-backdrop-filter: none !important;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 28px;
   padding: 45px;
@@ -3457,8 +3315,8 @@ body.focus-mode-active .bento-focus-stats {
   justify-content: center;
   padding: 20px;
   background: var(--theme-bg-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: none !important;
+  -webkit--webkit-backdrop-filter: none !important;
   border: 1px solid var(--theme-border);
   border-radius: 40px;
   position: relative;
@@ -3694,8 +3552,8 @@ body.focus-mode-active .bento-focus-stats {
   background: rgba(255, 255, 255, 0.05);
   color: var(--theme-text);
   border: 1px solid var(--theme-border);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: none !important;
+  -webkit--webkit-backdrop-filter: none !important;
 }
 
 .hero-btn-action.contact-btn:hover {
@@ -3751,25 +3609,25 @@ body.focus-mode-active .bento-focus-stats {
 
 /* 2. Limit Backdrop Filters and Blurs */
 .glass-navbar {
-  backdrop-filter: blur(10px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit--webkit-backdrop-filter: blur(12px) saturate(150%);
 }
 
 .blur-plate {
-  backdrop-filter: blur(10px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
+  backdrop-filter: none !important;
+  -webkit--webkit-backdrop-filter: none !important;
   background: rgba(10, 12, 18, 0.8) !important;
 }
 
 .theme-dropdown {
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: none !important;
+  -webkit--webkit-backdrop-filter: none !important;
 }
 
 .coming-soon-overlay,
 .bento-glass {
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+  backdrop-filter: none !important;
+  -webkit--webkit-backdrop-filter: none !important;
 }
 
 /* Remove backdrop-filters from repeating items to avoid redraw thrashing */
@@ -3811,4 +3669,4 @@ body.new .exp-item, body.new .blog-item {
   #rain-canvas, #snow-canvas {
     display: none !important;
   }
-}
+}
