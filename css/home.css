@@ -7,7 +7,7 @@
 
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -3713,3 +3713,102 @@ body.focus-mode-active .bento-focus-stats {
     margin: 0 auto 12px auto;
   }
 }
+
+/* --- OPTIMIZED OVERRIDES FOR 60FPS PERFORMANCE --- */
+
+/* 1. GPU Promotion Hints & Layer Compositing */
+.nav-link,
+.social-btn,
+.bento-item,
+.thumb-card,
+.theme-option,
+#themeBtn,
+.task-item,
+#addTaskBtn,
+.skill-pill,
+.floating-avatar,
+.avatar-wrapper,
+#ai-pet-main-container,
+#ai-pet {
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Smooth transitions restricting to layout-free properties */
+.nav-link,
+.social-btn,
+.bento-item,
+.thumb-card,
+.theme-option,
+#themeBtn,
+.task-item,
+#addTaskBtn {
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+/* 2. Limit Backdrop Filters and Blurs */
+.glass-navbar {
+  backdrop-filter: blur(10px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
+}
+
+.blur-plate {
+  backdrop-filter: blur(10px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
+  background: rgba(10, 12, 18, 0.8) !important;
+}
+
+.theme-dropdown {
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.coming-soon-overlay,
+.bento-glass {
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Remove backdrop-filters from repeating items to avoid redraw thrashing */
+.skill-pill,
+.exp-item,
+.blog-item,
+.thumb-card {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body.rain .exp-item, body.rain .blog-item,
+body.snow .exp-item, body.snow .blog-item,
+body.sun .exp-item, body.sun .blog-item,
+body.forest .exp-item, body.forest .blog-item,
+body.aurora .exp-item, body.aurora .blog-item,
+body.new .exp-item, body.new .blog-item {
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* 3. Accessibility preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+  .glass-navbar, .blur-plate, .theme-dropdown, .coming-soon-overlay, .bento-glass {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(10, 12, 18, 0.95) !important;
+  }
+  #rain-canvas, #snow-canvas {
+    display: none !important;
+  }
+}

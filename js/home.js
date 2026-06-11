@@ -198,121 +198,180 @@ navLinks.forEach(link => {
   });
 });
 
-(function initRain() {
-  const canvas = document.getElementById('rain-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let drops = [];
+// --- OPTIMIZED PARALLEL PARTICLE ENGINE (RAIN & SNOW) ---
+(function initParticleEngine() {
+  const rainCanvas = document.getElementById('rain-canvas');
+  const snowCanvas = document.getElementById('snow-canvas');
+  if (!rainCanvas && !snowCanvas) return;
 
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+  const bodyEl = document.body;
+  
+  let rainCtx = rainCanvas ? rainCanvas.getContext('2d', { alpha: true }) : null;
+  let snowCtx = snowCanvas ? snowCanvas.getContext('2d', { alpha: true }) : null;
+
+  let rainDrops = [];
+  let snowFlakes = [];
+  
+  let rainAnimationId = null;
+  let snowAnimationId = null;
+  let isTabActive = true;
+
+  // Responsive density adjustments
+  function getParticleCounts() {
+    const isMobile = window.innerWidth < 768;
+    return {
+      rain: isMobile ? 40 : 120, 
+      snow: isMobile ? 35 : 100  
+    };
   }
 
-  function initDrops() {
-    drops = [];
-    const dropCount = canvas.width / 6;
-    for (let i = 0; i < dropCount; i++) {
-      drops.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        length: Math.random() * 20 + 10,
-        speed: Math.random() * 10 + 5
+  function resizeCanvases() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    
+    if (rainCanvas) {
+      rainCanvas.width = w;
+      rainCanvas.height = h;
+    }
+    if (snowCanvas) {
+      snowCanvas.width = w;
+      snowCanvas.height = h;
+    }
+  }
+
+  // --- Rain Setup ---
+  function initRain() {
+    rainDrops = [];
+    if (!rainCanvas) return;
+    const count = getParticleCounts().rain;
+    for (let i = 0; i < count; i++) {
+      rainDrops.push({
+        x: Math.random() * rainCanvas.width,
+        y: Math.random() * rainCanvas.height,
+        length: Math.random() * 15 + 10,
+        speed: Math.random() * 8 + 6
       });
     }
   }
 
   function drawRain() {
-    if (!bodyEl.classList.contains('rain')) {
-      requestAnimationFrame(drawRain);
-      return;
+    if (!isTabActive || !bodyEl.classList.contains('rain')) {
+      rainAnimationId = null;
+      return; 
     }
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
-    ctx.lineWidth = 1;
-    ctx.lineCap = 'round';
-    ctx.beginPath();
-    for (let i = 0; i < drops.length; i++) {
-      const drop = drops[i];
-      ctx.moveTo(drop.x, drop.y);
-      ctx.lineTo(drop.x, drop.y + drop.length);
+
+    rainCtx.clearRect(0, 0, rainCanvas.width, rainCanvas.height);
+    rainCtx.strokeStyle = 'rgba(174, 219, 230, 0.4)';
+    rainCtx.lineWidth = 1;
+    rainCtx.lineCap = 'round';
+    rainCtx.beginPath();
+
+    for (let i = 0; i < rainDrops.length; i++) {
+      const drop = rainDrops[i];
+      rainCtx.moveTo(drop.x, drop.y);
+      rainCtx.lineTo(drop.x, drop.y + drop.length);
       drop.y += drop.speed;
-      if (drop.y > canvas.height) {
+      if (drop.y > rainCanvas.height) {
         drop.y = -drop.length;
-        drop.x = Math.random() * canvas.width;
+        drop.x = Math.random() * rainCanvas.width;
       }
     }
-    ctx.stroke();
-    requestAnimationFrame(drawRain);
+    rainCtx.stroke();
+    rainAnimationId = requestAnimationFrame(drawRain);
   }
 
-  window.addEventListener('resize', () => {
-    resizeCanvas();
-    initDrops();
-  });
-
-  resizeCanvas();
-  initDrops();
-  drawRain();
-})();
-
-(function initSnow() {
-  const canvas = document.getElementById('snow-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let flakes = [];
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
-  function initFlakes() {
-    flakes = [];
-    const flakeCount = canvas.width / 8;
-    for (let i = 0; i < flakeCount; i++) {
-      flakes.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 3 + 1,
-        speedY: Math.random() * 1.5 + 0.5,
-        speedX: Math.random() * 1 - 0.5
+  // --- Snow Setup ---
+  function initSnow() {
+    snowFlakes = [];
+    if (!snowCanvas) return;
+    const count = getParticleCounts().snow;
+    for (let i = 0; i < count; i++) {
+      snowFlakes.push({
+        x: Math.random() * snowCanvas.width,
+        y: Math.random() * snowCanvas.height,
+        radius: Math.random() * 2 + 1, 
+        speedY: Math.random() * 1.2 + 0.4,
+        speedX: Math.random() * 0.8 - 0.4
       });
     }
   }
 
   function drawSnow() {
-    if (!bodyEl.classList.contains('snow')) {
-      requestAnimationFrame(drawSnow);
-      return;
+    if (!isTabActive || !bodyEl.classList.contains('snow')) {
+      snowAnimationId = null;
+      return; 
     }
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-    ctx.beginPath();
-    for (let i = 0; i < flakes.length; i++) {
-      const flake = flakes[i];
-      ctx.moveTo(flake.x, flake.y);
-      ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
+
+    snowCtx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
+    snowCtx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+    snowCtx.beginPath();
+
+    for (let i = 0; i < snowFlakes.length; i++) {
+      const flake = snowFlakes[i];
+      snowCtx.moveTo(flake.x, flake.y);
+      snowCtx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
       flake.y += flake.speedY;
       flake.x += flake.speedX;
-      if (flake.y > canvas.height) {
+      
+      if (flake.y > snowCanvas.height) {
         flake.y = -flake.radius;
-        flake.x = Math.random() * canvas.width;
+        flake.x = Math.random() * snowCanvas.width;
       }
     }
-    ctx.fill();
-    requestAnimationFrame(drawSnow);
+    snowCtx.fill();
+    snowAnimationId = requestAnimationFrame(drawSnow);
   }
 
+  // --- Theme Change Hook ---
+  const originalApplyTheme = window.applyTheme;
+  window.applyTheme = function(themeName) {
+    if (typeof originalApplyTheme === 'function') {
+      originalApplyTheme(themeName);
+    }
+    
+    if (themeName === 'rain') {
+      initRain();
+      if (!rainAnimationId) drawRain();
+    } else if (themeName === 'snow') {
+      initSnow();
+      if (!snowAnimationId) drawSnow();
+    }
+  };
+
+  // --- Event Listeners ---
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    resizeCanvas();
-    initFlakes();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      resizeCanvases();
+      initRain();
+      initSnow();
+    }, 250); 
   });
 
-  resizeCanvas();
-  initFlakes();
-  drawSnow();
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      isTabActive = false;
+    } else {
+      isTabActive = true;
+      const currentTheme = localStorage.getItem('aayush_theme') || 'new';
+      if (currentTheme === 'rain' && !rainAnimationId) drawRain();
+      if (currentTheme === 'snow' && !snowAnimationId) drawSnow();
+    }
+  });
+
+  // Initial load checks
+  resizeCanvases();
+  const initialTheme = localStorage.getItem('aayush_theme') || 'new';
+  if (initialTheme === 'rain') {
+    initRain();
+    drawRain();
+  } else if (initialTheme === 'snow') {
+    initSnow();
+    drawSnow();
+  }
 })();
+
 
 
 let currentAudio = null;

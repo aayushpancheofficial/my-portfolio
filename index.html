@@ -458,6 +458,35 @@
 
   <script src="js/home.js"></script>
   <script src="js/pet.js"></script>
+  
+  <!-- Lenis Smooth Scroll Library -->
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+  <script>
+    // Initialize Lenis
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth ease out
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      smoothWheel: true,
+      mouseMultiplier: 1,
+      smoothTouch: false, // Maintain native touchscreen performance
+      touchMultiplier: 2,
+    });
+
+    // Synchronize Lenis with requestAnimationFrame loop
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Sync scroll event to window scroll variable
+    lenis.on('scroll', (e) => {
+      window.scrollY = e.scroll;
+    });
+  </script>
 </body>
 
 </html>
