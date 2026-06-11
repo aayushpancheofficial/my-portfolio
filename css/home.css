@@ -222,6 +222,9 @@ body.new {
 }
 
 .skill-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: none !important;
   -webkit--webkit-backdrop-filter: none !important;
@@ -236,6 +239,15 @@ body.new {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   animation: float-pill 4s infinite ease-in-out;
   animation-delay: calc(var(--i, 0) * 0.2s);
+}
+
+.skill-pill i {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.skill-pill:hover i {
+  transform: scale(1.2);
 }
 
 @keyframes float-pill {
