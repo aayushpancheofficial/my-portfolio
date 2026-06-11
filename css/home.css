@@ -3131,9 +3131,7 @@ body.focus-mode-active .bento-focus-stats {
 
 .contact-modal-content {
   position: relative;
-  background: rgba(0, 0, 0, 0.55) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  background: #0f1015 !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   border-radius: 28px;
   padding: 45px;
@@ -3144,7 +3142,7 @@ body.focus-mode-active .bento-focus-stats {
   z-index: 10000;
   transform: translateY(0) scale(1);
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6),
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
@@ -3179,7 +3177,7 @@ body.focus-mode-active .bento-focus-stats {
   font-family: var(--font-display);
   font-size: 2.8rem;
   margin-bottom: 12px;
-  color: #fff;
+  color: #ffffff !important;
   letter-spacing: -1px;
 }
 
@@ -3192,7 +3190,7 @@ body.focus-mode-active .bento-focus-stats {
 }
 
 .modal-desc {
-  color: var(--theme-text-muted);
+  color: rgba(255, 255, 255, 0.7) !important;
   margin-bottom: 30px;
   font-size: 0.95rem;
 }
@@ -3214,28 +3212,28 @@ body.focus-mode-active .bento-focus-stats {
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 1.5px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.8) !important;
   margin-bottom: 8px;
   text-transform: uppercase;
 }
 
 #contact-form input,
 #contact-form textarea {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
   padding: 14px 18px;
   border-radius: 14px;
-  color: #fff;
+  color: #ffffff !important;
   font-family: var(--font-body);
   font-size: 1rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) inset;
 }
 
 #contact-form input::placeholder,
 #contact-form textarea::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.45) !important;
 }
 
 #contact-form input:focus,
