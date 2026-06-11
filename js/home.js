@@ -948,42 +948,75 @@ function changeAboutContent(key, element) {
   const visitorCountEl = document.getElementById('visitor-count');
   if (!visitorCountEl) return;
 
-  // Using counterapi.dev for a real global visitor count
+  // Primary API: countapi.mileshilliard.com (less likely to be blocked by Brave/adblockers)
+  const primaryKey = "aayushpanche-portfolio-v2-visits";
+  const primaryUpUrl = `https://countapi.mileshilliard.com/api/v1/hit/${primaryKey}`;
+  const primaryGetUrl = `https://countapi.mileshilliard.com/api/v1/get/${primaryKey}`;
+
+  // Backup API: counterapi.dev
   const namespace = "aayushpanche-portfolio-v2";
   const key = "visits";
   const upUrl = `https://api.counterapi.dev/v1/${namespace}/${key}/up`;
   const getUrl = `https://api.counterapi.dev/v1/${namespace}/${key}/`;
 
   async function updateVisitorCount() {
+    const hasVisited = localStorage.getItem('aayush_has_visited');
+    
+    // 1. Try the primary API
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
-
-      const hasVisited = localStorage.getItem('aayush_has_visited');
-      const targetUrl = hasVisited ? getUrl : upUrl;
+      const targetUrl = hasVisited ? primaryGetUrl : primaryUpUrl;
 
       const response = await fetch(targetUrl);
-      if (!response.ok) throw new Error("Counter service unreachable");
+      if (!response.ok) throw new Error("Primary counter service unreachable");
+
+      const data = await response.json();
+      if (data && typeof data.value === 'number') {
+        if (!hasVisited) localStorage.setItem('aayush_has_visited', 'true');
+
+        // Add 10 offset (since the count starts from 43 + 10 = 53)
+        const count = data.value + 10;
+        localStorage.setItem('aayush_last_known_global_visits', count.toString());
+        visitorCountEl.innerHTML = `You are the <strong style="color: #bf55ff;">${count.toLocaleString()}${getOrdinalSuffix(count)}</strong> visitor`;
+        return;
+      }
+    } catch (error) {
+      console.warn("Primary Visitor Counter Error (falling back to backup):", error);
+    }
+
+    // 2. Fallback to backup API (counterapi.dev)
+    try {
+      const targetUrl = hasVisited ? getUrl : upUrl;
+      const response = await fetch(targetUrl);
+      if (!response.ok) throw new Error("Backup counter service unreachable");
 
       const data = await response.json();
       if (data && typeof data.count === 'number') {
         if (!hasVisited) localStorage.setItem('aayush_has_visited', 'true');
 
         const count = data.count + 10;
+        localStorage.setItem('aayush_last_known_global_visits', count.toString());
         visitorCountEl.innerHTML = `You are the <strong style="color: #bf55ff;">${count.toLocaleString()}${getOrdinalSuffix(count)}</strong> visitor`;
+        return;
       }
-    } catch (error) {
-      console.error("Visitor Counter Error:", error);
-      let localCount = parseInt(localStorage.getItem('aayush_local_visits_v2') || "10");
-
-      // Only increment local count if they haven't visited before
-      if (!localStorage.getItem('aayush_has_visited')) {
-        localCount++;
-        localStorage.setItem('aayush_local_visits_v2', localCount.toString());
-        localStorage.setItem('aayush_has_visited', 'true');
-      }
-
-      visitorCountEl.innerHTML = `You are the <strong style="color: #bf55ff;">${localCount.toLocaleString()}${getOrdinalSuffix(localCount)}</strong> visitor`;
+    } catch (backupError) {
+      console.error("Backup Visitor Counter Error:", backupError);
     }
+
+    // 3. Fallback to Local Storage count if both services fail
+    let localCount = parseInt(
+      localStorage.getItem('aayush_local_visits_v3') || 
+      localStorage.getItem('aayush_last_known_global_visits') || 
+      "53"
+    );
+
+    if (!localStorage.getItem('aayush_has_visited')) {
+      localCount++;
+      localStorage.setItem('aayush_local_visits_v3', localCount.toString());
+      localStorage.setItem('aayush_has_visited', 'true');
+    }
+
+    visitorCountEl.innerHTML = `You are the <strong style="color: #bf55ff;">${localCount.toLocaleString()}${getOrdinalSuffix(localCount)}</strong> visitor`;
   }
 
   function getOrdinalSuffix(n) {
