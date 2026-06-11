@@ -3603,8 +3603,8 @@ body.focus-mode-active .bento-focus-stats {
 #themeBtn,
 .task-item,
 #addTaskBtn {
-  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
 /* 2. Limit Backdrop Filters and Blurs */
@@ -3641,18 +3641,27 @@ body.focus-mode-active .bento-focus-stats {
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
-body.rain .exp-item, body.rain .blog-item,
-body.snow .exp-item, body.snow .blog-item,
-body.sun .exp-item, body.sun .blog-item,
-body.forest .exp-item, body.forest .blog-item,
-body.aurora .exp-item, body.aurora .blog-item,
-body.new .exp-item, body.new .blog-item {
+body.rain .exp-item,
+body.rain .blog-item,
+body.snow .exp-item,
+body.snow .blog-item,
+body.sun .exp-item,
+body.sun .blog-item,
+body.forest .exp-item,
+body.forest .blog-item,
+body.aurora .exp-item,
+body.aurora .blog-item,
+body.new .exp-item,
+body.new .blog-item {
   background: rgba(0, 0, 0, 0.4) !important;
 }
 
 /* 3. Accessibility preferences */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     animation-delay: -1ms !important;
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
@@ -3661,12 +3670,383 @@ body.new .exp-item, body.new .blog-item {
     transition-duration: 0s !important;
     transition-delay: 0s !important;
   }
-  .glass-navbar, .blur-plate, .theme-dropdown, .coming-soon-overlay, .bento-glass {
+
+  .glass-navbar,
+  .blur-plate,
+  .theme-dropdown,
+  .coming-soon-overlay,
+  .bento-glass {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background: rgba(10, 12, 18, 0.95) !important;
   }
-  #rain-canvas, #snow-canvas {
+
+  #rain-canvas,
+  #snow-canvas {
     display: none !important;
   }
+}
+
+/* --- NEW EDITORIAL HERO SECTION STYLE OVERRIDES --- */
+
+.hero-container {
+  background: rgba(0, 0, 0, 0.45) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+.hero-container:hover {
+  border-color: rgba(16, 185, 129, 0.35) !important;
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.35),
+    0 0 30px rgba(16, 185, 129, 0.15) !important;
+}
+
+/* Make sure different body themes also maintain transparent glassmorphism for hero */
+body.rain .hero-container,
+body.snow .hero-container,
+body.sun .hero-container,
+body.forest .hero-container,
+body.aurora .hero-container,
+body.new .hero-container {
+  background: rgba(0, 0, 0, 0.45) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Custom dual-orbit avatar rings */
+.avatar-wrapper {
+  position: relative;
+  width: 320px !important;
+  height: 320px !important;
+  border-radius: 50% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  margin: 0 auto !important;
+}
+
+.avatar-orbit-outer {
+  position: absolute;
+  top: -24px;
+  left: -24px;
+  right: -24px;
+  bottom: -24px;
+  border-radius: 50%;
+  border: 1px dashed rgba(16, 185, 129, 0.25);
+  animation: rotateRing 15s linear infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Glowing green dot particles on the outer orbit */
+.avatar-orbit-outer::before,
+.avatar-orbit-outer::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.avatar-orbit-outer::before {
+  top: 15%;
+  left: 15%;
+}
+
+.avatar-orbit-outer::after {
+  bottom: 15%;
+  right: 15%;
+}
+
+.avatar-glow-ring {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  border: 3px solid #10b981;
+  box-shadow: 
+    0 0 20px rgba(16, 185, 129, 0.5),
+    inset 0 0 15px rgba(16, 185, 129, 0.25) !important;
+  z-index: 1;
+}
+
+@keyframes rotateRing {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.avatar-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 2;
+}
+
+.avatar-video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+  transform: scale(1.0) !important;
+  object-position: center center !important;
+}
+
+/* Brushed italic solid white name styling */
+.hero-name {
+  font-family: 'Permanent Marker', cursive !important;
+  font-size: 3.6rem !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  color: #ffffff !important;
+  margin-bottom: 8px !important;
+  letter-spacing: 1.5px !important;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Monospace Neon Subtitle */
+.hero-subtitle {
+  font-family: monospace !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: #10b981 !important;
+  margin: 0 0 15px 0 !important;
+  text-shadow: 0 0 15px rgba(16, 185, 129, 0.4) !important;
+  letter-spacing: 1px !important;
+  display: inline-block;
+}
+
+.hero-subtitle::after {
+  display: none !important;
+}
+
+/* Editorial paragraph with left border */
+.hero-desc {
+  border-left: 2px solid #10b981 !important;
+  padding-left: 15px !important;
+  color: #cbd5e1 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.65 !important;
+  margin-bottom: 25px !important;
+  margin-left: 5px !important;
+  max-width: 580px !important;
+  text-shadow: none !important;
+}
+
+.hero-info-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.hero-info-row i {
+  color: #10b981;
+}
+
+.info-divider {
+  color: #475569;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-indicator .pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+  display: inline-block;
+  animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.hero-actions {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px !important;
+}
+
+/* Rounded Pill Button design matching the screenshot */
+.hero-btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 30px !important; /* Rounded pill shapes! */
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hero-btn-action.work-btn {
+  background: #52c451 !important; /* Mockup green */
+  color: #000000 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 8px 20px rgba(82, 196, 81, 0.25) !important;
+  border: none !important;
+}
+
+.hero-btn-action.work-btn:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 12px 25px rgba(82, 196, 81, 0.45) !important;
+}
+
+.hero-btn-action.contact-btn {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.hero-btn-action.contact-btn:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  transform: translateY(-3px) !important;
+}
+
+/* Responsive Rules for Small Screens */
+@media (max-width: 1024px) {
+  .avatar-wrapper {
+    width: 260px !important;
+    height: 260px !important;
+  }
+  .avatar-orbit-outer {
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-container {
+    padding: 40px 25px 25px 25px !important;
+  }
+  .avatar-wrapper {
+    width: 220px !important;
+    height: 220px !important;
+    margin: 0 auto 15px auto !important;
+  }
+  .avatar-orbit-outer {
+    top: -16px;
+    left: -16px;
+    right: -16px;
+    bottom: -16px;
+  }
+  .hero-name {
+    font-size: 2.5rem !important;
+    text-align: center !important;
+  }
+  .hero-subtitle {
+    font-size: 1.3rem !important;
+    text-align: center !important;
+    display: block !important;
+    margin: 0 auto 15px auto !important;
+  }
+  .hero-desc {
+    font-size: 0.95rem !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    text-align: center !important;
+    margin: 0 auto 20px auto !important;
+  }
+  .hero-info-row {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    margin-bottom: 20px !important;
+  }
+  .hero-actions {
+    justify-content: center !important;
+    margin-bottom: 20px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-name {
+    font-size: 2.0rem !important;
+    letter-spacing: 0.5px !important;
+  }
+  .avatar-wrapper {
+    width: 180px !important;
+    height: 180px !important;
+  }
+  .avatar-orbit-outer {
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+  }
+  .hero-actions {
+    flex-direction: row !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+  .hero-btn-action {
+    padding: 10px 14px !important;
+    font-size: 0.8rem !important;
+    flex: 1 !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* --- ABOUT ME SECTION CENTERED & COMPACT --- */
+.about-section .content-wrapper {
+  max-width: 1000px !important; /* Compact container width */
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+.about-section-container {
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+  background: rgba(0, 0, 0, 0.45) !important; /* Keep transparent black overlay */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* --- GITHUB CONTRIBUTION SECTION COMPACT --- */
+.github-contribution-section .content-wrapper {
+  max-width: 900px !important; /* Smaller container width */
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+.github-stats-board {
+  max-width: 900px !important;
+  margin: 20px auto 0 auto !important;
+}
+
+/* --- BENTO GLASS COMPACT & TRANSPARENT --- */
+.bento-glass {
+  background: rgba(0, 0, 0, 0.45) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
 }

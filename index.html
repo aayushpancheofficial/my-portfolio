@@ -65,26 +65,29 @@
     <div class="hero-container">
       <div class="hero-left">
         <div class="avatar-wrapper">
-          <img src="images/profile pic.jpg" alt="Profile Picture" class="avatar-video">
+          <div class="avatar-orbit-outer"></div>
+          <div class="avatar-glow-ring"></div>
+          <div class="avatar-inner">
+            <img src="images/profile pic.jpg" alt="Profile Picture" class="avatar-video">
+          </div>
         </div>
       </div>
+      
       <div class="hero-center">
         <h1 class="hero-name stylish-font">AAYUSH PANCHE</h1>
-        <h2 class="hero-subtitle"><span class="typewriter-text">Engineer</span><span class="cursor">|</span></h2>
-        <p class="hero-desc">I build creative and user-focused web experiences while continuously learning,
-          experimenting and growing as a developer.</p>
-        <div class="hero-location"><i class="ph ph-map-pin"></i> Raipur, CG</div>
-
-        <!-- Available for Work Status Badge -->
-        <div class="status-badge">
-          <span class="pulse-dot"></span>
-          <span class="status-text">Available for Work</span>
+        <h2 class="hero-subtitle">&lt; <span class="typewriter-text">Engineer</span><span class="cursor">|</span> /&gt;</h2>
+        <p class="hero-desc">I build creative and user-focused web experiences while continuously learning, experimenting and growing as a developer.</p>
+        
+        <div class="hero-info-row">
+          <span class="info-item"><i class="ph ph-map-pin"></i> RAIPUR, CG</span>
+          <span class="info-divider">|</span>
+          <span class="info-item status-indicator"><span class="pulse-dot"></span> Available for Work</span>
         </div>
 
         <!-- Quick Actions -->
         <div class="hero-actions">
-          <a href="work.html" class="hero-btn-action work-btn">My Work</a>
-          <a href="#" id="hero-contact-btn" class="hero-btn-action contact-btn">Contact Me</a>
+          <a href="work.html" class="hero-btn-action work-btn">View My Work <i class="ph ph-arrow-up-right"></i></a>
+          <a href="#" id="hero-contact-btn" class="hero-btn-action contact-btn"><i class="ph ph-paper-plane-tilt"></i> Contact Me</a>
         </div>
 
         <div id="music-card-widget" class="spotify-mini-card">
@@ -101,19 +104,18 @@
             <i id="spotify-play-btn" class="ph-fill ph-play-circle"></i>
           </div>
         </div>
+        
         <div class="social-row">
-          <a href="https://www.linkedin.com/in/aayushpanche2005" class="social-btn"><i
-              class="ph ph-linkedin-logo"></i></a>
-          <a href="https://github.com/aayushpancheofficial" class="social-btn"><i class="ph ph-github-logo"></i></a>
-          <a href="https://youtube.com/@analyca5?si=iyAcopOR0A4UPEs9" class="social-btn"><i
-              class="ph ph-youtube-logo"></i></a>
-          <a href="https://www.instagram.com/iam_aayush005/" class="social-btn"><i class="ph ph-instagram-logo"></i></a>
+          <a href="https://www.linkedin.com/in/aayushpanche2005" class="social-btn" target="_blank"><i class="ph ph-linkedin-logo"></i></a>
+          <a href="https://github.com/aayushpancheofficial" class="social-btn" target="_blank"><i class="ph ph-github-logo"></i></a>
+          <a href="https://youtube.com/@analyca5?si=iyAcopOR0A4UPEs9" class="social-btn" target="_blank"><i class="ph ph-youtube-logo"></i></a>
+          <a href="https://www.instagram.com/iam_aayush005/" class="social-btn" target="_blank"><i class="ph ph-instagram-logo"></i></a>
           <a href="mailto:aayushpanche135@gmail.com" class="social-btn"><i class="ph ph-envelope-simple"></i></a>
           <a href="https://pin.it/324Leur2D" class="social-btn" target="_blank"><i class="ph ph-pinterest-logo"></i></a>
-          <a href="https://x.com/iam_aayush005" class="social-btn" target="_blank"><i
-              class="ph ph-twitter-logo"></i></a>
+          <a href="https://x.com/iam_aayush005" class="social-btn" target="_blank"><i class="ph ph-twitter-logo"></i></a>
         </div>
       </div>
+      
       <div class="hero-right">
         <div class="character-wrapper">
           <img src="images/magic.png" alt="3D Avatar" class="character-img">
@@ -145,23 +147,6 @@
     </div>
 
 
-    <section class="blog-section hidden-scroll-up" id="latest-blogs">
-      <div class="content-wrapper">
-        <h2 class="section-title">Blog</h2>
-        <div class="blog-list" id="latest-blog-list">
-          <!-- Dynamically populated from GitHub Obsidian Repo -->
-          <div class="loading-blogs"
-            style="grid-column: 1 / -1; text-align: center; color: rgba(255,255,255,0.6); padding: 20px;">
-            <i class="ph ph-circle-notch spinner"
-              style="font-size: 1.8rem; display: block; margin: 0 auto 10px auto; animation: spin 1s linear infinite;"></i>
-            Loading latest notes...
-          </div>
-        </div>
-        <div class="show-all-container">
-          <a href="blogs.html" class="show-all-btn">Show all blogs <i class="ph ph-arrow-right"></i></a>
-        </div>
-      </div>
-    </section>
 
     <section class="about-section hidden-scroll-up" id="about">
       <div class="content-wrapper">
@@ -242,12 +227,12 @@
           <p class="skills-subtitle">My open source journey and code pushes.</p>
         </div>
         <div class="github-stats-board bento-glass"
-          style="position: relative; border-radius: 24px; margin-top: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); background: rgba(13, 17, 23, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+          style="position: relative; border-radius: 24px; margin-top: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.1);">
           <!-- Masked Rotating Snake Border (Visible only on the edges, smooth head) -->
           <div
             style="position: absolute; inset: 0; border-radius: 24px; padding: 3px; pointer-events: none; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; overflow: hidden; z-index: 0;">
             <div
-              style="position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent 40%, rgba(64, 196, 99, 0.4) 75%, #40c463 95%, transparent 100%); animation: snakeBorderRotate 4s linear infinite; filter: blur(2px);">
+              style="position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent 40%, rgba(16, 185, 129, 0.4) 75%, #10b981 95%, transparent 100%); animation: snakeBorderRotate 4s linear infinite; filter: blur(2px);">
             </div>
           </div>
 
@@ -298,7 +283,11 @@
     </section>
 
 
-    <section class="bento-container hidden-scroll-up">
+    <section class="bento-container hidden-scroll-up" id="dashboard">
+      <div class="skills-header" style="max-width: 1400px; margin: 0 auto 40px auto; padding: 0 20px; text-align: left;">
+        <h2 class="section-title">Productivity Bento</h2>
+        <p class="skills-subtitle">My interactive workstation tools & favorite tunes.</p>
+      </div>
       <div class="bento-grid">
         <div class="bento-item bento-spotify">
           <div class="bento-glass">
@@ -458,7 +447,7 @@
 
   <script src="js/home.js"></script>
   <script src="js/pet.js"></script>
-  
+
   <!-- Lenis Smooth Scroll Library -->
   <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
   <script>
