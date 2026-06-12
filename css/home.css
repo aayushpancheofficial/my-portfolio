@@ -1058,70 +1058,82 @@ body {
 .spotify-mini-card {
   display: flex;
   align-items: center;
-  gap: 25px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 8px 18px;
+  gap: 12px;
+  background: rgba(10, 12, 18, 0.6) !important;
+  padding: 5px 14px;
   border-radius: 50px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: px;
+  border-left: 3px solid #1DB954; /* Premium brand line */
+  margin-top: 5px;
   cursor: pointer;
   width: fit-content;
-  transition: all 0.3s ease;
-  backdrop-filter: none !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .spotify-mini-card:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(10, 12, 18, 0.75) !important;
   transform: translateY(-2px);
+  border-color: rgba(29, 185, 84, 0.3);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.5), 
+    0 0 15px rgba(29, 185, 84, 0.15);
 }
 
 .spotify-mini-card .ph-spotify-logo {
   color: #1DB954;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
 }
 
-
+.spotify-mini-card:hover .ph-spotify-logo {
+  transform: rotate(12deg) scale(1.1);
+}
 
 .spotify-content {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 8px;
   white-space: nowrap;
 }
 
 .spotify-label {
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 700;
   color: var(--theme-text-muted);
 }
 
 #track-name {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: #fff;
 }
 
 #track-artist-container {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   color: var(--theme-text-muted);
 }
 
 .spotify-visuals {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-left: 20px;
+  gap: 10px;
+  margin-left: 10px;
 }
 
 #spotify-play-btn {
   color: #fff;
-  font-size: 1.2rem;
-  opacity: 0.8;
-  transition: opacity 0.3s ease;
+  font-size: 1.4rem; /* Balanced larger play button */
+  opacity: 0.85;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 #spotify-play-btn:hover {
   opacity: 1;
+  transform: scale(1.18);
+  color: #1DB954; /* Green on hover */
 }
 
 .waveform span {
@@ -3913,10 +3925,10 @@ body.new .hero-container {
 .hero-btn-action {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 28px;
+  gap: 6px;
+  padding: 8px 18px; /* Reduced from 12px 28px */
   border-radius: 30px !important; /* Rounded pill shapes! */
-  font-size: 0.95rem;
+  font-size: 0.85rem; /* Reduced from 0.95rem */
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -3925,13 +3937,13 @@ body.new .hero-container {
   background: #52c451 !important; /* Mockup green */
   color: #000000 !important;
   font-weight: 700 !important;
-  box-shadow: 0 8px 20px rgba(82, 196, 81, 0.25) !important;
+  box-shadow: 0 6px 15px rgba(82, 196, 81, 0.25) !important;
   border: none !important;
 }
 
 .hero-btn-action.work-btn:hover {
-  transform: translateY(-3px) !important;
-  box-shadow: 0 12px 25px rgba(82, 196, 81, 0.45) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 20px rgba(82, 196, 81, 0.4) !important;
 }
 
 .hero-btn-action.contact-btn {
@@ -3944,7 +3956,7 @@ body.new .hero-container {
 .hero-btn-action.contact-btn:hover {
   background: rgba(255, 255, 255, 0.08) !important;
   border-color: rgba(255, 255, 255, 0.4) !important;
-  transform: translateY(-3px) !important;
+  transform: translateY(-2px) !important;
 }
 
 /* Responsive Rules for Small Screens */

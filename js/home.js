@@ -528,6 +528,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           if (currentAudio) currentAudio.pause();
           currentAudio = new Audio(playUrl);
 
+          let playCount = 0; // Tracks number of plays to achieve 1 minute (2 * 30 seconds)
+
           currentAudio.play().then(() => {
             globalPlayBtn.className = "ph-fill ph-pause-circle";
             if (waveform) waveform.style.display = 'flex';
@@ -546,12 +548,19 @@ document.addEventListener('DOMContentLoaded', async () => {
           });
 
           currentAudio.onended = () => {
-            globalPlayBtn.className = "ph-fill ph-play-circle";
-            if (waveform) waveform.style.display = 'none';
-            if (!currentPreviewUrl) {
-              trackNameEl.textContent = lastTrackName || "Connect Spotify";
-              if (trackArtistEl) {
-                trackArtistEl.style.display = lastTrackName ? 'inline' : 'none';
+            playCount++;
+            if (playCount < 2) {
+              // Loop once to get 1 minute total play time
+              currentAudio.currentTime = 0;
+              currentAudio.play().catch(err => console.error("Playback loop failed:", err));
+            } else {
+              globalPlayBtn.className = "ph-fill ph-play-circle";
+              if (waveform) waveform.style.display = 'none';
+              if (!currentPreviewUrl) {
+                trackNameEl.textContent = lastTrackName || "Connect Spotify";
+                if (trackArtistEl) {
+                  trackArtistEl.style.display = lastTrackName ? 'inline' : 'none';
+                }
               }
             }
           };
@@ -1304,7 +1313,7 @@ function changeAboutContent(key, element) {
 })();
 
 // Contact Modal Logic
-document.addEventListener('DOMContentLoaded', () => {
+function initContactModal() {
   const openContactBtns = document.querySelectorAll('#open-contact-btn, #hero-contact-btn');
   const closeContactBtn = document.getElementById('close-contact-modal');
   const contactModal = document.getElementById('contact-modal');
@@ -1325,7 +1334,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  closeContactBtn.addEventListener('click', closeModal);
+  if (closeContactBtn) {
+    closeContactBtn.addEventListener('click', closeModal);
+  }
 
   contactModal.addEventListener('click', (e) => {
     if (e.target.classList.contains('contact-modal-overlay')) {
@@ -1392,7 +1403,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initContactModal);
+} else {
+  initContactModal();
+}
 
 // --- Study Timer Logic ---
 (function initStudyTimer() {
