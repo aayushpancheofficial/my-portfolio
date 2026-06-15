@@ -275,7 +275,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (parts.length >= 3) cleanText = parts.slice(2).join('---').trim();
     }
     cleanText = cleanText.replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, assetName, alt) => {
-      const path = assetMap[assetName] || assetName;
+      const cleanAssetName = assetName.split('/').pop();
+      const path = assetMap[cleanAssetName] || assetName;
       const url = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${encodeURI(path)}?t=${Date.now()}`;
       return `![${alt || assetName}](${url})`;
     });
@@ -467,7 +468,8 @@ document.addEventListener("DOMContentLoaded", () => {
       modalHistory.push(currentState);
       modalBackButton.classList.add('visible');
 
-      let fileName = noteName;
+      const cleanNoteName = noteName.split('/').pop();
+      let fileName = cleanNoteName;
       if (!fileName.endsWith('.md')) fileName += '.md';
 
       const filePath = assetMap[fileName] || fileName;
@@ -488,7 +490,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       cleanText = cleanText.replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, assetName, alt) => {
-        const path = assetMap[assetName] || assetName;
+        const cleanAssetName = assetName.split('/').pop();
+        const path = assetMap[cleanAssetName] || assetName;
         const url = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${encodeURI(path)}?t=${Date.now()}`;
         return `![${alt || assetName}](${url})`;
       });
@@ -498,7 +501,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return `<a href="#" class="obsidian-internal-link" data-note="${linkTarget.trim()}">${displayName}</a>`;
       });
 
-      let title = noteName.replace('.md', '').replace(/_/g, ' ');
+      let title = cleanNoteName.replace('.md', '').replace(/_/g, ' ');
       const h1Match = cleanText.match(/^#\s+(.*)$/m);
       if (h1Match) {
         title = h1Match[1].trim();
@@ -694,7 +697,8 @@ document.addEventListener("DOMContentLoaded", () => {
   async function fetchNoteContent(noteName) {
     if (noteCache[noteName]) return noteCache[noteName];
 
-    let fileName = noteName;
+    const cleanNoteName = noteName.split('/').pop();
+    let fileName = cleanNoteName;
     if (!fileName.endsWith('.md')) fileName += '.md';
 
     const filePath = assetMap[fileName] || fileName;
@@ -713,7 +717,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Parse Obsidian images inside preview
     cleanText = cleanText.replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, assetName, alt) => {
-      const path = assetMap[assetName] || assetName;
+      const cleanAssetName = assetName.split('/').pop();
+      const path = assetMap[cleanAssetName] || assetName;
       const url = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${path}?t=${Date.now()}`;
       return `![${alt || assetName}](${url})`;
     });
