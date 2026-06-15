@@ -684,6 +684,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const popover = document.createElement('div');
   popover.className = 'obsidian-preview-popover';
+  popover.setAttribute('data-lenis-prevent', '');
   popover.innerHTML = `
     <div class="popover-header">
       <span class="popover-title" id="popoverTitle"></span>

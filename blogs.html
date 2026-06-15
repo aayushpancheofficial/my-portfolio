@@ -81,7 +81,7 @@
         <div class="blog-grid" id="blogGrid"></div>
     </main>
 
-    <div id="blogModal" class="blog-modal">
+    <div id="blogModal" class="blog-modal" data-lenis-prevent>
         <div class="modal-glass">
             <button class="close-modal" id="closeModal"><i class="ph ph-x"></i></button>
             <div class="modal-header">
@@ -132,9 +132,7 @@
       }
       requestAnimationFrame(raf);
 
-      window.lenis.on('scroll', (e) => {
-        window.scrollY = e.scroll;
-      });
+
     </script>
 </body>
 
