@@ -565,6 +565,24 @@ body.light-mode .popover-content p {
   color: #334155 !important;
 }
 
+/* Invert dark-themed diagrams, drawings, and screenshots in Light Mode so they look clean and legible on white background */
+body.light-mode .modal-body img[alt*="Pasted image"],
+body.light-mode .modal-body img[src*="Pasted%20image"],
+body.light-mode .modal-body img[alt*="diagram"],
+body.light-mode .modal-body img[src*="diagram"],
+body.light-mode .modal-body img[alt*="drawing"],
+body.light-mode .modal-body img[src*="drawing"],
+body.light-mode .modal-body img[src$=".svg"],
+body.light-mode .popover-content img[alt*="Pasted image"],
+body.light-mode .popover-content img[src*="Pasted%20image"],
+body.light-mode .popover-content img[alt*="diagram"],
+body.light-mode .popover-content img[src*="diagram"],
+body.light-mode .popover-content img[src$=".svg"] {
+  filter: invert(1) hue-rotate(180deg) !important;
+  mix-blend-mode: multiply !important;
+  background-color: transparent !important;
+}
+
 .moco-hero {
   position: relative;
   width: 100%;

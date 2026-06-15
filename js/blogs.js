@@ -581,6 +581,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     blogModal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    if (window.lenis) window.lenis.stop();
 
     // Set style properties directly without GSAP
     const modalGlass = blogModal.querySelector('.modal-glass');
@@ -607,6 +608,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Clear history and hide back button on close
     modalHistory = [];
     modalBackButton.classList.remove('visible');
+
+    if (window.lenis) window.lenis.start();
 
     if (isPopState !== true) {
       // Remove the 'post' query parameter from URL
