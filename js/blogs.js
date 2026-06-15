@@ -690,7 +690,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <span class="popover-title" id="popoverTitle"></span>
       <button class="popover-expand-btn" id="popoverExpandBtn" title="Open note fully"><i class="ph ph-corners-out"></i></button>
     </div>
-    <div class="popover-content" id="popoverContent"></div>
+    <div class="popover-content" id="popoverContent" data-lenis-prevent></div>
   `;
   document.body.appendChild(popover);
   makeElementMagnetic(document.getElementById('popoverExpandBtn'), 0.4); // Apply magnetic effect
