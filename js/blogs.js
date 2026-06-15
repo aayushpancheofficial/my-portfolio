@@ -129,6 +129,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalDate = document.getElementById('modalDate');
   const modalBody = document.getElementById('modalBody');
 
+  // Prevent modal scroll/touch events from bubbling up to Lenis smooth scroll
+  blogModal.addEventListener('wheel', (e) => e.stopPropagation(), { passive: true });
+  blogModal.addEventListener('touchmove', (e) => e.stopPropagation(), { passive: true });
+
   const assetMap = {};
 
   const CACHE_KEY = 'github_blog_tree_v2';
@@ -693,6 +697,10 @@ document.addEventListener("DOMContentLoaded", () => {
     <div class="popover-content" id="popoverContent" data-lenis-prevent></div>
   `;
   document.body.appendChild(popover);
+
+  // Prevent popover scroll/touch events from bubbling up to Lenis smooth scroll
+  popover.addEventListener('wheel', (e) => e.stopPropagation(), { passive: true });
+  popover.addEventListener('touchmove', (e) => e.stopPropagation(), { passive: true });
   makeElementMagnetic(document.getElementById('popoverExpandBtn'), 0.4); // Apply magnetic effect
 
   async function fetchNoteContent(noteName) {
