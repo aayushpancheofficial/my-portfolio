@@ -1080,7 +1080,7 @@ function changeAboutContent(key, element) {
       const isMarkdown = item.path.endsWith('.md');
       const hasNoExtension = !item.path.split('/').pop().includes('.');
       const isNotHidden = !item.path.split('/').pop().startsWith('.');
-      const isSubNote = fileName.startsWith('_') || item.path.toLowerCase().includes('/internal/') || item.path.toLowerCase().includes('/subnotes/');
+      const isSubNote = fileName.startsWith('_') || item.path.toLowerCase().includes('/internal/') || item.path.toLowerCase().includes('/subnotes/') || item.path.toLowerCase().includes('internalfile');
 
       return isFile && isNotHidden && (isMarkdown || hasNoExtension) && !isSubNote;
     });
@@ -1139,6 +1139,14 @@ function changeAboutContent(key, element) {
 
         if (contentRes.ok) {
           const mdText = await contentRes.text();
+
+          // Check if it's an internal file or hidden note
+          const hideMatch = mdText.match(/hide:\s*true/i) || mdText.match(/card:\s*false/i);
+          const containsInternalFile = mdText.toLowerCase().includes('internalfile');
+          if (hideMatch || containsInternalFile) {
+            return; // Skip processing this note for latest blogs
+          }
+
           let cleanText = mdText;
           if (mdText.trim().startsWith('---')) {
             const parts = mdText.split('---');

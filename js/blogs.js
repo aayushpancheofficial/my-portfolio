@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Check if we should hide this card from the main page list
     const hideMatch = mdText.match(/hide:\s*true/i) || mdText.match(/card:\s*false/i);
-    const isSubNote = fileName.startsWith('_') || filePath.toLowerCase().includes('/internal/') || filePath.toLowerCase().includes('/subnotes/');
+    const isSubNote = fileName.startsWith('_') || filePath.toLowerCase().includes('/internal/') || filePath.toLowerCase().includes('/subnotes/') || filePath.toLowerCase().includes('internalfile') || mdText.toLowerCase().includes('internalfile');
     const shouldHideCard = hideMatch || isSubNote;
 
     if (!shouldHideCard) {
