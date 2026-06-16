@@ -630,10 +630,10 @@ body.new {
 
 .bg-layer {
   position: fixed;
-  top: -10vh;
+  top: -10svh;
   left: -10vw;
   width: 120vw;
-  height: 120vh;
+  height: 120svh;
   z-index: 1;
   transition: opacity 0.5s ease;
   pointer-events: none;
@@ -675,10 +675,10 @@ body.new {
 #rain-canvas,
 #snow-canvas {
   position: fixed;
-  top: -10vh;
+  top: -10svh;
   left: -10vw;
   width: 120vw;
-  height: 120vh;
+  height: 120svh;
   z-index: 1;
   pointer-events: none;
   opacity: 0;
@@ -898,7 +898,7 @@ body {
   position: relative;
   z-index: 10;
   margin-top: 50px;
-  margin-bottom: 10vh;
+  margin-bottom: 80px;
   overflow: hidden;
 }
 
