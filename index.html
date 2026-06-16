@@ -7,6 +7,14 @@
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Aayush — Portfolio</title>
   <link rel="icon" type="image/x-icon" href="images/profile pic.jpg" />
+
+  <!-- SEO & Open Graph Tags -->
+  <meta name="description" content="I build creative and user-focused web experiences while continuously learning, experimenting and growing as a developer.">
+  <meta property="og:title" content="Aayush Panche — Portfolio">
+  <meta property="og:description" content="I build creative and user-focused web experiences while continuously learning, experimenting and growing as a developer.">
+  <meta property="og:image" content="https://aayushpancheofficial.github.io/my-portfolio/images/profile%20pic.jpg">
+  <meta property="og:url" content="https://aayushpancheofficial.github.io/my-portfolio/">
+  <meta name="twitter:card" content="summary_large_image">
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Permanent+Marker&display=swap"
     rel="stylesheet" />
@@ -431,9 +439,14 @@
           <textarea id="contact-message" name="message" placeholder="Write your message here..." required
             rows="4"></textarea>
         </div>
-        <button type="submit" class="submit-msg-btn">
-          <i class="ph ph-paper-plane-tilt"></i> Send Message
-        </button>
+        <div class="contact-actions-row" style="display: flex; gap: 15px;">
+          <button type="submit" class="submit-msg-btn" style="flex: 1;">
+            <i class="ph ph-paper-plane-tilt"></i> Send Message
+          </button>
+          <a href="https://calendly.com/" target="_blank" class="calendly-btn" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; border-radius: 12px; text-decoration: none; font-weight: 600; transition: 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+            <i class="ph ph-calendar-plus"></i> Book Meeting
+          </a>
+        </div>
       </form>
     </div>
   </div>
