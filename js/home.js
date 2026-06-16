@@ -415,7 +415,7 @@ async function fetchSpotifyTracks(isPolling = false) {
   }
 
   try {
-    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USERNAME}&api_key=${LASTFM_API_KEY}&format=json&limit=1`;
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USERNAME}&api_key=${LASTFM_API_KEY}&format=json&limit=1&_=${Date.now()}`;
     const response = await fetch(url);
     if (!response.ok) throw new Error("Last.fm fetch failed");
 
@@ -510,19 +510,24 @@ document.addEventListener('DOMContentLoaded', async () => {
       const trackArtistEl = document.getElementById('track-artist-container');
       const waveform = document.getElementById('spotify-waveform');
 
-      const playUrl = currentPreviewUrl || "https://archive.org/download/moonwalk-sweet-memory-lofi-trip-hop/Moonwalk%20-%20Sweet%20Memory%20%28Lofi%20Trip-hop%29.mp3";
+      if (!currentPreviewUrl) {
+        // No preview available, redirect to Spotify directly
+        if (lastTrackUrl) {
+          window.open(lastTrackUrl, '_blank');
+        } else if (lastTrackName) {
+          window.open(`https://open.spotify.com/search/${encodeURIComponent(lastTrackName)}`, '_blank');
+        } else {
+          window.open('https://open.spotify.com', '_blank');
+        }
+        return;
+      }
+
+      const playUrl = currentPreviewUrl;
 
       if (currentAudio && !currentAudio.paused && currentAudio.src === playUrl) {
         currentAudio.pause();
         globalPlayBtn.className = "ph-fill ph-play-circle";
         if (waveform) waveform.style.display = 'none';
-
-        if (!currentPreviewUrl) {
-          trackNameEl.textContent = lastTrackName || "Connect Spotify";
-          if (trackArtistEl) {
-            trackArtistEl.style.display = lastTrackName ? 'inline' : 'none';
-          }
-        }
       } else {
         try {
           if (currentAudio) currentAudio.pause();
@@ -533,14 +538,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           currentAudio.play().then(() => {
             globalPlayBtn.className = "ph-fill ph-pause-circle";
             if (waveform) waveform.style.display = 'flex';
-
-            if (!currentPreviewUrl) {
-              trackNameEl.textContent = "Sweet Memory (Lofi)";
-              if (trackArtistEl) {
-                trackArtistEl.innerHTML = " &bull; Moonwalk";
-                trackArtistEl.style.display = 'inline';
-              }
-            }
           }).catch(error => {
             console.error("Playback failed:", error);
             globalPlayBtn.className = "ph-fill ph-play-circle";
@@ -556,12 +553,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             } else {
               globalPlayBtn.className = "ph-fill ph-play-circle";
               if (waveform) waveform.style.display = 'none';
-              if (!currentPreviewUrl) {
-                trackNameEl.textContent = lastTrackName || "Connect Spotify";
-                if (trackArtistEl) {
-                  trackArtistEl.style.display = lastTrackName ? 'inline' : 'none';
-                }
-              }
             }
           };
         } catch (err) {
@@ -970,10 +961,15 @@ function changeAboutContent(key, element) {
 
   async function updateVisitorCount() {
     const hasVisited = localStorage.getItem('aayush_has_visited');
+    const cachedCount = localStorage.getItem('aayush_last_known_global_visits');
     
+    // Show cached count immediately for faster perceived load time
+    if (cachedCount) {
+      visitorCountEl.innerHTML = `You are the <strong style="color: #bf55ff;">${Number(cachedCount).toLocaleString()}${getOrdinalSuffix(Number(cachedCount))}</strong> visitor`;
+    }
+
     // 1. Try the primary API
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
       const targetUrl = hasVisited ? primaryGetUrl : primaryUpUrl;
 
       const response = await fetch(targetUrl);

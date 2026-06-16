@@ -322,3 +322,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// --- Global Cute UI Interaction Sounds ---
+let audioCtx = null;
+
+function playCuteSound() {
+  try {
+    if (!audioCtx) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      audioCtx = new AudioContext();
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    
+    const now = audioCtx.currentTime;
+    
+    // Soft "Bubble/Pop" sound
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(500, now);
+    osc.frequency.exponentialRampToValueAtTime(200, now + 0.1);
+    
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.15, now + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+    
+    osc.start(now);
+    osc.stop(now + 0.15);
+  } catch (err) {
+    // Ignore audio context errors
+  }
+}
+
+// Attach sound to ANY click/tap on the screen
+document.addEventListener('click', (e) => {
+  playCuteSound();
+}, { capture: true });

@@ -1,4 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
+  let modalSessionDepth = 0;
+
+  // Set up the initial history state for the base blogs page (depth 0)
+  if (!window.location.search.includes('post=')) {
+    window.history.replaceState({ post: null, depth: 0 }, '', window.location.href);
+  } else {
+    // We loaded the page with a target post, replace current entry with base (depth 0)
+    // and then push the target post entry (depth 1) so Back button closes the modal.
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetPost = urlParams.get('post');
+    
+    const baseUrl = new URL(window.location);
+    baseUrl.searchParams.delete('post');
+    window.history.replaceState({ post: null, depth: 0 }, '', baseUrl);
+
+    const postUrl = new URL(window.location);
+    postUrl.searchParams.set('post', targetPost);
+    window.history.pushState({ post: targetPost, depth: 1 }, '', postUrl);
+    modalSessionDepth = 1;
+  }
+
   const scene = document.getElementById("parallax-scene");
   const layers = document.querySelectorAll(".parallax-layer");
 
@@ -284,10 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const url = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${encodeURI(path)}?t=${Date.now()}`;
       return `![${alt || assetName}](${url})`;
     });
-    cleanText = cleanText.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, linkName, alias) => {
-      const displayName = alias || linkName;
-      return `<a href="#" class="obsidian-internal-link" data-note="${linkName.trim()}">${displayName}</a>`;
-    });
+    // Do not replace [[...]] here, pass raw markdown to modal to prevent code block escaping.
 
     let title = fileName.replace('.md', '').replace(/_/g, ' ');
     const h1Match = cleanText.match(/^#\s+(.*)$/m);
@@ -300,7 +318,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const dateMatch = mdText.match(/date:\s*["']?(.*?)["']?$/im) || mdText.match(/Date:\s*(.*)/);
     if (dateMatch) date = dateMatch[1].trim();
 
-    const excerpt = cleanText.split('\n').filter(l => l.trim() && !l.startsWith('#')).slice(0, 1).join(' ').substring(0, 60) + '...';
+    let excerptText = cleanText.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, '$2$1').replace(/==([^=]+)==/g, '$1');
+    const excerpt = excerptText.split('\n').filter(l => l.trim() && !l.startsWith('#')).slice(0, 1).join(' ').substring(0, 60) + '...';
     let category = filePath.toLowerCase().includes('notes') ? "Notes" : (filePath.includes('/') ? filePath.split('/')[0].replace(/-/g, ' ') : "General");
 
     // Check if we should hide this card from the main page list
@@ -348,42 +367,13 @@ document.addEventListener("DOMContentLoaded", () => {
   modalBackButton.id = 'modalBackButton';
   modalBackButton.title = 'Go Back';
   modalBackButton.innerHTML = `<i class="ph ph-arrow-left"></i>`;
-  const modalGlass = blogModal.querySelector('.modal-glass');
-  if (modalGlass) {
-    modalGlass.appendChild(modalBackButton);
-  }
+  blogModal.appendChild(modalBackButton);
   makeElementMagnetic(modalBackButton, 0.35); // Apply magnetic effect
 
   // Back Button Navigation Click Handler
   modalBackButton.addEventListener('click', () => {
-    if (modalHistory.length > 0) {
-      const prevState = modalHistory.pop();
-      modalTitle.innerText = prevState.title;
-      modalDate.innerText = prevState.date;
-      modalBody.innerHTML = prevState.html;
-      modalBody.scrollTop = prevState.scrollTop;
-
-      // Re-bind collapsible heading listeners on back navigation
-      makeHeadingsCollapsible(modalBody);
-
-      // Display content directly without GSAP
-      modalBody.style.opacity = '1';
-      modalBody.style.transform = 'none';
-
-      // Restore URL
-      const newUrl = new URL(window.location);
-      if (prevState.fileName) {
-        newUrl.searchParams.set('post', prevState.fileName);
-      } else {
-        newUrl.searchParams.delete('post');
-      }
-      window.history.pushState({ post: prevState.fileName }, '', newUrl);
-
-      // Hide back button if we are back at the primary note
-      if (modalHistory.length === 0) {
-        modalBackButton.classList.remove('visible');
-      }
-    }
+    // Simply go back in history, which will trigger the popstate listener
+    window.history.back();
   });
 
   function makeHeadingsCollapsible(container) {
@@ -459,24 +449,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  async function openInternalNote(noteName) {
+  // Helper function to load note content asynchronously into modal (without touching history)
+  async function loadNoteContentIntoModal(fileName, titleHint) {
     try {
-      // Save current note state to history stack before loading the new note
-      const currentState = {
-        title: modalTitle.innerText,
-        date: modalDate.innerText,
-        html: modalBody.innerHTML,
-        scrollTop: modalBody.scrollTop,
-        fileName: new URL(window.location).searchParams.get('post')
-      };
-      modalHistory.push(currentState);
-      modalBackButton.classList.add('visible');
+      const cleanNoteName = fileName.split('/').pop();
+      let fileWithExt = cleanNoteName;
+      if (!fileWithExt.endsWith('.md')) fileWithExt += '.md';
 
-      const cleanNoteName = noteName.split('/').pop();
-      let fileName = cleanNoteName;
-      if (!fileName.endsWith('.md')) fileName += '.md';
-
-      const filePath = assetMap[fileName] || fileName;
+      const filePath = assetMap[fileWithExt] || fileWithExt;
       const encodedPath = encodeURI(filePath);
       const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${encodedPath}?t=${Date.now()}`;
 
@@ -500,12 +480,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return `![${alt || assetName}](${url})`;
       });
 
-      cleanText = cleanText.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, linkTarget, alias) => {
-        const displayName = alias || linkTarget;
-        return `<a href="#" class="obsidian-internal-link" data-note="${linkTarget.trim()}">${displayName}</a>`;
-      });
+      // Defer [[...]] and ==...== to after markdown parsing
 
-      let title = cleanNoteName.replace('.md', '').replace(/_/g, ' ');
+      let title = titleHint || cleanNoteName.replace('.md', '').replace(/_/g, ' ');
       const h1Match = cleanText.match(/^#\s+(.*)$/m);
       if (h1Match) {
         title = h1Match[1].trim();
@@ -529,6 +506,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       modalDate.innerText = updatedDate;
 
+      let htmlContent = '';
       if (typeof marked !== 'undefined') {
         marked.setOptions({
           breaks: true,
@@ -541,24 +519,69 @@ document.addEventListener("DOMContentLoaded", () => {
             return code;
           }
         });
-        modalBody.innerHTML = marked.parse(cleanText);
-        makeHeadingsCollapsible(modalBody);
+        htmlContent = marked.parse(cleanText);
       } else {
-        modalBody.innerText = cleanText;
+        htmlContent = cleanText;
+      }
+
+      htmlContent = htmlContent.replace(/==([^=]+)==/g, '<mark>$1</mark>');
+      htmlContent = htmlContent.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, linkTarget, alias) => {
+        const displayName = alias || linkTarget;
+        return `<a href="#" class="obsidian-internal-link" data-note="${linkTarget.trim()}">${displayName}</a>`;
+      });
+
+      modalBody.innerHTML = htmlContent;
+      if (typeof marked !== 'undefined') {
+        makeHeadingsCollapsible(modalBody);
       }
       modalBody.scrollTop = 0;
 
-      // Display content directly without GSAP
       modalBody.style.opacity = '1';
       modalBody.style.transform = 'none';
 
-      // Update the URL for the internal note so it can be shared
-      const newUrl = new URL(window.location);
-      newUrl.searchParams.set('post', fileName);
-      window.history.pushState({ post: fileName }, '', newUrl);
+      // Ensure modal is active (e.g. forward navigation)
+      if (!blogModal.classList.contains('active')) {
+        blogModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        if (window.lenis) window.lenis.stop();
+        const modalGlass = blogModal.querySelector('.modal-glass');
+        if (modalGlass) {
+          modalGlass.style.opacity = '1';
+          modalGlass.style.transform = 'none';
+        }
+      }
     } catch (err) {
       console.error(err);
-      modalBody.innerHTML = `<div class="error-msg" style="color: #ff6b6b; padding: 30px; text-align: center; background: rgba(255,107,107,0.1); border-radius: 16px; border: 1px solid rgba(255,107,107,0.2);"><i class="ph ph-warning-circle" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>Error loading note "${noteName}".<br>Make sure the file exists in your repository.</div>`;
+      modalBody.innerHTML = `<div class="error-msg" style="color: #ff6b6b; padding: 30px; text-align: center; background: rgba(255,107,107,0.1); border-radius: 16px; border: 1px solid rgba(255,107,107,0.2);"><i class="ph ph-warning-circle" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>Error loading note "${fileName}".<br>Make sure the file exists in your repository.</div>`;
+    }
+  }
+
+  async function openInternalNote(noteName) {
+    try {
+      // Save current note state to history stack before loading the new note
+      const currentState = {
+        title: modalTitle.innerText,
+        date: modalDate.innerText,
+        html: modalBody.innerHTML,
+        scrollTop: modalBody.scrollTop,
+        fileName: new URL(window.location).searchParams.get('post')
+      };
+      modalHistory.push(currentState);
+      modalBackButton.classList.add('visible');
+
+      const cleanNoteName = noteName.split('/').pop();
+      let fileName = cleanNoteName;
+      if (!fileName.endsWith('.md')) fileName += '.md';
+
+      await loadNoteContentIntoModal(fileName);
+
+      // Update the URL and history state
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.set('post', fileName);
+      modalSessionDepth++;
+      window.history.pushState({ post: fileName, depth: modalSessionDepth }, '', newUrl);
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -569,6 +592,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     modalTitle.innerText = title;
     modalDate.innerText = date;
+    let htmlContent = '';
     if (typeof marked !== 'undefined') {
       marked.setOptions({
         breaks: true,
@@ -581,10 +605,20 @@ document.addEventListener("DOMContentLoaded", () => {
           return code;
         }
       });
-      modalBody.innerHTML = marked.parse(content);
-      makeHeadingsCollapsible(modalBody);
+      htmlContent = marked.parse(content);
     } else {
-      modalBody.innerText = content;
+      htmlContent = content;
+    }
+
+    htmlContent = htmlContent.replace(/==([^=]+)==/g, '<mark>$1</mark>');
+    htmlContent = htmlContent.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, linkTarget, alias) => {
+      const displayName = alias || linkTarget;
+      return `<a href="#" class="obsidian-internal-link" data-note="${linkTarget.trim()}">${displayName}</a>`;
+    });
+
+    modalBody.innerHTML = htmlContent;
+    if (typeof marked !== 'undefined') {
+      makeHeadingsCollapsible(modalBody);
     }
     blogModal.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -602,27 +636,36 @@ document.addEventListener("DOMContentLoaded", () => {
       const newUrl = new URL(window.location);
       if (newUrl.searchParams.get('post') !== fileName) {
         newUrl.searchParams.set('post', fileName);
-        window.history.pushState({ post: fileName }, '', newUrl);
+        modalSessionDepth = 1;
+        window.history.pushState({ post: fileName, depth: 1 }, '', newUrl);
       }
     }
   }
 
   function closeBlogModal(isPopState = false) {
-    blogModal.classList.remove('active');
-    document.body.style.overflow = '';
-    hidePopover();
-
-    // Clear history and hide back button on close
-    modalHistory = [];
-    modalBackButton.classList.remove('visible');
-
-    if (window.lenis) window.lenis.start();
-
-    if (isPopState !== true) {
-      // Remove the 'post' query parameter from URL
-      const newUrl = new URL(window.location);
-      newUrl.searchParams.delete('post');
-      window.history.pushState({}, '', newUrl);
+    if (isPopState) {
+      blogModal.classList.remove('active');
+      document.body.style.overflow = '';
+      hidePopover();
+      modalHistory = [];
+      modalBackButton.classList.remove('visible');
+      modalSessionDepth = 0;
+      if (window.lenis) window.lenis.start();
+    } else {
+      if (modalSessionDepth > 0) {
+        window.history.go(-modalSessionDepth);
+      } else {
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.delete('post');
+        window.history.replaceState({ post: null, depth: 0 }, '', newUrl);
+        
+        blogModal.classList.remove('active');
+        document.body.style.overflow = '';
+        hidePopover();
+        modalHistory = [];
+        modalBackButton.classList.remove('visible');
+        if (window.lenis) window.lenis.start();
+      }
     }
   }
 
@@ -630,10 +673,59 @@ document.addEventListener("DOMContentLoaded", () => {
   blogModal.addEventListener('click', (e) => { if (e.target === blogModal) closeBlogModal(false); });
 
   window.addEventListener('popstate', (e) => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const post = urlParams.get('post');
-    if (!post && blogModal.classList.contains('active')) {
-      closeBlogModal(true);
+    const state = e.state;
+    const post = state && state.post;
+    const depth = state && typeof state.depth === 'number' ? state.depth : 0;
+
+    const prevDepth = modalSessionDepth;
+    modalSessionDepth = depth;
+
+    if (!post) {
+      if (blogModal.classList.contains('active')) {
+        closeBlogModal(true);
+      }
+    } else {
+      if (blogModal.classList.contains('active')) {
+        if (depth < prevDepth) {
+          // User went back! Restore state from cache
+          const lastHistoryItem = modalHistory[modalHistory.length - 1];
+          if (lastHistoryItem && (lastHistoryItem.fileName === post || lastHistoryItem.title === post)) {
+            modalHistory.pop();
+            modalTitle.innerText = lastHistoryItem.title;
+            modalDate.innerText = lastHistoryItem.date;
+            modalBody.innerHTML = lastHistoryItem.html;
+            modalBody.scrollTop = lastHistoryItem.scrollTop;
+
+            makeHeadingsCollapsible(modalBody);
+
+            modalBody.style.opacity = '1';
+            modalBody.style.transform = 'none';
+
+            if (modalHistory.length === 0) {
+              modalBackButton.classList.remove('visible');
+            }
+          } else {
+            // Fallback load
+            loadNoteContentIntoModal(post);
+          }
+        } else {
+          // User went forward! Save current note state to cache first
+          const currentState = {
+            title: modalTitle.innerText,
+            date: modalDate.innerText,
+            html: modalBody.innerHTML,
+            scrollTop: modalBody.scrollTop,
+            fileName: new URL(window.location).searchParams.get('post')
+          };
+          modalHistory.push(currentState);
+          modalBackButton.classList.add('visible');
+
+          loadNoteContentIntoModal(post);
+        }
+      } else {
+        // Modal is currently closed, load it
+        loadNoteContentIntoModal(post);
+      }
     }
   });
 
@@ -732,12 +824,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return `![${alt || assetName}](${url})`;
     });
 
-    // Parse internal links inside preview (making preview notes fully interactive!)
-    cleanText = cleanText.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, linkTarget, alias) => {
-      const displayName = alias || linkTarget;
-      return `<a href="#" class="obsidian-internal-link" data-note="${linkTarget.trim()}">${displayName}</a>`;
-    });
-
     let previewHtml = '';
     if (typeof marked !== 'undefined') {
       marked.setOptions({
@@ -755,6 +841,13 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       previewHtml = cleanText;
     }
+
+    // Parse internal links inside preview AFTER parsing markdown
+    previewHtml = previewHtml.replace(/==([^=]+)==/g, '<mark>$1</mark>');
+    previewHtml = previewHtml.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, linkTarget, alias) => {
+      const displayName = alias || linkTarget;
+      return `<a href="#" class="obsidian-internal-link" data-note="${linkTarget.trim()}">${displayName}</a>`;
+    });
 
     noteCache[noteName] = previewHtml;
     return previewHtml;
