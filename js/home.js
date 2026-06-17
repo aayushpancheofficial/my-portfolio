@@ -52,11 +52,14 @@ function initSparklesCanvas(canvas) {
       return;
     }
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Check if canvas is in view to prevent lag
+    const rect = canvas.getBoundingClientRect();
+    if (rect.bottom > 0) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Subtle center radial background glow
-    const centerGrad = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 1.5);
-    centerGrad.addColorStop(0, 'rgba(56, 189, 248, 0.03)');
+      // Subtle center radial background glow
+      const centerGrad = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 1.5);
+      centerGrad.addColorStop(0, 'rgba(56, 189, 248, 0.03)');
     centerGrad.addColorStop(0.5, 'rgba(192, 132, 252, 0.01)');
     centerGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = centerGrad;
@@ -106,6 +109,7 @@ function initSparklesCanvas(canvas) {
           ctx.strokeStyle = glowGrad;
           ctx.lineWidth = 2.0;
           ctx.stroke();
+        }
         }
       }
     }

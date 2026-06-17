@@ -50,26 +50,63 @@ document.addEventListener("DOMContentLoaded", () => {
   function animate() {
     if (window.innerWidth <= 768) return requestAnimationFrame(animate); // Disable parallax on mobile
 
-    const ease = 0.08;
-    currentX += (targetX - currentX) * ease;
-    currentY += (targetY - currentY) * ease;
+    if (scene) {
+      const rect = scene.getBoundingClientRect();
+      if (rect.bottom > 0) {
+        const ease = 0.08;
+        currentX += (targetX - currentX) * ease;
+        currentY += (targetY - currentY) * ease;
 
-    layers.forEach(layer => {
-      const depth = parseFloat(layer.getAttribute("data-depth"));
-      const mouseTranslateX = currentX * depth * -120;
-      const mouseTranslateY = currentY * depth * -60;
-      const scrollTranslateY = scrollY * (1 - depth) * 0.85;
-      const finalY = mouseTranslateY + scrollTranslateY;
-      layer.style.transform = `translate3d(${mouseTranslateX}px, ${finalY}px, 0)`;
-    });
+        layers.forEach(layer => {
+          const depth = parseFloat(layer.getAttribute("data-depth"));
+          const mouseTranslateX = currentX * depth * -120;
+          const mouseTranslateY = currentY * depth * -60;
+          const scrollTranslateY = scrollY * (1 - depth) * 0.85;
+          const finalY = mouseTranslateY + scrollTranslateY;
+          layer.style.transform = `translate3d(${mouseTranslateX}px, ${finalY}px, 0)`;
+        });
 
-    const runningTextParent = document.querySelector('.running-text-layer');
-    if (runningTextParent) {
-      runningTextParent.style.transform = `translateX(-${scrollY * 0.5}px)`;
+        const runningTextParent = document.querySelector('.running-text-layer');
+        if (runningTextParent) {
+          runningTextParent.style.transform = `translateX(-${scrollY * 0.5}px)`;
+        }
+      }
     }
     requestAnimationFrame(animate);
   }
   animate();
+
+  function renderMermaidDiagrams(container) {
+    if (typeof mermaid === 'undefined') return;
+    
+    const mermaidBlocks = container.querySelectorAll('code.language-mermaid');
+    if (mermaidBlocks.length === 0) return;
+
+    mermaidBlocks.forEach((block) => {
+      const pre = block.parentElement;
+      if (pre && pre.tagName === 'PRE') {
+        const div = document.createElement('div');
+        div.className = 'mermaid';
+        div.style.background = 'transparent';
+        div.style.display = 'flex';
+        div.style.justifyContent = 'center';
+        div.style.margin = '1.5rem 0';
+        div.textContent = block.textContent;
+        pre.replaceWith(div);
+      }
+    });
+
+    try {
+      const isLight = document.body.classList.contains('light-mode');
+      mermaid.initialize({ startOnLoad: false, theme: isLight ? 'default' : 'dark' });
+      mermaid.run({
+        querySelector: '.mermaid',
+        suppressErrors: true
+      });
+    } catch (err) {
+      console.warn('Mermaid rendering failed:', err);
+    }
+  }
 
   // --- Reusable GSAP Magnetic Button Effect ---
   function makeElementMagnetic(element, strength = 0.3) {
@@ -534,6 +571,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof marked !== 'undefined') {
         makeHeadingsCollapsible(modalBody);
       }
+      renderMermaidDiagrams(modalBody);
       modalBody.scrollTop = 0;
 
       modalBody.style.opacity = '1';
@@ -620,6 +658,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof marked !== 'undefined') {
       makeHeadingsCollapsible(modalBody);
     }
+    renderMermaidDiagrams(modalBody);
     blogModal.classList.add('active');
     document.body.style.overflow = 'hidden';
     if (window.lenis) window.lenis.stop();
@@ -697,6 +736,7 @@ document.addEventListener("DOMContentLoaded", () => {
             modalBody.scrollTop = lastHistoryItem.scrollTop;
 
             makeHeadingsCollapsible(modalBody);
+            renderMermaidDiagrams(modalBody);
 
             modalBody.style.opacity = '1';
             modalBody.style.transform = 'none';
@@ -895,7 +935,9 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         const content = await fetchNoteContent(noteName);
         if (activeNote === noteName) {
-          document.getElementById('popoverContent').innerHTML = content;
+          const popoverContent = document.getElementById('popoverContent');
+          popoverContent.innerHTML = content;
+          renderMermaidDiagrams(popoverContent);
         }
       } catch (err) {
         if (activeNote === noteName) {
