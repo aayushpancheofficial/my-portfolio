@@ -500,6 +500,19 @@ body.light-mode .back-modal-btn:hover {
   box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
 }
 
+/* Dynamic In-Modal Share Button Light Mode */
+body.light-mode .share-modal-btn {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.2);
+  color: #059669;
+}
+
+body.light-mode .share-modal-btn:hover {
+  background: #10b981;
+  color: white;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
 /* Beautiful light theme styled blockquotes & code containers */
 body.light-mode .modal-body pre {
   background: #f1f5f9;
@@ -1167,8 +1180,8 @@ body.light-mode .popover-content img[src$=".svg"] {
 .back-modal-btn {
   position: fixed;
   top: 100px;
-  right: 120px;
-  /* Grouped perfectly next to close button */
+  right: 190px;
+  /* Grouped perfectly next to share button */
   width: 60px;
   height: 60px;
   background: rgba(255, 255, 255, 0.05);
@@ -1200,15 +1213,47 @@ body.light-mode .popover-content img[src$=".svg"] {
   box-shadow: 0 0 20px rgba(191, 85, 255, 0.4);
 }
 
+.share-modal-btn {
+  position: fixed;
+  top: 100px;
+  right: 120px;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: none !important;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  cursor: pointer;
+  z-index: 10000;
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.share-modal-btn:hover {
+  background: #10b981;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
 @media (max-width: 768px) {
   .back-modal-btn {
     top: 20px;
     right: 140px;
-    /* Grouped next to mobile theme toggle (right: 80px) */
     width: 45px;
     height: 45px;
     font-size: 1.1rem;
     transform: translateX(15px);
+  }
+  .share-modal-btn {
+    top: 20px;
+    right: 80px;
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
   }
 }
 

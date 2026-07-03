@@ -238,6 +238,12 @@ document.addEventListener("DOMContentLoaded", () => {
         assetMap[fileName] = item.path;
       });
 
+      const urlParams = new URLSearchParams(window.location.search);
+      const targetPost = urlParams.get('post');
+      if (targetPost) {
+        loadNoteContentIntoModal(targetPost);
+      }
+
       const BLOG_BLOCKLIST = ['plane.md', 'plane', 'board.md', 'board']; // Add filenames to hide them
 
       const files = data.tree.filter(item => {
@@ -367,12 +373,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!shouldHideCard) {
       createBlogCard(title, date, excerpt, cleanText, category, fileName);
     }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const targetPost = urlParams.get('post');
-    if (targetPost && (fileName === targetPost || fileName === targetPost + '.md' || title === targetPost)) {
-      setTimeout(() => openBlogModal(title, date, cleanText, fileName), 500);
-    }
   }
 
   function createBlogCard(title, date, excerpt, fullContent, category, fileName) {
@@ -406,6 +406,29 @@ document.addEventListener("DOMContentLoaded", () => {
   modalBackButton.innerHTML = `<i class="ph ph-arrow-left"></i>`;
   blogModal.appendChild(modalBackButton);
   makeElementMagnetic(modalBackButton, 0.35); // Apply magnetic effect
+
+  // --- Dynamic In-Modal Share Button Injection ---
+  const shareModalBtn = document.createElement('button');
+  shareModalBtn.className = 'share-modal-btn';
+  shareModalBtn.id = 'shareModalBtn';
+  shareModalBtn.title = 'Copy Shareable Link';
+  shareModalBtn.innerHTML = `<i class="ph ph-link"></i>`;
+  blogModal.appendChild(shareModalBtn);
+  makeElementMagnetic(shareModalBtn, 0.35); // Apply magnetic effect
+
+  shareModalBtn.addEventListener('click', () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+      shareModalBtn.innerHTML = `<i class="ph ph-check"></i>`;
+      shareModalBtn.style.background = '#10b981';
+      shareModalBtn.style.color = 'white';
+      setTimeout(() => {
+        shareModalBtn.innerHTML = `<i class="ph ph-link"></i>`;
+        shareModalBtn.style.background = '';
+        shareModalBtn.style.color = '';
+      }, 2000);
+    });
+  });
 
   // Back Button Navigation Click Handler
   modalBackButton.addEventListener('click', () => {
@@ -541,6 +564,12 @@ document.addEventListener("DOMContentLoaded", () => {
           updatedDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         }
       }
+      
+      const dateMatch = mdText.match(/date:\s*["']?(.*?)["']?$/im) || mdText.match(/Date:\s*(.*)/);
+      if (dateMatch) {
+        updatedDate = dateMatch[1].trim();
+      }
+      
       modalDate.innerText = updatedDate;
 
       let htmlContent = '';
