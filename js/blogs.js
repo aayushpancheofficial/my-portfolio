@@ -573,6 +573,11 @@ document.addEventListener("DOMContentLoaded", () => {
         return `<div class="insta-frame-wrapper"><iframe src="${url}embed" class="insta-frame" frameborder="0" scrolling="no" allowtransparency="true"></iframe></div>`;
       });
 
+      // Convert YouTube Playlist links to stylish embedded frames
+      htmlContent = htmlContent.replace(/<a[^>]*href=["'](https:\/\/(?:www\.)?youtube\.com\/playlist\?list=([^"'&]+))[^>]*>.*?<\/a>/gi, (match, fullUrl, listId) => {
+        return `<div class="yt-playlist-wrapper"><iframe src="https://www.youtube.com/embed/videoseries?list=${listId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+      });
+
       modalBody.innerHTML = htmlContent;
       if (typeof marked !== 'undefined') {
         makeHeadingsCollapsible(modalBody);
@@ -664,6 +669,11 @@ document.addEventListener("DOMContentLoaded", () => {
     htmlContent = htmlContent.replace(/<a[^>]*href=["'](https:\/\/(?:www\.)?instagram\.com\/(?:reel|p|tv)\/[a-zA-Z0-9_-]+(?:\/)?)[^>]*>.*?<\/a>/gi, (match, url) => {
       if (!url.endsWith('/')) url += '/';
       return `<div class="insta-frame-wrapper"><iframe src="${url}embed" class="insta-frame" frameborder="0" scrolling="no" allowtransparency="true"></iframe></div>`;
+    });
+
+    // Convert YouTube Playlist links to stylish embedded frames
+    htmlContent = htmlContent.replace(/<a[^>]*href=["'](https:\/\/(?:www\.)?youtube\.com\/playlist\?list=([^"'&]+))[^>]*>.*?<\/a>/gi, (match, fullUrl, listId) => {
+      return `<div class="yt-playlist-wrapper"><iframe src="https://www.youtube.com/embed/videoseries?list=${listId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
     });
 
     modalBody.innerHTML = htmlContent;
