@@ -2007,3 +2007,38 @@ body.light-mode .modal-body pre code {
     font-size: 1.1rem !important;
   }
 }
+
+/* Instagram Embedded Frame Styles */
+.insta-frame-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 2.5rem 0;
+  width: 100%;
+}
+
+.insta-frame {
+  width: 100%;
+  max-width: 450px;
+  height: 580px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.insta-frame:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 45px rgba(191, 85, 255, 0.25);
+  border-color: rgba(191, 85, 255, 0.4);
+}
+
+body.light-mode .insta-frame {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .insta-frame:hover {
+  box-shadow: 0 20px 45px rgba(37, 99, 235, 0.2);
+  border-color: rgba(37, 99, 235, 0.4);
+}

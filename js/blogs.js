@@ -566,6 +566,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const displayName = alias || linkTarget;
         return `<a href="#" class="obsidian-internal-link" data-note="${linkTarget.trim()}">${displayName}</a>`;
       });
+      
+      // Convert Instagram links to stylish embedded frames
+      htmlContent = htmlContent.replace(/<a[^>]*href=["'](https:\/\/(?:www\.)?instagram\.com\/(?:reel|p|tv)\/[a-zA-Z0-9_-]+(?:\/)?)[^>]*>.*?<\/a>/gi, (match, url) => {
+        if (!url.endsWith('/')) url += '/';
+        return `<div class="insta-frame-wrapper"><iframe src="${url}embed" class="insta-frame" frameborder="0" scrolling="no" allowtransparency="true"></iframe></div>`;
+      });
 
       modalBody.innerHTML = htmlContent;
       if (typeof marked !== 'undefined') {
@@ -652,6 +658,12 @@ document.addEventListener("DOMContentLoaded", () => {
     htmlContent = htmlContent.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, linkTarget, alias) => {
       const displayName = alias || linkTarget;
       return `<a href="#" class="obsidian-internal-link" data-note="${linkTarget.trim()}">${displayName}</a>`;
+    });
+
+    // Convert Instagram links to stylish embedded frames
+    htmlContent = htmlContent.replace(/<a[^>]*href=["'](https:\/\/(?:www\.)?instagram\.com\/(?:reel|p|tv)\/[a-zA-Z0-9_-]+(?:\/)?)[^>]*>.*?<\/a>/gi, (match, url) => {
+      if (!url.endsWith('/')) url += '/';
+      return `<div class="insta-frame-wrapper"><iframe src="${url}embed" class="insta-frame" frameborder="0" scrolling="no" allowtransparency="true"></iframe></div>`;
     });
 
     modalBody.innerHTML = htmlContent;
