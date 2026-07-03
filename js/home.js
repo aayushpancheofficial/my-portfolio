@@ -4,8 +4,7 @@ const THEMES = {
   rain: { label: 'Rain Mode', icon: '<i class="ph ph-cloud-rain"></i>', type: 'image', src: 'images/rain.jpg' },
   snow: { label: 'Snow Mode', icon: '<i class="ph ph-snowflake"></i>', type: 'video', src: 'videos/snow.mp4' },
   sun: { label: 'Sunny Mode', icon: '<i class="ph ph-sun"></i>', type: 'video', src: 'videos/sunny.mp4' },
-  forest: { label: 'Forest Mode', icon: '<i class="ph ph-tree-evergreen"></i>', type: 'video', src: 'videos/2.mp4' },
-  new: { label: 'Aesthetic Mode', icon: '<i class="ph ph-sparkles"></i>', type: 'code' }
+  forest: { label: 'Forest Mode', icon: '<i class="ph ph-tree-evergreen"></i>', type: 'video', src: 'videos/2.mp4' }
 };
 
 const bodyEl = document.body;

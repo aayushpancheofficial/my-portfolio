@@ -58,14 +58,9 @@
   </style>
 </head>
 
-<body class="new">
+<body class="">
 
-
-  <div id="dynamic-bg-container">
-    <div id="bg-new">
-      <canvas id="sparkles-canvas"></canvas>
-    </div>
-  </div>
+  <div id="dynamic-bg-container"></div>
 
   <canvas id="rain-canvas"></canvas>
   <canvas id="snow-canvas"></canvas>
@@ -92,9 +87,9 @@
       <div class="divider"></div>
       <div class="nav-right">
         <div class="theme-switcher" id="themeSwitcher">
-          <div class="theme-btn" id="themeBtn">
-            <span class="theme-icon" id="themeIcon"><i class="ph ph-sparkles"></i></span>
-            <span class="theme-label" id="themeLabel">Aesthetic Mode</span>
+          <div class="current-theme" id="themeBtn">
+            <span id="themeIcon"><i class="ph ph-planet"></i></span>
+            <span id="themeLabel">Theme</span>
             <i class="ph ph-caret-down chevron"></i>
           </div>
           <div class="theme-dropdown" id="themeDropdown">
@@ -103,7 +98,6 @@
             <div class="theme-option" data-theme="snow"><i class="ph ph-snowflake"></i> Snow Mode</div>
             <div class="theme-option" data-theme="sun"><i class="ph ph-sun"></i> Sunny Mode</div>
             <div class="theme-option" data-theme="forest"><i class="ph ph-tree-evergreen"></i> Forest Mode</div>
-            <div class="theme-option" data-theme="new"><i class="ph ph-sparkles"></i> Aesthetic Mode</div>
           </div>
         </div>
       </div>
