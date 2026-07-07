@@ -674,7 +674,7 @@ const aboutData = {
   },
   college: {
     title: "College / Degree",
-    subtitle: "SSIPMT, Raipur (2022–2028 Batch)",
+    subtitle: "SSIPMT, Raipur (2024–2028 Batch)",
     desc: "<p>Pursuing B.Tech in Computer Science and Engineering at Shri Shankaracharya Professional Management and Technology (SSIPMT), Raipur. I am focused on learning programming, web development, AI, and frontend engineering. I secured a 7.0 CGPA in my first year.</p>",
     img: "images/college.png"
   },

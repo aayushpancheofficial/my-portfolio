@@ -1220,10 +1220,71 @@ body {
 }
 
 .social-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: var(--theme-accent);
   transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Default Brand Colors */
+.social-btn:has(.ph-linkedin-logo) {
+  color: #0077b5;
+}
+.social-btn:has(.ph-linkedin-logo):hover {
+  background: rgba(0, 119, 181, 0.2);
+  border-color: #0077b5;
+  box-shadow: 0 8px 20px rgba(0, 119, 181, 0.4);
+}
+
+.social-btn:has(.ph-github-logo) {
+  color: #ffffff;
+}
+.social-btn:has(.ph-github-logo):hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff;
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+.social-btn:has(.ph-youtube-logo) {
+  color: #ff0000;
+}
+.social-btn:has(.ph-youtube-logo):hover {
+  background: rgba(255, 0, 0, 0.2);
+  border-color: #ff0000;
+  box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
+}
+
+.social-btn:has(.ph-instagram-logo) {
+  color: #e1306c;
+}
+.social-btn:has(.ph-instagram-logo):hover {
+  background: rgba(225, 48, 108, 0.2);
+  border-color: #e1306c;
+  box-shadow: 0 8px 20px rgba(225, 48, 108, 0.4);
+}
+
+.social-btn:has(.ph-envelope-simple) {
+  color: #ea4335;
+}
+.social-btn:has(.ph-envelope-simple):hover {
+  background: rgba(234, 67, 53, 0.2);
+  border-color: #ea4335;
+  box-shadow: 0 8px 20px rgba(234, 67, 53, 0.4);
+}
+
+.social-btn:has(.ph-pinterest-logo) {
+  color: #E60023;
+}
+.social-btn:has(.ph-pinterest-logo):hover {
+  background: rgba(230, 0, 35, 0.2);
+  border-color: #E60023;
+  box-shadow: 0 8px 20px rgba(230, 0, 35, 0.4);
+}
+
+.social-btn:has(.ph-twitter-logo) {
+  color: #1da1f2;
+}
+.social-btn:has(.ph-twitter-logo):hover {
+  background: rgba(29, 161, 242, 0.2);
+  border-color: #1da1f2;
+  box-shadow: 0 8px 20px rgba(29, 161, 242, 0.4);
 }
 
 .hero-right {
