@@ -1651,8 +1651,42 @@ body {
   background: linear-gradient(to right, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
   z-index: 1;
   border-radius: 24px;
-
 }
+
+/* About Navigation Arrows */
+.about-nav-btn {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.about-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.about-nav-btn.prev-btn {
+  left: 20px;
+}
+
+.about-nav-btn.next-btn {
+  right: 20px;
+}
+
 
 @keyframes sectionFadeInUp {
   from {
@@ -1940,8 +1974,18 @@ body {
   .section-hero {
     padding: 30px 15px 120px 15px;
     align-items: center;
-    min-height: auto;
+    min-height: 520px; /* Prevent layout jump */
   }
+
+  .about-nav-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+    top: 35%;
+  }
+
+  .about-nav-btn.prev-btn { left: 10px; }
+  .about-nav-btn.next-btn { right: 10px; }
 
   .section-image-wrapper img {
     height: 45vh !important;

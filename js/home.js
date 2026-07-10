@@ -627,16 +627,36 @@ document.addEventListener('DOMContentLoaded', () => {
   let aboutStarted = false;
   const aboutObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting && !aboutStarted && window.scrollY > 50) {
-        aboutStarted = true;
-        changeAboutContent(aboutKeys[0], null);
+      if (entry.isIntersecting) {
+        if (!aboutStarted && window.scrollY > 50) {
+          aboutStarted = true;
+          changeAboutContent(aboutKeys[0], null);
+        } else if (aboutStarted) {
+          isAboutPaused = false;
+          startAboutAutoPlay();
+        }
         entry.target.classList.add('show-scroll');
+      } else {
+        if (aboutStarted) {
+          isAboutPaused = true;
+          if (aboutTimer) clearInterval(aboutTimer);
+        }
       }
     });
   }, { threshold: 0.1 });
 
   const aboutContainer = document.querySelector('.about-section-container');
   if (aboutContainer) aboutObserver.observe(aboutContainer);
+
+  window.aboutPrev = function() {
+    currentAboutIndex = (currentAboutIndex - 1 + aboutKeys.length) % aboutKeys.length;
+    changeAboutContent(aboutKeys[currentAboutIndex], null);
+  };
+  
+  window.aboutNext = function() {
+    currentAboutIndex = (currentAboutIndex + 1) % aboutKeys.length;
+    changeAboutContent(aboutKeys[currentAboutIndex], null);
+  };
 
   const thumbs = document.querySelectorAll('.thumb-card');
   thumbs.forEach(thumb => {
